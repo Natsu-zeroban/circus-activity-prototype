@@ -3,14 +3,14 @@ const ARCHIVE_AFFINITY = 30;
 
 const mainNodes = [
   { id: "01", name: "潮湿传闻", type: "story", x: 360, y: 760, text: "潮水退去的旧街里，关于一座神奇马戏团的传言正沿着棚屋之间扩散。局长循着狂厄反应进入街区。" },
-  { id: "02", name: "失踪者名单", type: "story", x: 620, y: 665, text: "失踪者来自不同角落，却都曾在巡演开始前收到一张没有署名的门票。" },
-  { id: "03", name: "破棚下的笑声", type: "story", x: 885, y: 755, text: "一群底层孤儿躲在破棚下模仿马戏。他们知道后台的小路，也知道哪些问题不能被治安局听见。" },
+  { id: "02", name: "失踪者名单", type: "story", x: 620, y: 665, text: "失踪者来自不同角落，却都曾在巡演开始前收到一张没有署名的门票。替地下诊所跑腿的苔生认出了名单上的药味。" },
+  { id: "03", name: "破棚下的笑声", type: "story", x: 885, y: 755, text: "钟表铺后巷的铃循着脚步声找来。她和躲在破棚下的孩子们知道后台的小路，也知道哪些问题不能被治安局听见。" },
   { id: "04", name: "街口封锁", type: "battle", x: 1140, y: 640, text: "治安局突然封锁街口。突破拦截，避免无辜居民被卷入冲突。", note: "战斗内容不在本轮设计范围内，此处仅验证战斗节点在主轴线中的位置与衔接。" },
-  { id: "05", name: "褪色的门票", type: "story", x: 1400, y: 725, text: "破旧票根背面，每个名字旁都写着一件被献出的东西。那似乎是进入马戏团真正的代价。" },
+  { id: "05", name: "褪色的门票", type: "story", x: 1400, y: 725, text: "旧剧院屋顶的纸鸢认出，破旧票根背面的文字必须从倒影中阅读；每个名字旁都写着一件被献出的东西。" },
   { id: "06", name: "献出之物", type: "story", x: 1670, y: 600, text: "有人献出一只眼，有人献出健康的双腿，换来令观众惊叹的狂厄能力，也换来一处容身之地。" },
-  { id: "07", name: "幕布之后", type: "story", x: 1950, y: 695, text: "台前笑声震耳欲聋，后台却没有演员愿意说出团长真正的名字。" },
+  { id: "07", name: "幕布之后", type: "story", x: 1950, y: 695, text: "台前笑声震耳欲聋，后台却没有演员愿意说出团长真正的名字。锅炉站的灰炭愿意带路，只要求别把孩子们留给治安局。" },
   { id: "08", name: "笼车突围", type: "battle", x: 2230, y: 575, text: "运送团员的笼车突然失控，狂厄污染沿街扩散。保护孩子，并阻止混乱蔓延。", note: "战斗内容为占位；形式验证只关注地图推进、进入前说明及完成后的下一节点显现。" },
-  { id: "09", name: "笑声之下", type: "story", x: 2510, y: 680, text: "笑声越热烈，街区的伤口越清晰。马戏团给予了边缘人舞台，也在悄悄收取另一种代价。" },
+  { id: "09", name: "笑声之下", type: "story", x: 2510, y: 680, text: "笑声越热烈，街区的伤口越清晰。流动默剧班留下的小满用后台手势告诉局长：马戏团给予舞台，也在悄悄收取另一种代价。" },
   { id: "10", name: "墙缝暗号", type: "story", x: 2795, y: 555, text: "墙缝里的暗号属于一个被治安局追捕的地下反抗组织。支线中的零散信息开始拼成另一幅图景。" },
   { id: "11", name: "孩子的证词", type: "story", x: 3090, y: 650, text: "被帮助的孤儿带回主帐篷后的秘密：所谓献祭从未真正结束，而团员也未必都是受害者。" },
   { id: "12", name: "团长的邀请", type: "story", x: 3385, y: 535, text: "团长邀请局长成为最后一位贵宾。红幕后的真相，正等待一个愿意笑着走进去的人。" },
@@ -25,55 +25,81 @@ const sideNodes = [
 ];
 
 const orphans = [
-  { id: "O-1", name: "小雀", unlockAt: 3, height: 120, weight: 30, trait: "视力好", profile: "总能在很远的地方发现微小动静，习惯先观察再行动。" },
-  { id: "O-2", name: "露米", unlockAt: 5, height: 130, weight: 25, trait: "认真细心", profile: "会把每条线索按顺序记下来，很少遗漏细节。" },
-  { id: "O-3", name: "鼹鼠", unlockAt: 7, height: 118, weight: 28, trait: "听力敏锐", profile: "能隔着墙听见脚步和机械运转声，但容易紧张。" },
-  { id: "O-4", name: "阿诺", unlockAt: 9, height: 135, weight: 32, trait: "胆大沉着", profile: "面对危险不容易慌乱，适合稳定同伴情绪。" },
-  { id: "O-5", name: "米娅", unlockAt: 11, height: 123, weight: 27, trait: "动作灵巧", profile: "擅长在狭小空间中快速移动，也会简单的绳结。" }
+  {
+    id: "O-1", name: "苔生", unlockAt: 2, age: 11, origin: "洗衣巷锅炉房", portrait: "assets/orphans/taisheng.webp",
+    trait: "辨味识药", observation: "能从煤烟和染料里分出极淡的药味。", caution: "浓烈香水会让他眩晕。",
+    profile: "曾替地下诊所清洗绷带，因此记得常见药剂的气味；他说自己不是勇敢，只是不愿再看见有人被悄悄带走。"
+  },
+  {
+    id: "O-2", name: "铃", unlockAt: 3, age: 12, origin: "钟表铺后巷", portrait: "assets/orphans/ling.webp",
+    trait: "听声记路", observation: "能用回声判断墙后空腔，并记住机械运转的节拍。", caution: "突如其来的尖响会打乱她的判断。",
+    profile: "曾靠替店铺报时换取食物。她不爱说话，却会把每个同伴的脚步声牢牢记住。"
+  },
+  {
+    id: "O-3", name: "纸鸢", unlockAt: 5, age: 13, origin: "旧剧院屋顶", portrait: "assets/orphans/zhiyuan.webp",
+    trait: "镜写速记", observation: "习惯从倒影里读字，也能快速临摹复杂符号。", caution: "左膝有旧伤，不适合跳跃或负重。",
+    profile: "在被拆掉的剧院里学会倒着看台词，以免巡查者发现。他相信写下来的东西，总有一天会替沉默的人作证。"
+  },
+  {
+    id: "O-4", name: "灰炭", unlockAt: 7, age: 14, origin: "北街锅炉站", portrait: "assets/orphans/huitan.webp",
+    trait: "机械直觉", observation: "熟悉滑轮、绞盘和配重，能凭震动判断故障。", caution: "不识字，无法独立辨认文书。",
+    profile: "从小替锅炉工搬煤，手掌总有洗不净的黑。他把复杂机器看作不会撒谎的伙伴。"
+  },
+  {
+    id: "O-5", name: "小满", unlockAt: 9, age: 10, origin: "流动默剧班", portrait: "assets/orphans/xiaoman.webp",
+    trait: "无声戏语", observation: "熟悉后台手势，能隔着很远准确传递行动指令。", caution: "怕火，见到明火容易僵住。",
+    profile: "默剧班解散后仍保留着整套手势。她觉得不用开口也能被理解，是一件很了不起的事。"
+  }
 ];
 
 const infoNodes = [
   { id: "I-1", name: "破损海报", unlock: 0, x: 470, y: 470, text: "海报上的演员脸孔被反复涂改，只留下团长夸张的笑容。" },
   { id: "I-2", name: "被涂抹的告示", unlock: 1, x: 745, y: 930, text: "治安局公告中的失踪人数被人用红笔改得更多。" },
   {
-    id: "I-3", name: "孤儿派遣·旧排水渠", unlock: 2, x: 1040, y: 420, gameplay: true,
-    text: "排水渠深处藏着反抗组织留下的信筒。需要根据通道高度选择合适的孤儿。",
+    id: "I-3", name: "孤儿派遣·听墙人", unlock: 4, x: 1325, y: 420, gameplay: true,
+    text: "废弃排练通道里布满铃线，反抗组织将信筒藏在一面空心墙后。现场留下的迹象也许比委托人的话更可靠。",
     task: {
       requiredCount: 1,
-      question: "旧排水渠只有125cm高，需要钻进去取回被藏起的信筒。派谁前往最稳妥？",
-      rule: "选择1名孤儿。有效条件：身高低于125cm。",
-      solution: ["O-1"],
-      success: "小雀顺利穿过低矮通道，并依靠良好视力找到了藏在暗处的信筒。",
-      failure: "派遣对象无法安全通过低矮通道，搜索被迫提前结束。"
+      image: "assets/events/listening-wall.webp",
+      question: "三条岔路都挂着会惊动巡逻的细铃。纸条只写着：“别信画出的箭头，幕布后回来的声音才是真的。”谁最可能独自找出藏信筒的空心墙？",
+      rule: "从当前已结识的孩子中选择 1 人。委托提交后无法重试。",
+      clues: ["岔路口没有照明，墙上的箭头被人反复改画。", "轻敲砖面时，最深处传回了两次不同的回声。", "铃线贴地相连，靠摸索乱走很容易触发警报。"],
+      solution: ["O-2"],
+      success: "铃没有追随墙上的假箭头。她贴着入口逐段轻叩砖面，从回声里辨出夹层，又按机械低鸣的间隙穿过铃线，带回了信筒。",
+      failure: "孩子循着错误的岔路走得太深，鞋尖碰响了第一根铃线。巡逻灯亮起前，行动组只能放弃信筒撤离。"
     }
   },
   { id: "I-4", name: "巡逻表", unlock: 3, x: 1280, y: 920, text: "巡逻路线刻意绕开了马戏团后台，像是在保护那里，也像是在害怕那里。" },
   { id: "I-5", name: "空药瓶", unlock: 4, x: 1550, y: 405, text: "止痛药的标签被撕掉，瓶底残留着异常的狂厄结晶。" },
   { id: "I-6", name: "团员合照", unlock: 5, x: 1850, y: 920, text: "旧照片里的人比现在更多。背后写着：愿我们的笑声比生活更响。" },
   {
-    id: "I-7", name: "孤儿派遣·摇晃的独木桥", unlock: 7, x: 2160, y: 365, gameplay: true,
-    text: "废弃屋顶之间只剩一块摇摇欲坠的木板，需要挑选足够轻的孤儿通过。",
+    id: "I-7", name: "孤儿派遣·镜棚假账", unlock: 7, x: 2160, y: 365, gameplay: true,
+    text: "旧镜棚里藏着一份被倒写的巡演账册，旋转探照灯仍按后台机械的节拍扫过地面。",
     task: {
-      requiredCount: 1,
-      question: "通向对面屋顶的独木桥已经腐朽，只能承受体重低于28kg的人。派谁过去取回巡逻记录？",
-      rule: "选择1名孤儿。有效条件：体重低于28kg。",
-      solution: ["O-2"],
-      success: "露米控制住步伐，安全通过独木桥，并完整抄下了巡逻记录。",
-      failure: "木板发出断裂声，派遣对象只能立刻退回，没能取得记录。"
+      requiredCount: 2,
+      image: "assets/events/mirror-ledger.webp",
+      question: "镜中的走廊真假交叠，账页也全部倒写；唯一的安全时间藏在探照灯齿轮的循环声里。该让哪两个人一起进去？",
+      rule: "选择 2 人组成小队。留意现场中的两项工作，以及每个人的局限。",
+      clues: ["破镜会把同一条路映成三个方向，肉眼很难辨认出口。", "账页不能带走，只能在灯光下一次抄完。", "探照灯每转三圈会停顿片刻，但视线无法同时盯住齿轮和账页。"],
+      solution: ["O-2", "O-3"],
+      success: "铃闭眼记住齿轮的停顿，以敲击提醒同伴；纸鸢只看镜中倒影便抄完账页。灯束再次扫来前，两人已经沿原节拍退回。",
+      failure: "小队被镜中假路拖慢，探照灯在账页抄完前重新亮起。为了不暴露孩子们的藏身处，他们只能空手撤离。"
     }
   },
   { id: "I-8", name: "没寄出的信", unlock: 8, x: 2420, y: 970, text: "信中没有控诉，只有一个团员对家人反复练习的告别。" },
   { id: "I-9", name: "观众席座签", unlock: 9, x: 2880, y: 365, text: "最靠近舞台的座位从不出售，它们被留给那些决定献出东西的人。" },
   {
-    id: "I-10", name: "孤儿派遣·帐篷夹层", unlock: 10, x: 3320, y: 850, gameplay: true,
-    text: "帐篷夹层需要两人配合：一人观察巡逻，一人核对并抄录献祭账本。",
+    id: "I-10", name: "孤儿派遣·无声谢幕", unlock: 10, x: 3320, y: 850, gameplay: true,
+    text: "主舞台下方的机关室藏着献祭名册。毒雾、老旧配重与头顶的演出，让任何喊话都可能暴露行动。",
     task: {
-      requiredCount: 2,
-      question: "夹层内必须同时完成两件事：远距离观察守卫动向，并准确核对账本中的姓名与数字。应该派哪两名孤儿？",
-      rule: "选择2名孤儿。需要同时具备“视力好”与“认真细心”。",
-      solution: ["O-1", "O-2"],
-      success: "小雀负责观察守卫，露米核对账本，两人配合带回了完整的献祭记录。",
-      failure: "派遣组合缺少关键能力，无法同时避开守卫并完成账本核对。"
+      requiredCount: 3,
+      image: "assets/events/silent-curtain.webp",
+      question: "机关室必须同时完成三件事：找出没有麻醉剂的通风道、稳住会自行回落的配重、在舞台脚步声中无声协调撤离。请选择最合适的三人。",
+      rule: "选择 3 人组成最终调查队。信息散落在现场记录与个人档案中。",
+      clues: ["几条风管都吹出冷风，只有一股带着几乎闻不出的甜味。", "名册锁在悬台下，放手后配重会在数秒内复位。", "头顶正在演出；任何喊声都可能让团员察觉机关室有人。"],
+      solution: ["O-1", "O-4", "O-5"],
+      success: "苔生找出了混入麻醉剂的风管，灰炭卡住配重，小满用后台手势让三人的动作与台上鼓点重合。名册在谢幕掌声中被悄悄带走。",
+      failure: "队伍在毒雾、配重与无声协作中的一环出现迟滞。机关复位前，他们只能留下名册，带着零散线索撤回安全处。"
     }
   }
 ];
@@ -116,8 +142,10 @@ const rosterSummary = document.getElementById("rosterSummary");
 const dispatchBackdrop = document.getElementById("dispatchBackdrop");
 const dispatchTitle = document.getElementById("dispatchTitle");
 const dispatchIndex = document.getElementById("dispatchIndex");
+const dispatchImage = document.getElementById("dispatchImage");
 const dispatchQuestion = document.getElementById("dispatchQuestion");
 const dispatchRule = document.getElementById("dispatchRule");
+const dispatchClues = document.getElementById("dispatchClues");
 const dispatchOptions = document.getElementById("dispatchOptions");
 const selectionHint = document.getElementById("selectionHint");
 const dispatchResult = document.getElementById("dispatchResult");
@@ -349,16 +377,18 @@ function renderRoster() {
   rosterList.innerHTML = orphans.map((orphan, index) => {
     const isUnlocked = state.progress >= orphan.unlockAt;
     if (!isUnlocked) {
-      return `<article class="orphan-card locked"><div class="orphan-avatar">${index + 1}</div><div class="locked-copy"><strong>身份未记录</strong><br>完成主线 ${String(orphan.unlockAt).padStart(2, "0")} 后结识</div></article>`;
+      return `<article class="orphan-card locked"><div class="orphan-avatar unknown">?</div><div class="locked-copy"><strong>身份未记录</strong><br>完成主线 ${String(orphan.unlockAt).padStart(2, "0")} 后结识</div></article>`;
     }
     const affinity = state.affinity[orphan.id];
     const archiveUnlocked = affinity >= ARCHIVE_AFFINITY;
     return `<article class="orphan-card">
-      <div class="orphan-avatar">${orphan.name.slice(0, 1)}</div>
+      <img class="orphan-avatar" src="${orphan.portrait}" alt="${orphan.name}的档案画像" />
       <div class="orphan-info">
         <h3>${orphan.name} <small>${orphan.id}</small></h3>
-        <p class="orphan-meta"><span>身高 ${orphan.height}cm</span><span>体重 ${orphan.weight}kg</span></p>
-        <span class="trait-pill">特质：${orphan.trait}</span>
+        <p class="orphan-meta"><span>${orphan.age}岁</span><span>${orphan.origin}</span></p>
+        <span class="trait-pill">${orphan.trait}</span>
+        <p class="orphan-observation">${orphan.observation}</p>
+        <p class="orphan-caution">注意：${orphan.caution}</p>
         <div class="affinity-row"><span>好感度</span><span class="affinity-track"><i style="width:${affinity}%"></i></span><strong>${affinity}</strong><span class="archive-state ${archiveUnlocked ? "unlocked" : ""}">${archiveUnlocked ? `个人档案已解锁：${orphan.profile}` : `个人档案 ${affinity} / ${ARCHIVE_AFFINITY}`}</span></div>
       </div>
     </article>`;
@@ -386,7 +416,7 @@ function renderDispatchOptions(readOnly = false) {
     button.dataset.orphanId = orphan.id;
     button.disabled = readOnly;
     button.setAttribute("aria-pressed", String(selected.has(orphan.id)));
-    button.innerHTML = `<span class="option-head"><strong>${orphan.name}</strong><span class="option-check">✓</span></span><span class="option-stats"><span>${orphan.height}cm</span><span>${orphan.weight}kg</span></span><span class="trait-pill">${orphan.trait}</span>`;
+    button.innerHTML = `<img class="option-portrait" src="${orphan.portrait}" alt="" /><span class="option-copy"><span class="option-head"><strong>${orphan.name}</strong><span class="option-check">✓</span></span><span class="option-origin">${orphan.age}岁 · ${orphan.origin}</span><span class="trait-pill">${orphan.trait}</span><span class="option-observation">${orphan.observation}</span><span class="option-caution">注意：${orphan.caution}</span></span>`;
     button.addEventListener("click", () => toggleOrphan(orphan.id));
     dispatchOptions.appendChild(button);
   });
@@ -420,8 +450,7 @@ function showDispatchResult(result) {
   dispatchResult.classList.toggle("failure", !result.success);
   resultMark.textContent = result.success ? "✓" : "×";
   resultTitle.textContent = result.success ? "派遣成功" : "派遣失败";
-  const cleanRule = task.rule.replace("选择1名孤儿。", "").replace("选择2名孤儿。", "");
-  resultBody.textContent = result.success ? task.success : `${task.failure} 本题正确判断依据：${cleanRule}`;
+  resultBody.textContent = result.success ? task.success : `${task.failure} 现场只留下行动后果，不会公开另一种选择会发生什么。`;
   affinityGain.textContent = `${selectedNames.join("、")} 好感度 +${result.gain}`;
   selectionHint.textContent = "本玩法挑战次数已用完，结果不可重置。";
   dispatchSubmit.textContent = "已完成";
@@ -435,8 +464,11 @@ function openDispatch(item) {
   const result = state.taskResults.get(item.id);
   dispatchTitle.textContent = item.name.replace("孤儿派遣·", "");
   dispatchIndex.textContent = `委托 ${item.id}`;
+  dispatchImage.src = item.task.image;
+  dispatchImage.alt = `${dispatchTitle.textContent}现场影像`;
   dispatchQuestion.textContent = item.task.question;
   dispatchRule.textContent = item.task.rule;
+  dispatchClues.innerHTML = item.task.clues.map(clue => `<li>${clue}</li>`).join("");
   dispatchResult.hidden = true;
   dispatchResult.classList.remove("failure");
   dispatchSubmit.textContent = "确认派遣";

@@ -344,19 +344,22 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 .orphan-card {
   position: relative;
   display: grid;
-  grid-template-columns: 62px 1fr;
-  gap: 14px;
-  min-height: 130px;
-  padding: 16px;
+  grid-template-columns: 108px 1fr;
+  gap: 16px;
+  min-height: 158px;
+  padding: 14px;
   border: 1px solid rgba(214,170,90,.26);
   border-radius: 4px 18px 4px 18px;
   background: linear-gradient(135deg, rgba(54,49,43,.82), rgba(25,28,31,.88));
 }
-.orphan-card.locked { min-height: 88px; opacity: .55; filter: saturate(.35); }
-.orphan-avatar { width: 58px; height: 58px; display: grid; place-items: center; border: 2px solid #cfb879; border-radius: 50% 50% 42% 42%; color: #fff3d4; background: linear-gradient(145deg, #67443d, #242c33); font: 800 19px Georgia, serif; }
+.orphan-card.locked { min-height: 88px; grid-template-columns: 62px 1fr; opacity: .55; filter: saturate(.35); }
+.orphan-avatar { width: 108px; height: 132px; object-fit: cover; object-position: center 22%; border: 1px solid #cfb879; border-radius: 3px 18px 3px 18px; background: linear-gradient(145deg, #67443d, #242c33); box-shadow: 0 8px 20px rgba(0,0,0,.35); }
+.orphan-avatar.unknown { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%; color: #fff3d4; font: 800 22px Georgia, serif; }
 .orphan-info h3 { margin: 1px 0 7px; color: #fff1d4; font-size: 17px; }
 .orphan-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 8px; color: #c8bdad; font-size: 13px; }
 .trait-pill { display: inline-flex; align-items: center; min-height: 25px; padding: 2px 9px; border: 1px solid rgba(121,190,202,.5); border-radius: 999px; color: #bfe9ed; background: rgba(55,112,124,.24); font-size: 12px; }
+.orphan-observation, .orphan-caution { margin: 8px 0 0; color: #c9beac; font-size: 12px; line-height: 1.5; }
+.orphan-caution { color: #c99b88; }
 .affinity-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 9px; margin-top: 12px; color: #d8c8aa; font-size: 12px; }
 .affinity-track { height: 5px; overflow: hidden; background: rgba(255,255,255,.1); }
 .affinity-track i { display: block; height: 100%; background: linear-gradient(90deg, #a33d45, #e0b769); transition: width .35s ease; }
@@ -386,10 +389,21 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 .task-brief span { color: #d9b76e; font-size: 12px; letter-spacing: .15em; }
 .task-brief p { margin: 8px 0 10px; color: #f2e9da; font-size: 17px; line-height: 1.7; }
 .task-brief strong { color: #b8dbe0; font-size: 13px; font-weight: 600; }
+.event-visual { position: relative; margin: 14px 0 16px; overflow: hidden; border: 1px solid rgba(211,174,105,.42); border-radius: 2px 18px 2px 18px; background: #12171a; }
+.event-visual img { display: block; width: 100%; height: 250px; object-fit: cover; }
+.event-visual::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 55%, rgba(7,10,12,.78)); }
+.event-visual figcaption { position: absolute; z-index: 1; right: 14px; bottom: 10px; color: #d7cbb7; font-size: 11px; letter-spacing: .08em; }
+.scene-records { margin-top: 16px; padding-top: 13px; border-top: 1px solid rgba(210,189,151,.18); }
+.scene-records > span { color: #d9b76e; font-size: 11px; letter-spacing: .2em; }
+.scene-records ul { margin: 10px 0 0; padding-left: 20px; color: #c8c0b3; font-size: 13px; line-height: 1.65; }
+.scene-records li + li { margin-top: 3px; }
 .dispatch-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 12px; }
 .dispatch-option {
-  min-height: 142px;
-  padding: 15px;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px;
+  min-height: 172px;
+  padding: 10px;
   text-align: left;
   color: #e8decc;
   border: 1px solid rgba(204,184,147,.26);
@@ -402,11 +416,15 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 .dispatch-option:active { transform: scale(.98); }
 .dispatch-option.selected { border-color: #e6bd6c; background: linear-gradient(145deg, rgba(126,79,46,.75), rgba(55,45,42,.9)); box-shadow: inset 0 0 0 2px rgba(230,189,108,.2); }
 .dispatch-option:disabled { cursor: default; opacity: .72; }
+.option-portrait { width: 80px; height: 132px; object-fit: cover; object-position: center 20%; border: 1px solid rgba(214,170,90,.42); border-radius: 2px 13px 2px 13px; filter: saturate(.85); }
+.option-copy { min-width: 0; }
 .option-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
 .option-head strong { color: #fff0cf; font-size: 17px; }
 .option-check { width: 24px; height: 24px; display: grid; place-items: center; border: 1px solid rgba(220,205,177,.45); border-radius: 50%; color: transparent; }
 .dispatch-option.selected .option-check { color: #24201b; background: #e4bd72; border-color: #f3d391; }
-.option-stats { display: flex; gap: 8px; margin-bottom: 11px; color: #c9beac; font-size: 13px; }
+.option-origin { display: block; margin: -6px 0 9px; color: #a89d8d !important; font-size: 11px !important; letter-spacing: .02em !important; }
+.option-observation, .option-caution { display: block; margin-top: 8px; color: #c9beac !important; font-size: 11px !important; line-height: 1.45; letter-spacing: 0 !important; }
+.option-caution { color: #c99b88 !important; }
 .selection-hint { min-height: 24px; margin: 14px 0 0; color: #b9ad9a; font-size: 13px; }
 .dispatch-result { margin-top: 18px; padding: 18px 20px; display: grid; grid-template-columns: 54px 1fr; gap: 16px; border: 1px solid rgba(98,179,149,.5); background: rgba(45,107,85,.18); }
 .dispatch-result[hidden] { display: none; }
@@ -435,6 +453,8 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
   .dispatch-modal { padding: 28px 20px 24px; }
   .dispatch-heading { display: block; }
   .attempt-tag { display: inline-block; margin-top: 12px; }
+  .event-visual img { height: 210px; }
+  .dispatch-options { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
