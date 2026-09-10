@@ -14,19 +14,19 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
         </button>
         <div>
-          <p class="eyebrow">小型版本活动 · 形式验证</p>
+          <p class="eyebrow" id="dayEyebrow">第1日 · 潮湿序幕</p>
           <h1>马戏团原型</h1>
         </div>
       </div>
 
       <div class="progress-card" aria-live="polite">
-        <span class="progress-label">街区调查进度</span>
+        <span class="progress-label" id="progressLabel">三日调查进度</span>
         <strong id="progressText">0 / 13</strong>
         <span class="progress-track"><i id="progressBar"></i></span>
       </div>
 
       <nav class="top-actions" aria-label="原型功能">
-        <button class="text-button roster-button" id="orphanButton" type="button">孤儿档案 <span id="orphanCount">0 / 5</span></button>
+        <button class="text-button roster-button" id="informantButton" type="button">线人档案 <span id="informantCount">0 / 9</span></button>
         <button class="text-button focus-button" id="focusButton" type="button">定位当前节点</button>
         <button class="text-button danger" id="resetButton" type="button">重置验证</button>
       </nav>
@@ -34,12 +34,10 @@
 
     <section class="map-viewport" id="viewport" aria-label="可拖动的活动长条地图">
       <div class="map-world" id="world">
-        <img class="map-art" src="assets/map-panorama.png" alt="从阴冷贫民街延伸至暗红马戏团主帐篷的连续街区">
+        <div class="map-art" id="mapArt" role="img" aria-label="第1日抽象剧场街区背景"></div>
         <div class="vignette" aria-hidden="true"></div>
 
-        <div class="chapter-label chapter-a"><span>区域 I</span> 潮湿旧街</div>
-        <div class="chapter-label chapter-b"><span>区域 II</span> 巡演后台</div>
-        <div class="chapter-label chapter-c"><span>区域 III</span> 红幕之下</div>
+        <div class="chapter-label chapter-a" id="chapterLabel"><span>第1日</span> 潮湿序幕</div>
 
         <svg class="route-layer" id="routeLayer" viewBox="0 0 3840 1280" aria-hidden="true"></svg>
         <div class="node-layer" id="nodeLayer"></div>
@@ -65,8 +63,8 @@
       </aside>
 
       <aside class="validation-note">
-        <span class="validation-tag">本轮验证</span>
-        <p>三日解锁仅作为配置规则记录，本原型连续展示流程。</p>
+        <span class="validation-tag" id="gateTitle">第1日调查中</span>
+        <p id="gateText">沿当前主线继续调查。</p>
       </aside>
 
       <div class="drag-hint" id="dragHint">
@@ -88,8 +86,8 @@
         <p id="modalBody">节点介绍</p>
         <p class="modal-note" id="modalNote"></p>
         <div class="modal-actions">
-          <button class="secondary-button" id="cancelButton" type="button">暂不进入</button>
-          <button class="primary-button" id="confirmButton" type="button">前往调查</button>
+          <button class="secondary-button" id="cancelButton" type="button">返回</button>
+          <button class="primary-button" id="confirmButton" type="button">前往</button>
         </div>
       </section>
     </div>
@@ -98,14 +96,14 @@
       <aside class="roster-panel" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
         <header class="roster-header">
           <div>
-            <p class="eyebrow">街区协力者记录</p>
-            <h2 id="rosterTitle">孤儿档案</h2>
+            <p class="eyebrow">MBCC临时情报网络</p>
+            <h2 id="rosterTitle">线人档案</h2>
           </div>
-          <button class="modal-close light" id="rosterClose" type="button" aria-label="关闭孤儿档案">
+          <button class="modal-close light" id="rosterClose" type="button" aria-label="关闭线人档案">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
           </button>
         </header>
-        <p class="roster-summary" id="rosterSummary">随主线推进结识孤儿；派遣结果会改变对应孤儿的好感度。</p>
+        <p class="roster-summary" id="rosterSummary">线人随本日调查加入；完整档案由指定剧情节点解锁。</p>
         <div class="roster-list" id="rosterList"></div>
       </aside>
     </div>
@@ -117,7 +115,7 @@
         </button>
         <div class="dispatch-heading">
           <div>
-            <p class="dispatch-kicker">信息流 · 孤儿派遣</p>
+            <p class="dispatch-kicker">必经信息流 · 线人派遣</p>
             <h2 id="dispatchTitle">特殊场景调查</h2>
           </div>
           <span class="attempt-tag">仅可挑战 1 次</span>
@@ -135,14 +133,14 @@
             <ul id="dispatchClues"></ul>
           </div>
         </div>
-        <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣孤儿"></div>
+        <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣线人"></div>
         <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
         <section class="dispatch-result" id="dispatchResult" hidden aria-live="polite">
           <span class="result-mark" id="resultMark" aria-hidden="true"></span>
           <div>
             <h3 id="resultTitle"></h3>
             <p id="resultBody"></p>
-            <p class="affinity-gain" id="affinityGain"></p>
+            <p class="outcome-impact" id="outcomeImpact"></p>
           </div>
         </section>
         <div class="dispatch-actions">
