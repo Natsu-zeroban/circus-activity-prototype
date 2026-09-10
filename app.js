@@ -1,4 +1,5 @@
 const WORLD = { width: 3840, height: 1280 };
+const CAMERA_ANCHOR_RATIO = 0.34;
 
 const days = [
   { id: 1, name: "潮湿序幕", subtitle: "谣言从画布背后醒来", background: "assets/days/day-1-street-loop.webp", mainIds: ["01", "02", "03", "04"], sideIds: ["S-1"], infoIds: ["I-1", "I-2", "I-3"], finalId: "04", gate: { after: "02", info: "I-3" }, start: { x: 140, y: 700 } },
@@ -115,7 +116,7 @@ const canRevealMain = (node, day = currentDay()) => Boolean(node) && !gateBlocki
 function getScale() { return Math.max(viewport.clientHeight / WORLD.height, 0.58); }
 function clampOffset(value) { const min = Math.min(0, viewport.clientWidth - WORLD.width * state.scale); return Math.max(min, Math.min(0, value)); }
 function applyWorldTransform(animate = false) { world.style.transition = animate ? "transform 1.25s cubic-bezier(.2,.72,.18,1)" : "none"; world.style.transform = `translate3d(${state.offsetX}px, 0, 0) scale(${state.scale})`; }
-function cameraOffsetFor(x) { return clampOffset(viewport.clientWidth * 0.44 - x * state.scale); }
+function cameraOffsetFor(x) { return clampOffset(viewport.clientWidth * CAMERA_ANCHOR_RATIO - x * state.scale); }
 function focusPoint(x, animate = true) { state.offsetX = cameraOffsetFor(x); applyWorldTransform(animate); }
 function routeMarkup(a, b, className) {
   if (!b.via) return `<line class="${className}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" />`;
