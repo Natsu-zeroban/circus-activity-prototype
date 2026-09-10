@@ -142,10 +142,10 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
   pointer-events: none;
   background-repeat: repeat-x;
   background-position: left center;
-  background-size: 1920px 1280px;
+  background-size: 3840px 1280px;
   filter: saturate(.82) contrast(1.04);
 }
-.map-art::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 955px, rgba(238,198,126,.07) 958px 961px, transparent 964px 1920px); }
+.map-art::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,7,10,.2), transparent 28%, transparent 74%, rgba(3,5,8,.42)); }
 .vignette { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(5,8,11,.4), transparent 24%, transparent 72%, rgba(4,5,8,.68)), linear-gradient(90deg, rgba(2,5,8,.2), transparent 18%, transparent 82%, rgba(8,3,4,.22)); }
 .map-world.day-shift .map-art { animation: day-curtain-in .8s ease-out both; }
 
@@ -166,8 +166,8 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 
 .route-layer, .node-layer { position: absolute; inset: 0; width: 3840px; height: 1280px; }
 .route-layer { overflow: visible; }
-.route-main { fill: none; stroke: rgba(226, 203, 156, .88); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 6 18; filter: drop-shadow(0 2px 4px #000); }
-.route-side { fill: none; stroke: rgba(116, 179, 195, .82); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 3 15; filter: drop-shadow(0 2px 4px #000); }
+.route-main { fill: none; stroke: rgba(247, 218, 157, .95); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 7 18; filter: drop-shadow(0 2px 1px #000) drop-shadow(0 0 5px rgba(38,22,10,.9)); }
+.route-side { fill: none; stroke: rgba(133, 207, 218, .92); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 4 15; filter: drop-shadow(0 2px 1px #000) drop-shadow(0 0 4px rgba(8,28,34,.9)); }
 
 .map-node {
   position: absolute;

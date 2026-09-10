@@ -1,32 +1,32 @@
 const WORLD = { width: 3840, height: 1280 };
 
 const days = [
-  { id: 1, name: "潮湿序幕", subtitle: "谣言从画布背后醒来", background: "assets/days/day-1-loop.webp", mainIds: ["01", "02", "03", "04"], sideIds: ["S-1"], infoIds: ["I-1", "I-2", "I-3"], finalId: "04", gate: { after: "02", info: "I-3" }, start: { x: 150, y: 735 } },
-  { id: 2, name: "幕后迷宫", subtitle: "每一根绳索都牵着秘密", background: "assets/days/day-2-loop.webp", mainIds: ["05", "06", "07", "08"], sideIds: ["S-2"], infoIds: ["I-4", "I-5", "I-6", "I-7"], finalId: "08", gate: { after: "06", info: "I-7" }, start: { x: 150, y: 720 } },
-  { id: 3, name: "红幕终场", subtitle: "笑声越响，真相越近", background: "assets/days/day-3-loop.webp", mainIds: ["09", "10", "11", "12", "13"], sideIds: ["S-3", "S-4"], infoIds: ["I-8", "I-9", "I-10"], finalId: "13", gate: { after: "11", info: "I-10" }, start: { x: 150, y: 735 } }
+  { id: 1, name: "潮湿序幕", subtitle: "谣言从画布背后醒来", background: "assets/days/day-1-street-loop.webp", mainIds: ["01", "02", "03", "04"], sideIds: ["S-1"], infoIds: ["I-1", "I-2", "I-3"], finalId: "04", gate: { after: "02", info: "I-3" }, start: { x: 140, y: 700 } },
+  { id: 2, name: "幕后迷宫", subtitle: "每一根绳索都牵着秘密", background: "assets/days/day-2-street-loop.webp", mainIds: ["05", "06", "07", "08"], sideIds: ["S-2"], infoIds: ["I-4", "I-5", "I-6", "I-7"], finalId: "08", gate: { after: "06", info: "I-7" }, start: { x: 140, y: 650 } },
+  { id: 3, name: "红幕终场", subtitle: "笑声越响，真相越近", background: "assets/days/day-3-street-loop.webp", mainIds: ["09", "10", "11", "12", "13"], sideIds: ["S-3", "S-4"], infoIds: ["I-8", "I-9", "I-10"], finalId: "13", gate: { after: "11", info: "I-10" }, start: { x: 140, y: 650 } }
 ];
 
 const mainNodes = [
-  { id: "01", day: 1, name: "潮湿传闻", type: "story", x: 420, y: 720, text: "街区把墙面画成永不散场的舞台。局长循着狂厄反应进入布景般的窄巷，关于神奇马戏团的传言正从每一扇假窗后传来。" },
-  { id: "02", day: 1, name: "失踪者名单", type: "story", x: 1100, y: 590, text: "名单上的人互不相识，却都收到过没有署名的门票。三个熟悉街区暗路的线人愿意协助调查。" },
-  { id: "03", day: 1, name: "破棚下的笑声", type: "story", x: 2200, y: 720, text: "破棚里的居民用木箱搭起小舞台，笑声压过巡逻队的靴声。", branchFrom: "I-3", successBranch: "信筒中的暗号让局长提前转移了三户居民，治安局只搜到一座空棚。", failureBranch: "铃线惊动了巡逻，居民被迫连夜转移；有人留下半句暗号，调查只能从残缺处继续。" },
-  { id: "04", day: 1, final: true, name: "第一夜散场", type: "story", x: 3300, y: 600, text: "当日线索全部归档，临时线人从不同巷口离开。局长追随一辆无灯篷车，进入马戏团的幕后区域。" },
-  { id: "05", day: 2, name: "褪色的门票", type: "story", x: 420, y: 690, text: "第二日，街区像换景般改变。后台的旧票根写着每位团员曾经献出的东西，但其中几行被人故意倒印。" },
-  { id: "06", day: 2, name: "献出之物", type: "story", x: 1100, y: 560, text: "绳索、镜面和配重构成新的街道。三名熟悉后台规则的线人先后回应了局长的联络。" },
-  { id: "07", day: 2, name: "幕布之后", type: "story", x: 2200, y: 700, text: "台前的笑声穿过幕布，演员们却拒绝说出团长真正的名字。", branchFrom: "I-7", successBranch: "镜棚中的完整假账指出了下一批“自愿者”的去向，局长抢在笼车出发前抵达。", failureBranch: "探照灯烧毁了未抄完的账页，局长只能凭残留编号追踪一辆已经启动的笼车。" },
-  { id: "08", day: 2, final: true, name: "第二夜换幕", type: "battle", x: 3300, y: 570, text: "当日支线与情报已经闭合。笼车突围后，所有后台线人切断联络；红幕后的主帐篷在第三日开启。" },
-  { id: "09", day: 3, name: "笑声之下", type: "story", x: 380, y: 700, text: "第三日的街区不再伪装成现实：红幕、面具与聚光灯覆盖了一切，笑声像命令一样从高处落下。" },
-  { id: "10", day: 3, name: "墙缝暗号", type: "story", x: 1000, y: 560, text: "地下反抗组织把路线藏进布景接缝。新的线人只在终场前现身一次，他们知道主舞台下方还有一层机关室。" },
-  { id: "11", day: 3, name: "无声证词", type: "story", x: 1700, y: 690, text: "一段没有声音的证词指向舞台下的献祭名册。要靠近那里，必须同时应对药雾、配重与监听。" },
-  { id: "12", day: 3, name: "团长的邀请", type: "story", x: 2500, y: 540, text: "团长邀请局长成为最后一位贵宾。红幕后的真相，正等待一个愿意笑着走进去的人。", branchFrom: "I-10", successBranch: "完整名册证明献祭仍在继续，也让台下几名团员在开演前选择倒戈。", failureBranch: "名册随配重沉回暗仓，只抢救出的几个名字不足以说服团员；终场仍将在满座中开始。" },
-  { id: "13", day: 3, final: true, name: "盛大谢幕", type: "battle", x: 3370, y: 650, text: "三日获得的主线、支线与情报在红幕前汇合。所有可调查内容已完成，局长走向最后的谢幕。" }
+  { id: "01", day: 1, name: "潮湿传闻", type: "story", x: 450, y: 670, via: { x: 300, y: 690 }, text: "街区把墙面画成永不散场的舞台。局长循着狂厄反应进入布景般的窄巷，关于神奇马戏团的传言正从每一扇假窗后传来。" },
+  { id: "02", day: 1, name: "失踪者名单", type: "story", x: 1120, y: 650, via: { x: 780, y: 590 }, text: "名单上的人互不相识，却都收到过没有署名的门票。三个熟悉街区暗路的线人愿意协助调查。" },
+  { id: "03", day: 1, name: "破棚下的笑声", type: "story", x: 2230, y: 600, via: { x: 1740, y: 530 }, text: "破棚里的居民用木箱搭起小舞台，笑声压过巡逻队的靴声。", branchFrom: "I-3", successBranch: "信筒中的暗号让局长提前转移了三户居民，治安局只搜到一座空棚。", failureBranch: "铃线惊动了巡逻，居民被迫连夜转移；有人留下半句暗号，调查只能从残缺处继续。" },
+  { id: "04", day: 1, final: true, name: "第一夜散场", type: "story", x: 3350, y: 660, via: { x: 2830, y: 720 }, text: "当日线索全部归档，临时线人从不同巷口离开。局长追随一辆无灯篷车，进入马戏团的幕后区域。" },
+  { id: "05", day: 2, name: "褪色的门票", type: "story", x: 450, y: 620, via: { x: 300, y: 630 }, text: "第二日，街区像换景般改变。后台的旧票根写着每位团员曾经献出的东西，但其中几行被人故意倒印。" },
+  { id: "06", day: 2, name: "献出之物", type: "story", x: 1120, y: 700, via: { x: 790, y: 735 }, text: "绳索、镜面和配重构成新的街道。三名熟悉后台规则的线人先后回应了局长的联络。" },
+  { id: "07", day: 2, name: "幕布之后", type: "story", x: 2230, y: 580, via: { x: 1740, y: 650 }, text: "台前的笑声穿过幕布，演员们却拒绝说出团长真正的名字。", branchFrom: "I-7", successBranch: "镜棚中的完整假账指出了下一批“自愿者”的去向，局长抢在笼车出发前抵达。", failureBranch: "探照灯烧毁了未抄完的账页，局长只能凭残留编号追踪一辆已经启动的笼车。" },
+  { id: "08", day: 2, final: true, name: "第二夜换幕", type: "battle", x: 3350, y: 650, via: { x: 2840, y: 735 }, text: "当日支线与情报已经闭合。笼车突围后，所有后台线人切断联络；红幕后的主帐篷在第三日开启。" },
+  { id: "09", day: 3, name: "笑声之下", type: "story", x: 400, y: 650, via: { x: 270, y: 640 }, text: "第三日的街区不再伪装成现实：红幕、面具与聚光灯覆盖了一切，笑声像命令一样从高处落下。" },
+  { id: "10", day: 3, name: "墙缝暗号", type: "story", x: 1000, y: 620, via: { x: 700, y: 580 }, text: "地下反抗组织把路线藏进布景接缝。新的线人只在终场前现身一次，他们知道主舞台下方还有一层机关室。" },
+  { id: "11", day: 3, name: "无声证词", type: "story", x: 1700, y: 650, via: { x: 1350, y: 690 }, text: "一段没有声音的证词指向舞台下的献祭名册。要靠近那里，必须同时应对药雾、配重与监听。" },
+  { id: "12", day: 3, name: "团长的邀请", type: "story", x: 2500, y: 620, via: { x: 2120, y: 580 }, text: "团长邀请局长成为最后一位贵宾。红幕后的真相，正等待一个愿意笑着走进去的人。", branchFrom: "I-10", successBranch: "完整名册证明献祭仍在继续，也让台下几名团员在开演前选择倒戈。", failureBranch: "名册随配重沉回暗仓，只抢救出的几个名字不足以说服团员；终场仍将在满座中开始。" },
+  { id: "13", day: 3, final: true, name: "盛大谢幕", type: "battle", x: 3400, y: 650, via: { x: 2960, y: 700 }, text: "三日获得的主线、支线与情报在红幕前汇合。所有可调查内容已完成，局长走向最后的谢幕。" }
 ];
 
 const sideNodes = [
-  { id: "S-1", day: 1, name: "缺席的杂耍演员", unlockAfter: "02", x: 1510, y: 965, text: "追查一名没有登台的演员。她的住处只留下一只剪断的鞋带和写给纸鸢的镜字便笺。" },
-  { id: "S-2", day: 2, name: "墙后的传单", unlockAfter: "06", x: 1530, y: 970, text: "拆开一块活动布景板，找到地下反抗者传递假账页的暗格，并确认墨针的真实身份。" },
-  { id: "S-3", day: 3, name: "没有署名的地图", unlockAfter: "10", x: 1320, y: 955, text: "沿屋脊标记还原治安局的包围路线，确认“鸦”究竟替谁望风。" },
-  { id: "S-4", day: 3, name: "最后一场免费演出", unlockAfter: "12", x: 2780, y: 940, text: "居民在终场前搭起一座没有门票的小舞台。开怀大笑，是他们对痛苦最直接的反抗。" }
+  { id: "S-1", day: 1, name: "缺席的杂耍演员", unlockAfter: "02", x: 1420, y: 400, via: { x: 1260, y: 520 }, text: "追查一名没有登台的演员。她的住处只留下一只剪断的鞋带和写给纸鸢的镜字便笺。" },
+  { id: "S-2", day: 2, name: "墙后的传单", unlockAfter: "06", x: 1180, y: 980, via: { x: 1140, y: 830 }, text: "拆开一块活动布景板，找到地下反抗者传递假账页的暗格，并确认墨针的真实身份。" },
+  { id: "S-3", day: 3, name: "没有署名的地图", unlockAfter: "10", x: 1320, y: 360, via: { x: 1160, y: 500 }, text: "沿屋脊标记还原治安局的包围路线，确认“鸦”究竟替谁望风。" },
+  { id: "S-4", day: 3, name: "最后一场免费演出", unlockAfter: "12", x: 2780, y: 900, via: { x: 2640, y: 770 }, text: "居民在终场前搭起一座没有门票的小舞台。开怀大笑，是他们对痛苦最直接的反抗。" }
 ];
 
 const informants = [
@@ -117,13 +117,16 @@ function clampOffset(value) { const min = Math.min(0, viewport.clientWidth - WOR
 function applyWorldTransform(animate = false) { world.style.transition = animate ? "transform 1.25s cubic-bezier(.2,.72,.18,1)" : "none"; world.style.transform = `translate3d(${state.offsetX}px, 0, 0) scale(${state.scale})`; }
 function cameraOffsetFor(x) { return clampOffset(viewport.clientWidth * 0.44 - x * state.scale); }
 function focusPoint(x, animate = true) { state.offsetX = cameraOffsetFor(x); applyWorldTransform(animate); }
-function lineMarkup(a, b, className) { return `<line class="${className}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" />`; }
+function routeMarkup(a, b, className) {
+  if (!b.via) return `<line class="${className}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" />`;
+  return `<path class="${className}" d="M ${a.x} ${a.y} Q ${b.via.x} ${b.via.y} ${b.x} ${b.y}" />`;
+}
 
 function renderRoutes(visibleMain, sides) {
   const anchor = currentAnchor();
   const lines = [];
-  if (visibleMain) lines.push(lineMarkup(anchor, visibleMain, "route-main"));
-  sides.forEach(side => lines.push(lineMarkup(anchor, side, "route-side")));
+  if (visibleMain) lines.push(routeMarkup(anchor, visibleMain, "route-main"));
+  sides.forEach(side => lines.push(routeMarkup(anchor, side, "route-side")));
   routeLayer.innerHTML = lines.join("");
 }
 
