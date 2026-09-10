@@ -26,7 +26,8 @@
       </div>
 
       <nav class="top-actions" aria-label="原型功能">
-        <button class="text-button" id="focusButton" type="button">定位当前节点</button>
+        <button class="text-button roster-button" id="orphanButton" type="button">孤儿档案 <span id="orphanCount">0 / 5</span></button>
+        <button class="text-button focus-button" id="focusButton" type="button">定位当前节点</button>
         <button class="text-button danger" id="resetButton" type="button">重置验证</button>
       </nav>
     </header>
@@ -89,6 +90,56 @@
         <div class="modal-actions">
           <button class="secondary-button" id="cancelButton" type="button">暂不进入</button>
           <button class="primary-button" id="confirmButton" type="button">前往调查</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="panel-backdrop" id="rosterBackdrop" hidden>
+      <aside class="roster-panel" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
+        <header class="roster-header">
+          <div>
+            <p class="eyebrow">街区协力者记录</p>
+            <h2 id="rosterTitle">孤儿档案</h2>
+          </div>
+          <button class="modal-close light" id="rosterClose" type="button" aria-label="关闭孤儿档案">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+          </button>
+        </header>
+        <p class="roster-summary" id="rosterSummary">随主线推进结识孤儿；派遣结果会改变对应孤儿的好感度。</p>
+        <div class="roster-list" id="rosterList"></div>
+      </aside>
+    </div>
+
+    <div class="modal-backdrop dispatch-backdrop" id="dispatchBackdrop" hidden>
+      <section class="dispatch-modal" role="dialog" aria-modal="true" aria-labelledby="dispatchTitle">
+        <button class="modal-close light" id="dispatchClose" type="button" aria-label="关闭派遣玩法">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+        <div class="dispatch-heading">
+          <div>
+            <p class="dispatch-kicker">信息流 · 孤儿派遣</p>
+            <h2 id="dispatchTitle">特殊场景调查</h2>
+          </div>
+          <span class="attempt-tag">仅可挑战 1 次</span>
+        </div>
+        <div class="task-brief">
+          <span id="dispatchIndex">委托 I-3</span>
+          <p id="dispatchQuestion"></p>
+          <strong id="dispatchRule"></strong>
+        </div>
+        <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣孤儿"></div>
+        <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
+        <section class="dispatch-result" id="dispatchResult" hidden aria-live="polite">
+          <span class="result-mark" id="resultMark" aria-hidden="true"></span>
+          <div>
+            <h3 id="resultTitle"></h3>
+            <p id="resultBody"></p>
+            <p class="affinity-gain" id="affinityGain"></p>
+          </div>
+        </section>
+        <div class="dispatch-actions">
+          <button class="secondary-button" id="dispatchCancel" type="button">返回地图</button>
+          <button class="primary-button" id="dispatchSubmit" type="button" disabled>确认派遣</button>
         </div>
       </section>
     </div>
