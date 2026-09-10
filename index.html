@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>马戏团原型</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell" aria-label="版本活动地图形式验证原型">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <button class="icon-button" id="backButton" type="button" aria-label="返回验证起点">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <div>
+          <p class="eyebrow">小型版本活动 · 形式验证</p>
+          <h1>马戏团原型</h1>
+        </div>
+      </div>
+
+      <div class="progress-card" aria-live="polite">
+        <span class="progress-label">街区调查进度</span>
+        <strong id="progressText">0 / 13</strong>
+        <span class="progress-track"><i id="progressBar"></i></span>
+      </div>
+
+      <nav class="top-actions" aria-label="原型功能">
+        <button class="text-button" id="focusButton" type="button">定位当前节点</button>
+        <button class="text-button danger" id="resetButton" type="button">重置验证</button>
+      </nav>
+    </header>
+
+    <section class="map-viewport" id="viewport" aria-label="可拖动的活动长条地图">
+      <div class="map-world" id="world">
+        <img class="map-art" src="assets/map-panorama.png" alt="从阴冷贫民街延伸至暗红马戏团主帐篷的连续街区">
+        <div class="vignette" aria-hidden="true"></div>
+
+        <div class="chapter-label chapter-a"><span>区域 I</span> 潮湿旧街</div>
+        <div class="chapter-label chapter-b"><span>区域 II</span> 巡演后台</div>
+        <div class="chapter-label chapter-c"><span>区域 III</span> 红幕之下</div>
+
+        <svg class="route-layer" id="routeLayer" viewBox="0 0 3840 1280" aria-hidden="true"></svg>
+        <div class="node-layer" id="nodeLayer"></div>
+
+        <div class="player-token" id="playerToken" aria-label="局长棋子">
+          <span class="token-shadow"></span>
+          <span class="token-body">
+            <svg viewBox="0 0 48 54" aria-hidden="true">
+              <path d="M15 10h18l5 9-4 5v17l-10 8-10-8V24l-4-5z"/>
+              <path d="m18 13 6-7 6 7M17 28h14M20 34h8"/>
+            </svg>
+          </span>
+          <span class="token-label">局长</span>
+        </div>
+      </div>
+
+      <aside class="legend-card" aria-label="节点图例">
+        <h2>节点图例</h2>
+        <div><i class="legend-node main"></i><span>主线</span></div>
+        <div><i class="legend-node side">S</i><span>支线</span></div>
+        <div><i class="legend-node info"></i><span>信息</span></div>
+        <div><i class="legend-node play"></i><span>玩法信息流</span></div>
+      </aside>
+
+      <aside class="validation-note">
+        <span class="validation-tag">本轮验证</span>
+        <p>三日解锁仅作为配置规则记录，本原型连续展示流程。</p>
+      </aside>
+
+      <div class="drag-hint" id="dragHint">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V7a2 2 0 0 1 4 0v3-5a2 2 0 0 1 4 0v5-3a2 2 0 0 1 4 0v7c0 5-3 8-8 8h-1c-3 0-5-1-7-4l-2-3a2 2 0 0 1 3-2z"/></svg>
+        拖动地图查看已探索区域
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden>
+      <section class="story-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody">
+        <button class="modal-close" id="modalClose" type="button" aria-label="关闭弹窗">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+        <div class="modal-kicker" id="modalKicker">主线调查</div>
+        <h2 id="modalTitle">节点名称</h2>
+        <div class="modal-rule"><span></span></div>
+        <p id="modalBody">节点介绍</p>
+        <p class="modal-note" id="modalNote"></p>
+        <div class="modal-actions">
+          <button class="secondary-button" id="cancelButton" type="button">暂不进入</button>
+          <button class="primary-button" id="confirmButton" type="button">前往调查</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
