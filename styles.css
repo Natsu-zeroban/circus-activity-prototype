@@ -214,6 +214,9 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
   font: 800 22px/1 Georgia, serif;
 }
 .main-node.next .node-core { animation: pulse-next 1.8s ease-in-out infinite; }
+.main-node.current { pointer-events: none; }
+.main-node.current .node-core { border-color: #719ba0; background: radial-gradient(circle at 35% 30%, #dce8df, #78938b 64%, #3c5554); color: #f9efd8; box-shadow: 0 0 0 4px rgba(177, 209, 203, .45), 0 8px 18px rgba(0,0,0,.72); }
+.main-node.current::after { color: #d7e7de; border-color: rgba(113,155,160,.48); }
 .main-node.completed .node-core { background: radial-gradient(circle at 35% 30%, #bfe7df, #4f9c91 66%, #2e5b57); color: #fff; box-shadow: 0 0 0 4px rgba(203, 221, 195, .82), 0 8px 18px rgba(0,0,0,.75); }
 .main-node.battle .node-core { border-radius: 22% 50% 22% 50%; box-shadow: 0 0 0 4px rgba(181, 63, 59, .95), 0 8px 18px rgba(0,0,0,.78); }
 .main-node.battle::after { border-left: 3px solid #b23d3c; }

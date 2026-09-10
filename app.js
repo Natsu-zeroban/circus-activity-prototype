@@ -140,13 +140,18 @@ function makeNode(item, kind, status = "available") {
   button.style.left = `${item.x}px`;
   button.style.top = `${item.y}px`;
   button.dataset.name = item.name;
-  button.setAttribute("aria-label", `查看 ${item.id} ${item.name}`);
+  const isCurrent = kind === "main" && status === "current";
+  button.setAttribute("aria-label", isCurrent ? `当前位置 ${item.id} ${item.name}` : `查看 ${item.id} ${item.name}`);
+  if (isCurrent) {
+    button.disabled = true;
+    button.setAttribute("aria-current", "step");
+  }
   const core = document.createElement("span");
   core.className = "node-core";
   if (kind === "info") core.innerHTML = '<span class="node-glyph" aria-hidden="true"></span>';
   else core.textContent = item.id;
   button.appendChild(core);
-  button.addEventListener("click", event => { event.stopPropagation(); if (!state.moved) openNode(item, kind); });
+  if (!isCurrent) button.addEventListener("click", event => { event.stopPropagation(); if (!state.moved) openNode(item, kind); });
   return button;
 }
 
@@ -154,9 +159,11 @@ function renderNodes() {
   const day = currentDay();
   const next = nextMainNode(day);
   const visibleMain = canRevealMain(next, day) ? next : null;
+  const currentMain = lastCompletedMain(day);
   const sides = activeSideNodes();
   const infos = activeInfoNodes();
   nodeLayer.innerHTML = "";
+  if (currentMain) nodeLayer.appendChild(makeNode(currentMain, "main", "current"));
   if (visibleMain) nodeLayer.appendChild(makeNode(visibleMain, "main", "next"));
   sides.forEach(side => nodeLayer.appendChild(makeNode(side, "side")));
   infos.forEach(info => nodeLayer.appendChild(makeNode(info, "info")));
@@ -205,10 +212,10 @@ function getNodeText(item) {
 function openNode(item, kind) {
   let kicker = kind === "main" ? (item.final ? `第${item.day}日 · 收束节点` : "主线调查") : kind === "side" ? "支线调查" : item.gameplay ? "必经信息流 · 线人派遣" : "信息流 · 街区记录";
   let action = () => advanceMain(item);
-  let note = "点击“前往”后处理该节点；完成内容会从地图上退场。";
-  if (kind === "side") action = () => visitSide(item);
-  if (kind === "info" && !item.gameplay) action = () => visitInfo(item);
-  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查。派遣结果只改变后续剧情表现，不再产生好感度。"; }
+  let note = "抵达后，该节点会保留为局长当前位置；前往下一主线时才退场。";
+  if (kind === "side") { action = () => visitSide(item); note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
+  if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
+  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查；派遣不移动局长，结果将改变后续剧情表现。"; }
   modalKicker.textContent = kicker;
   modalTitle.textContent = `${item.id} · ${item.name}`;
   modalBody.textContent = getNodeText(item);
@@ -251,16 +258,16 @@ function advanceMain(item) {
 }
 
 function visitSide(item) {
-  closeModal(); moveTokenTo(item, true);
-  window.setTimeout(() => { state.sideCompleted.add(item.id); renderNodes(); showToast(`${item.id} 支线完成，节点已退场`); window.setTimeout(() => moveTokenTo(currentAnchor(), true), 450); }, 850);
+  closeModal();
+  window.setTimeout(() => { state.sideCompleted.add(item.id); renderNodes(); showToast(`${item.id} 支线完成，节点已退场；局长位置不变`); }, 260);
 }
 
 function visitInfo(item) {
-  closeModal(); moveTokenTo(item, true);
-  window.setTimeout(() => { state.infoCompleted.add(item.id); renderNodes(); showToast(`${item.id} 信息已归档，节点已退场`); window.setTimeout(() => moveTokenTo(currentAnchor(), true), 420); }, 700);
+  closeModal();
+  window.setTimeout(() => { state.infoCompleted.add(item.id); renderNodes(); showToast(`${item.id} 信息已归档，节点已退场；局长位置不变`); }, 260);
 }
 
-function beginDispatch(item) { closeModal(); moveTokenTo(item, true); window.setTimeout(() => openDispatch(item), 650); }
+function beginDispatch(item) { closeModal(); window.setTimeout(() => openDispatch(item), 180); }
 
 function renderRoster() {
   const day = currentDay();
@@ -341,11 +348,9 @@ function openDispatch(item) {
 }
 
 function closeDispatch() {
-  const completedTask = state.activeTask && state.taskResults.has(state.activeTask.id);
   dispatchBackdrop.hidden = true;
   state.activeTask = null;
   state.selectedInformants.clear();
-  if (completedTask) window.setTimeout(() => moveTokenTo(currentAnchor(), true), 180);
 }
 
 function submitDispatch() {
