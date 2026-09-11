@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260911-3">
+  <link rel="stylesheet" href="styles.css?v=20260911-4">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -167,31 +167,41 @@
           <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
         </div>
         <section class="dispatch-result outcome-screen" id="dispatchResult" hidden aria-live="polite">
-          <figure class="outcome-hero">
-            <img id="resultImage" alt="" />
-            <div class="outcome-hero-copy">
+          <header class="outcome-heading">
+            <div>
               <span class="outcome-kicker" id="resultKicker"></span>
               <h3 id="resultTitle" tabindex="-1"></h3>
               <p id="resultSummary"></p>
             </div>
             <span class="outcome-seal" id="resultSeal"></span>
-          </figure>
-          <div class="outcome-content">
-            <aside class="outcome-team">
-              <span class="outcome-section-label">本次派遣</span>
-              <div class="outcome-portraits" id="resultTeam"></div>
-              <div class="outcome-record">
-                <span>调查记录</span>
-                <ul id="resultRecord"></ul>
-              </div>
-            </aside>
-            <div class="outcome-story" id="resultStory"></div>
-          </div>
+          </header>
+          <section class="outcome-recap">
+            <span class="outcome-section-label">委托回顾 · 当时面对的难题</span>
+            <p id="resultQuestion"></p>
+            <div class="outcome-recap-clues" id="resultClues"></div>
+          </section>
+          <section class="outcome-choice">
+            <span class="outcome-section-label">你的选择</span>
+            <div class="outcome-portraits" id="resultTeam"></div>
+            <p id="resultChoice"></p>
+          </section>
+          <div class="outcome-story" id="resultStory"></div>
           <blockquote class="outcome-closing" id="resultClosing"></blockquote>
           <div class="outcome-continuity">
-            <span>独立探索记录</span>
+            <span>主线说明</span>
             <p id="outcomeImpact">本次派遣结果不会改变后续主线走向；选择与代价将作为本次探索的独立经历留存。</p>
           </div>
+          <figure class="outcome-final-visual">
+            <img id="resultImage" alt="" />
+            <div class="outcome-final-shade"></div>
+            <div class="outcome-final-copy">
+              <span id="resultVisualStatus"></span>
+              <strong id="resultVisualTitle"></strong>
+              <p id="resultRecord"></p>
+            </div>
+            <div class="outcome-final-people" id="resultImageTeam" aria-hidden="true"></div>
+            <figcaption>事件结果影像 · 本次选择已作为独立探索记录封存</figcaption>
+          </figure>
         </section>
         <div class="dispatch-actions">
           <button class="secondary-button" id="dispatchCancel" type="button">返回地图</button>
@@ -201,6 +211,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260911-3"></script>
+  <script src="app.js?v=20260911-4"></script>
 </body>
 </html>
