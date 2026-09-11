@@ -42,6 +42,63 @@ const informants = [
   { id: "L-9", day: 3, name: "鸦", joinAt: "11", archiveAt: "S-3", age: 17, origin: "主帐篷屋脊", portrait: "assets/informants/ya.webp", trait: "唇读望风", observation: "能从远处读懂口型，并快速记下巡逻路线。", caution: "惧怕封闭空间，进入狭窄风道会失去镇定。", profile: "他曾替两个阵营同时望风，直到发现治安局和马戏团使用的是同一份失踪者名单。" }
 ];
 
+const archiveStages = {
+  "L-1": [
+    { title: "锅炉房的跑腿", unlockAt: "01", unlockLabel: "完成主线 01", content: "苔生常替洗衣巷的地下诊所运送干净绷带。他把药瓶藏进煤筐，借锅炉的烟味避开巡查。" },
+    { title: "药签上的供货线", unlockAt: "I-1", unlockLabel: "归档信息 I-1", content: "破损药签来自只向地下诊所供货的批次。苔生确认，有人正把诊所用药成箱送进马戏团。" },
+    { title: "信筒残留", unlockAt: "I-3", unlockLabel: "完成派遣 I-3", content: "信筒封蜡残留着镇静剂的甜苦味。苔生判断它曾与失踪者使用的药物放在同一个箱子里。" },
+    { title: "第一夜去向", unlockAt: "04", unlockLabel: "完成主线 04", content: "离队前，他把一枚空药瓶留在街角：若第二夜瓶口朝东，代表诊所仍安全；朝西，则不要再回来。" }
+  ],
+  "L-2": [
+    { title: "钟声里的脚步", unlockAt: "02", unlockLabel: "完成主线 02", content: "铃替钟表铺报时，也靠辨认脚步替邻里放哨。她记得每一队巡逻经过巷口的节拍。" },
+    { title: "慢四分钟的街区", unlockAt: "I-2", unlockLabel: "归档信息 I-2", content: "街区的钟并非失准，而是居民故意调慢四分钟。铃坚持报真时，为躲藏者留出准确的换岗窗口。" },
+    { title: "空心墙的回声", unlockAt: "I-3", unlockLabel: "完成派遣 I-3", content: "她用三次轻敲找出夹层，又借远处齿轮声遮住拆砖的动静。行动结束后，她仍能复述通道里的每一次回声。" },
+    { title: "不告而别", unlockAt: "04", unlockLabel: "完成主线 04", content: "第一夜结束后，铃摘走了钟表铺门口最小的一只铃。那是她留给同伴的撤离信号。" }
+  ],
+  "L-3": [
+    { title: "屋顶的镜写者", unlockAt: "02", unlockLabel: "完成主线 02", content: "纸鸢住在旧剧院屋顶，习惯把见闻反着写在瓦片背面，让巡查者即使发现也无法立即读懂。" },
+    { title: "剪断的鞋带", unlockAt: "S-1", unlockLabel: "完成支线 S-1", content: "失踪演员留下的鞋带不是求救信物，而是纸鸢约定的暗号：她主动逃离，并带走了一份演员名单。" },
+    { title: "破棚速记", unlockAt: "03", unlockLabel: "完成主线 03", content: "治安局搜查前，纸鸢把居民口述压缩成一页镜写记录。名字被抹去，只保留马戏团收走的物件。" },
+    { title: "瓦片下的证词", unlockAt: "04", unlockLabel: "完成主线 04", content: "他没有随局长进入后台，而是继续留在高处。后来发现的瓦片上，画着一辆无灯篷车驶入幕后的路线。" }
+  ],
+  "L-4": [
+    { title: "锅炉站的黑手", unlockAt: "05", unlockLabel: "完成主线 05", content: "灰炭从小替锅炉工搬煤。比起人的口供，他更相信齿轮磨损、钢索震动和不会说谎的配重。" },
+    { title: "第三圈停顿", unlockAt: "I-4", unlockLabel: "归档信息 I-4", content: "探照灯每转三圈便停顿，并非故障，而是后台人员私自留下的安全窗口。灰炭记住了整套咬合顺序。" },
+    { title: "镜棚配重", unlockAt: "I-7", unlockLabel: "完成派遣 I-7", content: "他让错误咬合维持了恰好一页账册的时间。探照灯恢复时，齿轮上只多了一道无法追查的煤灰指印。" },
+    { title: "熄火后的约定", unlockAt: "08", unlockLabel: "完成主线 08", content: "笼车突围后，灰炭熄掉锅炉站最后一炉火。他说机器停下的声音，和人终于能喘气的声音很像。" }
+  ],
+  "L-5": [
+    { title: "默剧班幸存者", unlockAt: "06", unlockLabel: "完成主线 06", content: "小满所在的默剧班被迫解散后，她仍用整套后台手势为居民传递消息，从不需要开口。" },
+    { title: "缝在幕后的手势", unlockAt: "I-5", unlockLabel: "归档信息 I-5", content: "幕布内侧的动作表缺了“撤离”一栏。小满补上的手势来自一名失踪演员，而非原本的默剧教材。" },
+    { title: "无声撤离", unlockAt: "07", unlockLabel: "完成主线 07", content: "她隔着三层幕布指挥居民离开，手势没有一次重复。后台的人后来称那几分钟为一场没有观众的演出。" },
+    { title: "换幕前的动作", unlockAt: "08", unlockLabel: "完成主线 08", content: "离队前，小满向局长做了“落幕”之后又接上“再见”。那是默剧班里只对仍会回来的人使用的动作。" }
+  ],
+  "L-6": [
+    { title: "地下排字工", unlockAt: "06", unlockLabel: "完成主线 06", content: "墨针替地下组织排印传单，能直接辨认倒字与镜像铅字。他把每次错版都藏在地板下面。" },
+    { title: "墙后的传单", unlockAt: "S-2", unlockLabel: "完成支线 S-2", content: "暗格里的传单故意混入三处错字。按错字对应的铅字编号排列，正好组成下一处联络点。" },
+    { title: "镜中假账", unlockAt: "I-7", unlockLabel: "完成派遣 I-7", content: "墨针没有转身看原稿，只从碎镜里抄下账册。强光扫来时，他已经把最后一行藏进袖口。" },
+    { title: "被带走的错版", unlockAt: "08", unlockLabel: "完成主线 08", content: "第二夜结束后，印刷铺被清空。唯一消失的不是成品，而是一张把治安局与马戏团印在同一列的错版。" }
+  ],
+  "L-7": [
+    { title: "地下诊所的医师", unlockAt: "09", unlockLabel: "完成主线 09", content: "白芷用气味而不是标签记药。她追查马戏团，是因为一名刚脱离危险的病人从诊所里被带走。" },
+    { title: "无标签药瓶", unlockAt: "I-8", unlockLabel: "归档信息 I-8", content: "瓶中药液受热后会形成近乎无色的麻醉雾，配方与失踪者接受治疗时使用的镇静剂高度相似。" },
+    { title: "风道里的甜味", unlockAt: "I-10", unlockLabel: "完成派遣 I-10", content: "白芷从数条冷风中分出唯一安全的风道。她在撤离时带回一块浸过药雾的幕布，作为持续献祭的物证。" },
+    { title: "红幕后的人名", unlockAt: "13", unlockLabel: "完成主线 13", content: "终场之后，她逐一核对名册与诊所记录。被划掉的名字不全是死者，其中一些人或许仍在等待被找到。" }
+  ],
+  "L-8": [
+    { title: "前舞台绞盘工", unlockAt: "10", unlockLabel: "完成主线 10", content: "旧弦亲手吊起过马戏团第一张红幕。一次配重事故损伤了他的听力，也让他开始记录每次异常升降。" },
+    { title: "配重井旧图", unlockAt: "I-9", unlockLabel: "归档信息 I-9", content: "图纸数字已经褪色，他仍从绳结位置认出主舞台下方的旧配重井仍在使用，且承载重量远超布景。" },
+    { title: "悬台下的手势", unlockAt: "I-10", unlockLabel: "完成派遣 I-10", content: "听不见口令的旧弦反而没有被演出干扰。他用后台手势稳住配重，让名册在掌声最响时离开暗仓。" },
+    { title: "终场后的停机", unlockAt: "13", unlockLabel: "完成主线 13", content: "他在红幕落下后亲手锁死主绞盘。多年里第一次，舞台上方没有任何东西等待被吊起。" }
+  ],
+  "L-9": [
+    { title: "双面望风者", unlockAt: "11", unlockLabel: "完成主线 11", content: "鸦同时替治安局和地下组织望风。他从不解释忠诚，只出售每条路线还能安全多久。" },
+    { title: "没有署名的地图", unlockAt: "S-3", unlockLabel: "完成支线 S-3", content: "屋脊标记还原出治安局的包围路线，也证明鸦曾故意漏报一个出口，让三名被追捕者逃离。" },
+    { title: "屋脊上的选择", unlockAt: "12", unlockLabel: "完成主线 12", content: "团长发出邀请时，鸦烧掉了治安局给他的通行证。他第一次提供了一条不准备收费的路线。" },
+    { title: "红幕落下后的证词", unlockAt: "13", unlockLabel: "完成主线 13", content: "鸦承认两边使用的是同一份失踪者名单：一边负责让人消失，另一边负责把消失包装成自愿离开。" }
+  ]
+};
+
 const infoNodes = [
   { id: "I-1", day: 1, name: "破损药签", unlockAfter: "01", x: 730, y: 370, text: "被雨水泡开的药签仍残留甜苦味。苔生认出它来自只向地下诊所供货的批次。" },
   { id: "I-2", day: 1, name: "失准的报时", unlockAfter: "02", x: 1240, y: 900, text: "街区所有钟都慢了四分钟，只有铃坚持按真正的时间报时；那正好对应巡逻换岗。" },
@@ -55,7 +112,7 @@ const infoNodes = [
   { id: "I-10", day: 3, name: "线人派遣·无声谢幕", unlockAfter: "11", x: 2070, y: 350, gameplay: true, text: "主舞台下方藏着献祭名册。药雾、老旧配重与头顶的演出，让喊话和迟疑都可能暴露行动。完成调查后，主线12才会显现。", task: { requiredCount: 2, image: "assets/events/silent-curtain.webp", question: "必须辨认混有麻醉剂的风道、稳住会自行回落的配重，并在台上演出时无声协作。哪两名本日线人能够彼此补足？", rule: "选择 2 人组成最终调查队。不要只看长处，也要确认局限不会被现场放大。", clues: ["几条风管都吹出冷风，只有一股带着近乎不可察觉的甜味。", "名册锁在悬台下，放手后配重会在数秒内复位。", "头顶正在演出，任何喊声都会传进舞台。"], solution: ["L-7", "L-8"], success: "白芷找到没有药雾的路线，旧弦稳住配重并用后台手势协调撤离。完整名册在掌声中被带走。", failure: "队伍在药雾、配重或无声协作的一环迟滞。机关复位前，他们只能放弃名册，抢救出几个名字。", impactSuccess: "后续变化：完整名册会动摇部分团员，主线12获得一批暗中援助者。", impactFailure: "后续变化：证据不足，主线12将在满场观众与沉默团员面前继续。" } }
 ];
 
-const state = { dayIndex: 0, mainCompleted: new Set(), sideCompleted: new Set(), infoCompleted: new Set(), taskResults: new Map(), selectedInformants: new Set(), activeTask: null, offsetX: 0, scale: 1, dragging: false, dragStartX: 0, dragStartOffset: 0, moved: false, pendingAction: null, toastTimer: null };
+const state = { dayIndex: 0, mainCompleted: new Set(), sideCompleted: new Set(), infoCompleted: new Set(), taskResults: new Map(), selectedInformants: new Set(), activeTask: null, archiveInformantId: null, offsetX: 0, scale: 1, dragging: false, dragStartX: 0, dragStartOffset: 0, moved: false, pendingAction: null, toastTimer: null };
 
 const viewport = document.getElementById("viewport");
 const world = document.getElementById("world");
@@ -80,6 +137,18 @@ const confirmButton = document.getElementById("confirmButton");
 const rosterBackdrop = document.getElementById("rosterBackdrop");
 const rosterList = document.getElementById("rosterList");
 const rosterSummary = document.getElementById("rosterSummary");
+const archiveFigure = document.getElementById("archiveFigure");
+const archivePortrait = document.getElementById("archivePortrait");
+const archiveCode = document.getElementById("archiveCode");
+const archiveName = document.getElementById("archiveName");
+const archiveStatus = document.getElementById("archiveStatus");
+const archivePersonName = document.getElementById("archivePersonName");
+const archiveMeta = document.getElementById("archiveMeta");
+const archiveProgress = document.getElementById("archiveProgress");
+const archiveTrait = document.getElementById("archiveTrait");
+const archiveObservation = document.getElementById("archiveObservation");
+const archiveCaution = document.getElementById("archiveCaution");
+const archiveStageList = document.getElementById("archiveStageList");
 const dispatchBackdrop = document.getElementById("dispatchBackdrop");
 const dispatchTitle = document.getElementById("dispatchTitle");
 const dispatchIndex = document.getElementById("dispatchIndex");
@@ -105,7 +174,8 @@ const lastCompletedMain = (day = currentDay()) => [...dayMainNodes(day)].reverse
 const currentAnchor = () => lastCompletedMain() || currentDay().start;
 const hasJoined = informant => state.mainCompleted.has(informant.joinAt);
 const isContentCompleted = id => state.mainCompleted.has(id) || state.sideCompleted.has(id) || state.infoCompleted.has(id);
-const isArchiveUnlocked = informant => isContentCompleted(informant.archiveAt);
+const isStageUnlocked = stage => isContentCompleted(stage.unlockAt);
+const unlockedStageCount = informant => (archiveStages[informant.id] || []).filter(isStageUnlocked).length;
 const currentInformants = () => informants.filter(informant => informant.day === currentDay().id && hasJoined(informant));
 const activeSideNodes = () => sideNodes.filter(node => node.day === currentDay().id && state.mainCompleted.has(node.unlockAfter) && !state.sideCompleted.has(node.id));
 const activeInfoNodes = () => infoNodes.filter(node => node.day === currentDay().id && state.mainCompleted.has(node.unlockAfter) && !state.infoCompleted.has(node.id));
@@ -176,14 +246,14 @@ function renderNodes() {
 function renderHud() {
   const day = currentDay();
   const completed = state.mainCompleted.size;
-  const archiveCount = informants.filter(isArchiveUnlocked).length;
+  const joinedCount = informants.filter(hasJoined).length;
   const activeCount = currentInformants().length;
   const dayTotal = informants.filter(informant => informant.day === day.id).length;
   dayEyebrow.textContent = `第${day.id}日 · ${day.name}`;
   progressLabel.textContent = `第${day.id}日调查 · 总进度`;
   progressText.textContent = `${completed} / ${mainNodes.length}`;
   progressBar.style.width = `${completed / mainNodes.length * 100}%`;
-  informantCount.textContent = `${archiveCount} / ${informants.length}`;
+  informantCount.textContent = `${joinedCount} / ${informants.length}`;
   const next = nextMainNode(day);
   if (!next) { gateTitle.textContent = "三日调查完成"; gateText.textContent = "全部节点已处理，红幕已经落下。"; }
   else if (gateBlocking(day)) { gateTitle.textContent = "主线暂缓"; gateText.textContent = `必须先完成 ${day.gate.info} 线人调查，下一主线才会显现。`; }
@@ -272,16 +342,79 @@ function beginDispatch(item) { closeModal(); window.setTimeout(() => openDispatc
 
 function renderRoster() {
   const day = currentDay();
-  const active = currentInformants();
-  const dayTotal = informants.filter(informant => informant.day === day.id).length;
-  const archiveCount = informants.filter(isArchiveUnlocked).length;
-  rosterSummary.textContent = `第${day.id}日可联络 ${active.length} / ${dayTotal} 人；已解锁档案 ${archiveCount} / ${informants.length}。进入下一日后，前一日线人离队，但已解锁档案永久保留。`;
-  rosterList.innerHTML = informants.map(informant => {
-    const joined = hasJoined(informant);
-    if (!joined) return `<article class="informant-card locked"><div class="informant-avatar unknown">?</div><div class="locked-copy"><strong>身份未建立</strong><br>完成主线 ${informant.joinAt} 后建立联系</div></article>`;
-    const archiveUnlocked = isArchiveUnlocked(informant);
-    const activeNow = informant.day === day.id;
-    return `<article class="informant-card${activeNow ? " active" : " departed"}"><img class="informant-avatar" src="${informant.portrait}" alt="${informant.name}的线人画像" /><div class="informant-info"><div class="informant-title"><h3>${informant.name} <small>${informant.id}</small></h3><span>${activeNow ? "本日可联络" : "已离队"}</span></div><p class="informant-meta"><span>${informant.age}岁</span><span>${informant.origin}</span></p><span class="trait-pill">${informant.trait}</span><p class="informant-observation">${informant.observation}</p><p class="informant-caution">注意：${informant.caution}</p><p class="archive-state ${archiveUnlocked ? "unlocked" : ""}">${archiveUnlocked ? `档案已解锁：${informant.profile}` : `完成 ${informant.archiveAt} 后解锁完整档案`}</p></div></article>`;
+  const joined = informants.filter(hasJoined);
+  let selected = informants.find(informant => informant.id === state.archiveInformantId);
+  if (!selected || !hasJoined(selected)) {
+    selected = joined.at(-1) || null;
+    state.archiveInformantId = selected?.id || null;
+  }
+
+  rosterList.innerHTML = "";
+  informants.forEach(informant => {
+    const available = hasJoined(informant);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `archive-roster-button${informant.id === selected?.id ? " selected" : ""}`;
+    button.dataset.code = informant.id;
+    button.disabled = !available;
+    button.setAttribute("aria-label", available ? `查看${informant.name}的档案` : `身份未建立，完成主线${informant.joinAt}后解锁`);
+    button.setAttribute("aria-pressed", String(informant.id === selected?.id));
+    button.innerHTML = available
+      ? `<img src="${informant.portrait}" alt="" />`
+      : `<span aria-hidden="true">?</span>`;
+    if (available) button.addEventListener("click", () => {
+      state.archiveInformantId = informant.id;
+      renderRoster();
+    });
+    rosterList.appendChild(button);
+  });
+
+  const totalUnlockedStages = informants.reduce((total, informant) => total + unlockedStageCount(informant), 0);
+  const totalStages = Object.values(archiveStages).reduce((total, records) => total + records.length, 0);
+  rosterSummary.textContent = `已建立身份 ${joined.length} / ${informants.length} · 阶段记录 ${totalUnlockedStages} / ${totalStages}；线人离队后，已取得的档案仍可查阅。`;
+  if (!selected) {
+    archiveFigure.classList.add("unknown");
+    archiveFigure.style.removeProperty("--archive-art");
+    archivePortrait.removeAttribute("src");
+    archivePortrait.alt = "";
+    archiveCode.textContent = "L-?";
+    archiveName.textContent = "身份未建立";
+    archiveStatus.textContent = "等待接触";
+    archivePersonName.textContent = "暂无可查阅线人";
+    archiveMeta.textContent = "完成主线 01 后建立第一份线人档案";
+    archiveProgress.textContent = "0 / 4";
+    archiveTrait.textContent = "特质未知";
+    archiveObservation.textContent = "调查尚未取得足以建立身份的信息。";
+    archiveCaution.textContent = "";
+    archiveStageList.innerHTML = `<article class="archive-stage locked archive-empty-stage"><span class="stage-number">--</span><span class="stage-status">RECORD SEALED</span><h4>档案尚未建立</h4><p>推进主线后，接触到的线人会在此留下分阶段记录。</p></article>`;
+    return;
+  }
+
+  const stages = archiveStages[selected.id] || [];
+  const unlocked = stages.filter(isStageUnlocked).length;
+  const activeNow = selected.day === day.id && hasJoined(selected);
+
+  archiveFigure.classList.remove("unknown");
+  archiveFigure.style.setProperty("--archive-art", `url("${selected.portrait}")`);
+  archivePortrait.src = selected.portrait;
+  archivePortrait.alt = `${selected.name}的半身立绘`;
+  archiveCode.textContent = selected.id;
+  archiveName.textContent = selected.name;
+  archiveStatus.textContent = activeNow ? `第${selected.day}日 · 当前可联络` : `第${selected.day}日 · 已离队 / 档案留存`;
+  archivePersonName.textContent = selected.name;
+  archiveMeta.textContent = `${selected.age}岁 · 来自${selected.origin}`;
+  archiveProgress.textContent = `${unlocked} / ${stages.length}`;
+  archiveTrait.textContent = selected.trait;
+  archiveObservation.textContent = selected.observation;
+  archiveCaution.textContent = `行动局限：${selected.caution}`;
+  archiveStageList.innerHTML = stages.map((stage, index) => {
+    const stageUnlocked = isStageUnlocked(stage);
+    return `<article class="archive-stage ${stageUnlocked ? "unlocked" : "locked"}">
+      <span class="stage-number">${String(index + 1).padStart(2, "0")}</span>
+      <span class="stage-status">${stageUnlocked ? "RECORD UNLOCKED" : "RECORD SEALED"}</span>
+      <h4>${stageUnlocked ? stage.title : "阶段信息待解锁"}</h4>
+      <p>${stageUnlocked ? stage.content : `解锁条件：${stage.unlockLabel}`}</p>
+    </article>`;
   }).join("");
 }
 
@@ -376,6 +509,7 @@ function showToast(message) { window.clearTimeout(state.toastTimer); toast.textC
 function resetPrototype() {
   state.dayIndex = 0;
   state.mainCompleted.clear(); state.sideCompleted.clear(); state.infoCompleted.clear(); state.taskResults.clear(); state.selectedInformants.clear();
+  state.archiveInformantId = null;
   closeModal(); closeRoster(); closeDispatch(); applyDayScene(false); renderNodes(); moveTokenTo(currentDay().start, true); showToast("三日调查、线人档案与派遣结果已重置");
 }
 

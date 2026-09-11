@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260910-3">
+  <link rel="stylesheet" href="styles.css?v=20260911-1">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -93,19 +93,48 @@
     </div>
 
     <div class="panel-backdrop" id="rosterBackdrop" hidden>
-      <aside class="roster-panel" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
-        <header class="roster-header">
+      <section class="roster-panel archive-screen" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
+        <button class="archive-close" id="rosterClose" type="button" aria-label="返回活动地图">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+          <span>返回地图</span>
+        </button>
+        <header class="archive-header">
           <div>
-            <p class="eyebrow">MBCC临时情报网络</p>
+            <p class="eyebrow">MBCC · 临时情报网络</p>
             <h2 id="rosterTitle">线人档案</h2>
           </div>
-          <button class="modal-close light" id="rosterClose" type="button" aria-label="关闭线人档案">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-          </button>
+          <p class="roster-summary" id="rosterSummary">阶段记录随调查进展逐项解锁。</p>
         </header>
-        <p class="roster-summary" id="rosterSummary">线人随本日调查加入；完整档案由指定剧情节点解锁。</p>
-        <div class="roster-list" id="rosterList"></div>
-      </aside>
+        <nav class="archive-roster" id="rosterList" aria-label="切换线人"></nav>
+        <section class="archive-figure" id="archiveFigure" aria-label="线人形象展示">
+          <div class="archive-art-haze" aria-hidden="true"></div>
+          <img class="archive-portrait" id="archivePortrait" alt="" />
+          <div class="archive-identity-strip">
+            <span id="archiveCode">L-?</span>
+            <strong id="archiveName">身份未建立</strong>
+            <small id="archiveStatus">等待接触</small>
+          </div>
+        </section>
+        <section class="archive-record" aria-live="polite">
+          <header class="archive-person-header">
+            <div>
+              <span class="archive-kicker">INFORMANT RECORD</span>
+              <h3 id="archivePersonName">身份未建立</h3>
+              <p id="archiveMeta">尚未获得该线人的基础信息</p>
+            </div>
+            <div class="archive-stage-progress">
+              <strong id="archiveProgress">0 / 4</strong>
+              <span>阶段已解锁</span>
+            </div>
+          </header>
+          <div class="archive-trait-row">
+            <span class="trait-pill" id="archiveTrait">特质未知</span>
+            <p id="archiveObservation">继续推进调查以建立身份。</p>
+            <p id="archiveCaution"></p>
+          </div>
+          <div class="archive-stage-grid" id="archiveStageList"></div>
+        </section>
+      </section>
     </div>
 
     <div class="modal-backdrop dispatch-backdrop" id="dispatchBackdrop" hidden>
@@ -151,6 +180,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260910-3"></script>
+  <script src="app.js?v=20260911-1"></script>
 </body>
 </html>
