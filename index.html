@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260911-5">
+  <link rel="stylesheet" href="styles.css?v=20260911-6">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -16,6 +16,10 @@
         <div>
           <p class="eyebrow" id="dayEyebrow">第1日 · 潮湿序幕</p>
           <h1>马戏团原型</h1>
+        </div>
+        <div class="version-switch" role="group" aria-label="切换主线地图版本">
+          <button class="version-option selected" type="button" data-main-version="A" aria-pressed="true"><strong>A版</strong><span>分日地图</span></button>
+          <button class="version-option" type="button" data-main-version="B" aria-pressed="false"><strong>B版</strong><span>连续主线</span></button>
         </div>
       </div>
 
@@ -204,6 +208,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260911-5"></script>
+  <script src="app.js?v=20260911-6"></script>
 </body>
 </html>

@@ -1,10 +1,12 @@
-const WORLD = { width: 3840, height: 1280 };
+const SEGMENT_WIDTH = 3840;
+const WORLD = { width: SEGMENT_WIDTH, height: 1280 };
+const B_WORLD_WIDTH = SEGMENT_WIDTH * 3;
 const CAMERA_ANCHOR_RATIO = 0.30;
 
 const days = [
-  { id: 1, name: "潮湿序幕", subtitle: "谣言从画布背后醒来", background: "assets/days/day-1-street-loop.webp", mainIds: ["01", "02", "03", "04"], sideIds: ["S-1"], infoIds: ["I-1", "I-2", "I-3"], finalId: "04", gate: { after: "02", info: "I-3" }, start: { x: 140, y: 700 } },
-  { id: 2, name: "幕后迷宫", subtitle: "每一根绳索都牵着秘密", background: "assets/days/day-2-street-loop.webp", mainIds: ["05", "06", "07", "08"], sideIds: ["S-2"], infoIds: ["I-4", "I-5", "I-6", "I-7"], finalId: "08", gate: { after: "06", info: "I-7" }, start: { x: 140, y: 650 } },
-  { id: 3, name: "红幕终场", subtitle: "笑声越响，真相越近", background: "assets/days/day-3-street-loop.webp", mainIds: ["09", "10", "11", "12", "13"], sideIds: ["S-3", "S-4"], infoIds: ["I-8", "I-9", "I-10"], finalId: "13", gate: { after: "11", info: "I-10" }, start: { x: 140, y: 650 } }
+  { id: 1, name: "潮湿序幕", subtitle: "谣言从画布背后醒来", background: "assets/days/day-1-street-loop.webp", bBackground: "assets/days/b-day-1-street.webp", mainIds: ["01", "02", "03", "04"], sideIds: ["S-1"], infoIds: ["I-1", "I-2", "I-3"], finalId: "04", gate: { after: "02", info: "I-3" }, start: { x: 140, y: 700 } },
+  { id: 2, name: "幕后迷宫", subtitle: "每一根绳索都牵着秘密", background: "assets/days/day-2-street-loop.webp", bBackground: "assets/days/b-day-2-street.webp", mainIds: ["05", "06", "07", "08"], sideIds: ["S-2"], infoIds: ["I-4", "I-5", "I-6", "I-7"], finalId: "08", gate: { after: "06", info: "I-7" }, start: { x: 140, y: 650 } },
+  { id: 3, name: "红幕终场", subtitle: "笑声越响，真相越近", background: "assets/days/day-3-street-loop.webp", bBackground: "assets/days/b-day-3-street.webp", mainIds: ["09", "10", "11", "12", "13"], sideIds: ["S-3", "S-4"], infoIds: ["I-8", "I-9", "I-10"], finalId: "13", gate: { after: "11", info: "I-10" }, start: { x: 140, y: 650 } }
 ];
 
 const mainNodes = [
@@ -244,7 +246,25 @@ const dispatchOutcomes = {
   }
 };
 
-const state = { dayIndex: 0, mainCompleted: new Set(), sideCompleted: new Set(), infoCompleted: new Set(), taskResults: new Map(), selectedInformants: new Set(), activeTask: null, archiveInformantId: null, offsetX: 0, scale: 1, dragging: false, dragStartX: 0, dragStartOffset: 0, moved: false, pendingAction: null, toastTimer: null };
+function createProgressState() {
+  return { dayIndex: 0, mainCompleted: new Set(), sideCompleted: new Set(), infoCompleted: new Set(), taskResults: new Map(), archiveInformantId: null };
+}
+
+const versionProgress = { A: createProgressState(), B: createProgressState() };
+const state = {
+  mainVersion: "A",
+  ...versionProgress.A,
+  selectedInformants: new Set(),
+  activeTask: null,
+  offsetX: 0,
+  scale: 1,
+  dragging: false,
+  dragStartX: 0,
+  dragStartOffset: 0,
+  moved: false,
+  pendingAction: null,
+  toastTimer: null
+};
 
 const viewport = document.getElementById("viewport");
 const world = document.getElementById("world");
@@ -310,12 +330,27 @@ const dispatchSubmit = document.getElementById("dispatchSubmit");
 const dispatchCancel = document.getElementById("dispatchCancel");
 const toast = document.getElementById("toast");
 const dragHint = document.getElementById("dragHint");
+const versionButtons = [...document.querySelectorAll("[data-main-version]")];
 
 const currentDay = () => days[state.dayIndex] || days.at(-1);
 const dayMainNodes = (day = currentDay()) => day.mainIds.map(id => mainNodes.find(node => node.id === id));
 const nextMainNode = (day = currentDay()) => dayMainNodes(day).find(node => !state.mainCompleted.has(node.id));
 const lastCompletedMain = (day = currentDay()) => [...dayMainNodes(day)].reverse().find(node => state.mainCompleted.has(node.id));
-const currentAnchor = () => lastCompletedMain() || currentDay().start;
+const lastCompletedOverall = () => [...mainNodes].reverse().find(node => state.mainCompleted.has(node.id));
+const isContinuousVersion = () => state.mainVersion === "B";
+const worldWidth = () => isContinuousVersion() ? B_WORLD_WIDTH : WORLD.width;
+const projectX = (x, dayId = currentDay().id) => x + (isContinuousVersion() ? (dayId - 1) * SEGMENT_WIDTH : 0);
+const projectPoint = (point, fallbackDay = currentDay().id) => {
+  if (point._projected) return point;
+  const dayId = point.day || fallbackDay;
+  const projected = { ...point, x: projectX(point.x, dayId), _projected: true };
+  if (point.via) projected.via = { ...point.via, x: projectX(point.via.x, dayId) };
+  return projected;
+};
+const currentAnchor = () => {
+  const anchor = isContinuousVersion() ? lastCompletedOverall() : lastCompletedMain();
+  return projectPoint(anchor || currentDay().start, anchor?.day || currentDay().id);
+};
 const hasJoined = informant => state.mainCompleted.has(informant.joinAt);
 const isContentCompleted = id => state.mainCompleted.has(id) || state.sideCompleted.has(id) || state.infoCompleted.has(id);
 const isStageUnlocked = stage => isContentCompleted(stage.unlockAt);
@@ -327,8 +362,15 @@ const dayTasksComplete = (day = currentDay()) => day.sideIds.every(id => state.s
 const gateBlocking = (day = currentDay()) => state.mainCompleted.has(day.gate.after) && !state.infoCompleted.has(day.gate.info);
 const canRevealMain = (node, day = currentDay()) => Boolean(node) && !gateBlocking(day) && (node.id !== day.finalId || dayTasksComplete(day));
 
-function getScale() { return Math.max(viewport.clientHeight / WORLD.height, 0.58); }
-function clampOffset(value) { const min = Math.min(0, viewport.clientWidth - WORLD.width * state.scale); return Math.max(min, Math.min(0, value)); }
+function getScale() {
+  const segmentFill = isContinuousVersion() ? viewport.clientWidth / SEGMENT_WIDTH : 0;
+  return Math.max(viewport.clientHeight / WORLD.height, 0.58, segmentFill);
+}
+function exploredRightEdge() { return isContinuousVersion() ? (state.dayIndex + 1) * SEGMENT_WIDTH : WORLD.width; }
+function clampOffset(value) {
+  const min = Math.min(0, viewport.clientWidth - exploredRightEdge() * state.scale);
+  return Math.max(min, Math.min(0, value));
+}
 function applyWorldTransform(animate = false) { world.style.transition = animate ? "transform 1.25s cubic-bezier(.2,.72,.18,1)" : "none"; world.style.transform = `translate3d(${state.offsetX}px, 0, 0) scale(${state.scale})`; }
 function cameraOffsetFor(x) { return clampOffset(viewport.clientWidth * CAMERA_ANCHOR_RATIO - x * state.scale); }
 function focusPoint(x, animate = true) { state.offsetX = cameraOffsetFor(x); applyWorldTransform(animate); }
@@ -337,11 +379,17 @@ function routeMarkup(a, b, className) {
   return `<path class="${className}" d="M ${a.x} ${a.y} Q ${b.via.x} ${b.via.y} ${b.x} ${b.y}" />`;
 }
 
-function renderRoutes(visibleMain, sides) {
-  const anchor = currentAnchor();
+function renderRoutes(visibleMain, sides, history = []) {
   const lines = [];
-  if (visibleMain) lines.push(routeMarkup(anchor, visibleMain, "route-main"));
-  sides.forEach(side => lines.push(routeMarkup(anchor, side, "route-side")));
+  if (isContinuousVersion()) {
+    const chain = [projectPoint(days[0].start, 1), ...history.map(node => projectPoint(node))];
+    if (visibleMain) chain.push(projectPoint(visibleMain));
+    chain.slice(1).forEach((point, index) => lines.push(routeMarkup(chain[index], point, "route-main")));
+  } else if (visibleMain) {
+    lines.push(routeMarkup(currentAnchor(), projectPoint(visibleMain), "route-main"));
+  }
+  const anchor = currentAnchor();
+  sides.forEach(side => lines.push(routeMarkup(anchor, projectPoint(side), "route-side")));
   routeLayer.innerHTML = lines.join("");
 }
 
@@ -352,14 +400,16 @@ function makeNode(item, kind, status = "available") {
   if (kind === "main" && item.type === "battle") button.classList.add("battle");
   if (kind === "main" && item.final) button.classList.add("day-final");
   if (kind === "info" && item.gameplay) button.classList.add("gameplay", "mandatory");
-  button.style.left = `${item.x}px`;
-  button.style.top = `${item.y}px`;
+  const point = projectPoint(item);
+  button.style.left = `${point.x}px`;
+  button.style.top = `${point.y}px`;
   button.dataset.name = item.name;
   const isCurrent = kind === "main" && status === "current";
-  button.setAttribute("aria-label", isCurrent ? `当前位置 ${item.id} ${item.name}` : `查看 ${item.id} ${item.name}`);
-  if (isCurrent) {
+  const isCompleted = kind === "main" && status === "completed";
+  button.setAttribute("aria-label", isCurrent ? `当前位置 ${item.id} ${item.name}` : isCompleted ? `已完成 ${item.id} ${item.name}` : `查看 ${item.id} ${item.name}`);
+  if (isCurrent || isCompleted) {
     button.disabled = true;
-    button.setAttribute("aria-current", "step");
+    if (isCurrent) button.setAttribute("aria-current", "step");
   }
   const core = document.createElement("span");
   core.className = "node-core";
@@ -374,15 +424,17 @@ function renderNodes() {
   const day = currentDay();
   const next = nextMainNode(day);
   const visibleMain = canRevealMain(next, day) ? next : null;
-  const currentMain = lastCompletedMain(day);
+  const history = isContinuousVersion() ? mainNodes.filter(node => state.mainCompleted.has(node.id)) : [];
+  const currentMain = isContinuousVersion() ? history.at(-1) : lastCompletedMain(day);
   const sides = activeSideNodes();
   const infos = activeInfoNodes();
   nodeLayer.innerHTML = "";
+  if (isContinuousVersion()) history.slice(0, -1).forEach(node => nodeLayer.appendChild(makeNode(node, "main", "completed")));
   if (currentMain) nodeLayer.appendChild(makeNode(currentMain, "main", "current"));
   if (visibleMain) nodeLayer.appendChild(makeNode(visibleMain, "main", "next"));
   sides.forEach(side => nodeLayer.appendChild(makeNode(side, "side")));
   infos.forEach(info => nodeLayer.appendChild(makeNode(info, "info")));
-  renderRoutes(visibleMain, sides);
+  renderRoutes(visibleMain, sides, history);
   renderHud();
   renderRoster();
 }
@@ -411,10 +463,32 @@ function renderHud() {
 
 function applyDayScene(animate = false) {
   const day = currentDay();
-  mapArt.style.backgroundImage = `url("${day.background}")`;
-  mapArt.setAttribute("aria-label", `第${day.id}日「${day.name}」抽象剧场背景`);
+  const width = worldWidth();
+  world.style.width = `${width}px`;
+  mapArt.style.width = `${width}px`;
+  nodeLayer.style.width = `${width}px`;
+  routeLayer.style.width = `${width}px`;
+  routeLayer.setAttribute("viewBox", `0 0 ${width} ${WORLD.height}`);
+  if (isContinuousVersion()) {
+    mapArt.classList.add("continuous-map");
+    mapArt.style.backgroundImage = "none";
+    mapArt.innerHTML = days.map(item => `<div class="map-segment day-${item.id}" style="left:${(item.id - 1) * SEGMENT_WIDTH}px;background-image:url(&quot;${item.bBackground}&quot;)" aria-hidden="true"></div>`).join("");
+    mapArt.setAttribute("aria-label", "B版三日连续白天街区：帐篷、花车与终场庆典逐日开放");
+  } else {
+    mapArt.classList.remove("continuous-map");
+    mapArt.innerHTML = "";
+    mapArt.style.backgroundImage = `url("${day.background}")`;
+    mapArt.setAttribute("aria-label", `第${day.id}日「${day.name}」抽象剧场背景`);
+  }
   chapterLabel.innerHTML = `<span>第${day.id}日</span>${day.name}<small>${day.subtitle}</small>`;
+  chapterLabel.style.left = `${projectX(280, day.id)}px`;
   world.dataset.day = String(day.id);
+  world.dataset.version = state.mainVersion;
+  versionButtons.forEach(button => {
+    const selected = button.dataset.mainVersion === state.mainVersion;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
   if (animate) { world.classList.remove("day-shift"); void world.offsetWidth; world.classList.add("day-shift"); }
 }
 
@@ -423,7 +497,9 @@ function getNodeText(item) { return item.text; }
 function openNode(item, kind) {
   let kicker = kind === "main" ? (item.final ? `第${item.day}日 · 收束节点` : "主线调查") : kind === "side" ? "支线调查" : item.gameplay ? "必经信息流 · 线人派遣" : "信息流 · 街区记录";
   let action = () => advanceMain(item);
-  let note = "抵达后，该节点会保留为局长当前位置；前往下一主线时才退场。";
+  let note = isContinuousVersion()
+    ? "抵达后，该主线节点会作为历史路线永久保留；局长继续前往下一主线。"
+    : "抵达后，该节点会保留为局长当前位置；前往下一主线时才退场。";
   if (kind === "side") { action = () => visitSide(item); note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
   if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
   if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查；派遣不移动局长，成败将生成不同的独立探索记录，但不改变后续主线走向。"; }
@@ -438,7 +514,13 @@ function openNode(item, kind) {
 }
 
 function closeModal() { modalBackdrop.hidden = true; state.pendingAction = null; }
-function moveTokenTo(point, camera = true) { playerToken.classList.add("moving"); playerToken.style.transform = `translate(${point.x - 39}px, ${point.y - 90}px)`; if (camera) focusPoint(point.x, true); window.setTimeout(() => playerToken.classList.remove("moving"), 1300); }
+function moveTokenTo(point, camera = true, fallbackDay = currentDay().id) {
+  const target = projectPoint(point, point.day || fallbackDay);
+  playerToken.classList.add("moving");
+  playerToken.style.transform = `translate(${target.x - 39}px, ${target.y - 90}px)`;
+  if (camera) focusPoint(target.x, true);
+  window.setTimeout(() => playerToken.classList.remove("moving"), 1300);
+}
 
 function advanceMain(item) {
   const expected = nextMainNode();
@@ -452,9 +534,16 @@ function advanceMain(item) {
       const departed = informants.filter(informant => informant.day === day.id && hasJoined(informant)).map(informant => informant.name);
       state.dayIndex += 1;
       applyDayScene(true);
-      state.offsetX = cameraOffsetFor(currentDay().start.x);
-      applyWorldTransform(false);
-      moveTokenTo(currentDay().start, false);
+      if (isContinuousVersion()) {
+        const next = nextMainNode();
+        const fromX = projectX(item.x, item.day);
+        const toX = next ? projectX(next.x, next.day) : fromX;
+        focusPoint((fromX + toX) / 2, true);
+      } else {
+        state.offsetX = cameraOffsetFor(currentDay().start.x);
+        applyWorldTransform(false);
+        moveTokenTo(currentDay().start, false);
+      }
       renderNodes();
       showToast(`进入第${currentDay().id}日 · ${departed.join("、")}已离队，新线人网络重新建立`);
       return;
@@ -464,7 +553,7 @@ function advanceMain(item) {
     if (newcomers.length) showToast(`主线 ${item.id} 完成 · 联络线人「${newcomers.map(person => person.name).join("、")}」`);
     else if (item.id === days.at(-1).finalId) showToast("三日调查完成：红幕落下");
     else if (gateBlocking()) showToast(`主线 ${item.id} 完成 · 必须先处理 ${currentDay().gate.info}`);
-    else showToast(`主线 ${item.id} 完成，上一节点已退场`);
+    else showToast(isContinuousVersion() ? `主线 ${item.id} 完成，历史主线已保留并连入路线` : `主线 ${item.id} 完成，上一节点已退场`);
   }, 1050);
 }
 
@@ -679,10 +768,44 @@ function resetPrototype() {
   state.dayIndex = 0;
   state.mainCompleted.clear(); state.sideCompleted.clear(); state.infoCompleted.clear(); state.taskResults.clear(); state.selectedInformants.clear();
   state.archiveInformantId = null;
-  closeModal(); closeRoster(); closeDispatch(); applyDayScene(false); renderNodes(); moveTokenTo(currentDay().start, true); showToast("三日调查、线人档案与派遣结果已重置");
+  closeModal(); closeRoster(); closeDispatch(); applyDayScene(false); renderNodes(); moveTokenTo(currentDay().start, true);
+  showToast(`${state.mainVersion}版调查、线人档案与派遣结果已重置`);
 }
 
 function resize() { state.scale = getScale(); state.offsetX = cameraOffsetFor(currentAnchor().x); applyWorldTransform(false); }
+
+function saveCurrentVersion() {
+  versionProgress[state.mainVersion] = {
+    dayIndex: state.dayIndex,
+    mainCompleted: state.mainCompleted,
+    sideCompleted: state.sideCompleted,
+    infoCompleted: state.infoCompleted,
+    taskResults: state.taskResults,
+    archiveInformantId: state.archiveInformantId
+  };
+}
+
+function switchMainVersion(version) {
+  if (!versionProgress[version] || version === state.mainVersion) return;
+  saveCurrentVersion();
+  const progress = versionProgress[version];
+  state.mainVersion = version;
+  state.dayIndex = progress.dayIndex;
+  state.mainCompleted = progress.mainCompleted;
+  state.sideCompleted = progress.sideCompleted;
+  state.infoCompleted = progress.infoCompleted;
+  state.taskResults = progress.taskResults;
+  state.archiveInformantId = progress.archiveInformantId;
+  state.selectedInformants.clear();
+  closeModal(); closeRoster(); closeDispatch();
+  applyDayScene(false);
+  state.scale = getScale();
+  renderNodes();
+  moveTokenTo(currentAnchor(), false);
+  state.offsetX = cameraOffsetFor(currentAnchor().x);
+  applyWorldTransform(false);
+  showToast(version === "B" ? "已切换至 B 版 · 连续长图 / 历史主线常驻" : "已切换至 A 版 · 分日地图 / 旧节点退场");
+}
 
 function validateConfig() {
   infoNodes.filter(info => info.gameplay).forEach(info => {
@@ -721,6 +844,7 @@ document.getElementById("dispatchCancel").addEventListener("click", closeDispatc
 document.getElementById("focusButton").addEventListener("click", () => moveTokenTo(currentAnchor(), true));
 document.getElementById("resetButton").addEventListener("click", resetPrototype);
 document.getElementById("backButton").addEventListener("click", resetPrototype);
+versionButtons.forEach(button => button.addEventListener("click", () => switchMainVersion(button.dataset.mainVersion)));
 dispatchSubmit.addEventListener("click", submitDispatch);
 modalBackdrop.addEventListener("click", event => { if (event.target === modalBackdrop) closeModal(); });
 rosterBackdrop.addEventListener("click", event => { if (event.target === rosterBackdrop) closeRoster(); });
