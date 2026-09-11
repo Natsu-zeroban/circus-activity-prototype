@@ -10,16 +10,16 @@ const days = [
 const mainNodes = [
   { id: "01", day: 1, name: "潮湿传闻", type: "story", x: 450, y: 670, via: { x: 300, y: 690 }, text: "街区把墙面画成永不散场的舞台。局长循着狂厄反应进入布景般的窄巷，关于神奇马戏团的传言正从每一扇假窗后传来。" },
   { id: "02", day: 1, name: "失踪者名单", type: "story", x: 1120, y: 650, via: { x: 780, y: 590 }, text: "名单上的人互不相识，却都收到过没有署名的门票。三个熟悉街区暗路的线人愿意协助调查。" },
-  { id: "03", day: 1, name: "破棚下的笑声", type: "story", x: 1900, y: 570, via: { x: 1510, y: 530 }, text: "破棚里的居民用木箱搭起小舞台，笑声压过巡逻队的靴声。", branchFrom: "I-3", successBranch: "信筒中的暗号让局长提前转移了三户居民，治安局只搜到一座空棚。", failureBranch: "铃线惊动了巡逻，居民被迫连夜转移；有人留下半句暗号，调查只能从残缺处继续。" },
+  { id: "03", day: 1, name: "破棚下的笑声", type: "story", x: 1900, y: 570, via: { x: 1510, y: 530 }, text: "破棚里的居民用木箱搭起小舞台，笑声压过巡逻队的靴声。" },
   { id: "04", day: 1, final: true, name: "第一夜散场", type: "story", x: 2700, y: 660, via: { x: 2310, y: 700 }, text: "当日线索全部归档，临时线人从不同巷口离开。局长追随一辆无灯篷车，进入马戏团的幕后区域。" },
   { id: "05", day: 2, name: "褪色的门票", type: "story", x: 450, y: 620, via: { x: 300, y: 630 }, text: "第二日，街区像换景般改变。后台的旧票根写着每位团员曾经献出的东西，但其中几行被人故意倒印。" },
   { id: "06", day: 2, name: "献出之物", type: "story", x: 1120, y: 700, via: { x: 790, y: 735 }, text: "绳索、镜面和配重构成新的街道。三名熟悉后台规则的线人先后回应了局长的联络。" },
-  { id: "07", day: 2, name: "幕布之后", type: "story", x: 1900, y: 580, via: { x: 1510, y: 640 }, text: "台前的笑声穿过幕布，演员们却拒绝说出团长真正的名字。", branchFrom: "I-7", successBranch: "镜棚中的完整假账指出了下一批“自愿者”的去向，局长抢在笼车出发前抵达。", failureBranch: "探照灯烧毁了未抄完的账页，局长只能凭残留编号追踪一辆已经启动的笼车。" },
+  { id: "07", day: 2, name: "幕布之后", type: "story", x: 1900, y: 580, via: { x: 1510, y: 640 }, text: "台前的笑声穿过幕布，演员们却拒绝说出团长真正的名字。" },
   { id: "08", day: 2, final: true, name: "第二夜换幕", type: "battle", x: 2700, y: 690, via: { x: 2310, y: 730 }, text: "当日支线与情报已经闭合。笼车突围后，所有后台线人切断联络；红幕后的主帐篷在第三日开启。" },
   { id: "09", day: 3, name: "笑声之下", type: "story", x: 400, y: 650, via: { x: 270, y: 640 }, text: "第三日的街区不再伪装成现实：红幕、面具与聚光灯覆盖了一切，笑声像命令一样从高处落下。" },
   { id: "10", day: 3, name: "墙缝暗号", type: "story", x: 1000, y: 620, via: { x: 700, y: 580 }, text: "地下反抗组织把路线藏进布景接缝。新的线人只在终场前现身一次，他们知道主舞台下方还有一层机关室。" },
   { id: "11", day: 3, name: "无声证词", type: "story", x: 1650, y: 650, via: { x: 1320, y: 690 }, text: "一段没有声音的证词指向舞台下的献祭名册。要靠近那里，必须同时应对药雾、配重与监听。" },
-  { id: "12", day: 3, name: "团长的邀请", type: "story", x: 2300, y: 620, via: { x: 1980, y: 580 }, text: "团长邀请局长成为最后一位贵宾。红幕后的真相，正等待一个愿意笑着走进去的人。", branchFrom: "I-10", successBranch: "完整名册证明献祭仍在继续，也让台下几名团员在开演前选择倒戈。", failureBranch: "名册随配重沉回暗仓，只抢救出的几个名字不足以说服团员；终场仍将在满座中开始。" },
+  { id: "12", day: 3, name: "团长的邀请", type: "story", x: 2300, y: 620, via: { x: 1980, y: 580 }, text: "团长邀请局长成为最后一位贵宾。红幕后的真相，正等待一个愿意笑着走进去的人。" },
   { id: "13", day: 3, final: true, name: "盛大谢幕", type: "battle", x: 3000, y: 650, via: { x: 2660, y: 700 }, text: "三日获得的主线、支线与情报在红幕前汇合。所有可调查内容已完成，局长走向最后的谢幕。" }
 ];
 
@@ -52,7 +52,7 @@ const archiveStages = {
   "L-2": [
     { title: "钟表铺的报时人", unlockAt: "02", unlockLabel: "完成主线 02", content: "铃幼时被钟表匠收留，没有人知道她原来的名字。她每天替店里给钟上弦，整条街便用那声清脆的“铃”称呼她。比起交谈，她更习惯分辨来人的脚步。" },
     { title: "慢四分钟的约定", unlockAt: "I-2", unlockLabel: "归档信息 I-2", content: "钟表匠失踪后，街坊把所有钟调慢四分钟，用误差掩护彼此躲过换岗巡逻。只有铃守着真实时间，因为总要有一个人记得事情本来的样子。" },
-    { title: "尖响之后", unlockAt: "I-3", unlockLabel: "完成派遣 I-3", content: "她畏惧尖锐声响，源于治安局砸毁钟表铺的那一夜。派遣中，她仍穿过了满布细铃的通道；不是因为不再害怕，而是她终于学会带着恐惧继续判断。" },
+    { title: "尖响之后", unlockAt: "I-3", unlockLabel: "完成派遣 I-3", content: "她畏惧尖锐声响，源于治安局砸毁钟表铺的那一夜。此后铃会借齿轮的规律声让自己镇定：不是假装不再害怕，而是练习带着恐惧继续判断。" },
     { title: "带走一枚小铃", unlockAt: "04", unlockLabel: "完成主线 04", content: "离队时，铃摘下店门口最小的一只铜铃。她说等街区不再需要暗号，就把它重新挂回去，只用来告诉客人：这里又开始修钟了。" }
   ],
   "L-3": [
@@ -64,7 +64,7 @@ const archiveStages = {
   "L-4": [
     { title: "锅炉站的黑手", unlockAt: "05", unlockLabel: "完成主线 05", content: "灰炭七岁便在锅炉站捡煤，双手总洗不干净。老师傅不教他认字，却肯让他拆坏掉的阀门；机器由此成了他最早读懂的一种语言。" },
     { title: "机器从不撒谎", unlockAt: "I-4", unlockLabel: "归档信息 I-4", content: "一次锅炉事故后，工头把责任推给已经失踪的同伴。灰炭从齿轮磨痕证明故障早已存在，却没人愿意听一个孩子说话。从那以后，他只相信能够亲手验证的证据。" },
-    { title: "第一次故意出错", unlockAt: "I-7", unlockLabel: "完成派遣 I-7", content: "过去的灰炭以修好机器为荣；这次，他第一次故意让镜棚配重发生故障，为同伴争取时间。原来本领不只用来维持运转，也能让错误的秩序停下来。" },
+    { title: "该不该让机器停下", unlockAt: "I-7", unlockLabel: "完成派遣 I-7", content: "过去的灰炭以修好机器为荣，即便机器服务的是坏人也一样。加入调查后他第一次开始思考：本领不只用来维持运转，有时也该让错误的秩序停下来。" },
     { title: "熄灭最后一炉火", unlockAt: "08", unlockLabel: "完成主线 08", content: "笼车突围后，他亲手关闭锅炉站。灰炭决定去学认字，弄懂那些总被大人用来推卸责任的记录——下一次，他要同时看懂机器和人的谎言。" }
   ],
   "L-5": [
@@ -88,7 +88,7 @@ const archiveStages = {
   "L-8": [
     { title: "把红幕吊起来的人", unlockAt: "10", unlockLabel: "完成主线 10", content: "旧弦年轻时跟着流动戏班学习绞盘，后来成为马戏团最早的舞台工。他吊起第一张红幕，也相信这座帐篷真能给无处可去的人一个家。" },
     { title: "配重井里的事故", unlockAt: "I-9", unlockLabel: "归档信息 I-9", content: "一次违规加重让钢索突然崩断，旧弦失去大半听力，一名助手却再没从井下回来。团长把事故写成离职，他则偷偷保存了那天的受力记录。" },
-    { title: "沉默了十二年", unlockAt: "I-10", unlockLabel: "完成派遣 I-10", content: "旧弦早已知道舞台下藏着什么，却因害怕牵连其他工人沉默至今。与局长同行时，他重新使用久违的后台手势——这一次不是服从演出，而是亲手揭开它。" },
+    { title: "沉默了十二年", unlockAt: "I-10", unlockLabel: "完成派遣 I-10", content: "旧弦早已知道舞台下藏着什么，却因害怕牵连其他工人沉默至今。调查逼近暗仓后，他重新画出久违的后台手势——这一次不是服从演出，而是准备亲手揭开它。" },
     { title: "最后一次停机", unlockAt: "13", unlockLabel: "完成主线 13", content: "红幕落下后，旧弦锁死主绞盘，把钥匙交给幸存的年轻工人。他没有请求原谅，只说往后的舞台，应由知道代价的人决定升起什么。" }
   ],
   "L-9": [
@@ -102,15 +102,138 @@ const archiveStages = {
 const infoNodes = [
   { id: "I-1", day: 1, name: "破损药签", unlockAfter: "01", x: 730, y: 370, text: "被雨水泡开的药签仍残留甜苦味。苔生认出它来自只向地下诊所供货的批次。" },
   { id: "I-2", day: 1, name: "失准的报时", unlockAfter: "02", x: 1240, y: 900, text: "街区所有钟都慢了四分钟，只有铃坚持按真正的时间报时；那正好对应巡逻换岗。" },
-  { id: "I-3", day: 1, name: "线人派遣·听墙人", unlockAfter: "02", x: 1660, y: 350, gameplay: true, text: "废弃排练通道里布满铃线，反抗组织将信筒藏在一面空心墙后。完成调查后，主线03才会显现。", task: { requiredCount: 1, image: "assets/events/listening-wall.webp", question: "三条岔路都挂着会惊动巡逻的细铃。纸条只写着：“别信画出的箭头，幕布后回来的声音才是真的。”谁最可能独自找出藏信筒的空心墙？", rule: "从本日线人中选择 1 人。提交后无法重试，但无论结果如何都会推动故事。", clues: ["岔路没有照明，墙上的箭头被反复改画。", "轻敲砖面时，深处传回两种不同回声。", "铃线贴地相连，靠摸索乱走很容易触发警报。"], solution: ["L-2"], success: "铃没有追随假箭头。她从回声里辨出夹层，又按机械低鸣的间隙穿过铃线，带回完整信筒。", failure: "错误的岔路触动铃线，巡逻灯骤然亮起。行动组只能撤离，信筒落进治安局手中。", impactSuccess: "后续变化：居民提前转移，主线03将出现完整暗号。", impactFailure: "后续变化：街区遭到搜查，主线03将从残缺暗号继续。" } },
+  { id: "I-3", day: 1, name: "线人派遣·听墙人", unlockAfter: "02", x: 1660, y: 350, gameplay: true, text: "废弃排练通道里布满铃线，反抗组织将信筒藏在一面空心墙后。完成调查后，主线03才会显现。", task: { requiredCount: 1, image: "assets/events/listening-wall.webp", question: "三条岔路都挂着会惊动巡逻的细铃。纸条只写着：“别信画出的箭头，幕布后回来的声音才是真的。”谁最可能独自找出藏信筒的空心墙？", rule: "从本日线人中选择 1 人。提交后无法重试；结果不会改变主线走向，但会留下不同的独立探索记录。", clues: ["岔路没有照明，墙上的箭头被反复改画。", "轻敲砖面时，深处传回两种不同回声。", "铃线贴地相连，靠摸索乱走很容易触发警报。"], solution: ["L-2"] } },
   { id: "I-4", day: 2, name: "失灵的齿轮", unlockAfter: "05", x: 720, y: 370, text: "探照灯的传动齿轮每转三圈就会卡住一次。灰炭摸过外壳，记下了它真正的停顿周期。" },
   { id: "I-5", day: 2, name: "后台手势表", unlockAfter: "06", x: 1280, y: 900, text: "一张默剧班的手势表被缝在幕布内侧。小满补全了其中代表撤退与静止的动作。" },
   { id: "I-6", day: 2, name: "倒印传单", unlockAfter: "07", x: 2440, y: 960, text: "传单并非印反，而是专门留给镜中阅读的人。字缝里夹着下一场巡演的装卸编号。" },
-  { id: "I-7", day: 2, name: "线人派遣·镜棚假账", unlockAfter: "06", x: 1660, y: 340, gameplay: true, text: "旧镜棚里藏着被倒写的巡演账册，旋转探照灯仍按后台机械的节拍扫过地面。完成调查后，主线07才会显现。", task: { requiredCount: 2, image: "assets/events/mirror-ledger.webp", question: "镜中的走廊真假交叠，账页全部倒写；安全时间藏在探照灯齿轮的循环里。该让哪两名本日线人进去？", rule: "选择 2 人组成调查队。现场需要两种能力，也要避开人物局限。", clues: ["破镜把同一条路映成三个方向。", "账页不能带走，只能在灯下抄完。", "探照灯每转三圈停顿片刻，强光会反复扫过账桌。"], solution: ["L-4", "L-6"], success: "灰炭卡住齿轮的错误咬合，墨针只看镜像便抄完倒字。探照灯恢复前，两人带回了完整假账。", failure: "小队被镜中假路和强光拖慢，账页在撤离时被灯火烧毁，只留下几个模糊编号。", impactSuccess: "后续变化：主线07将明确指出下一辆笼车的去向。", impactFailure: "后续变化：主线07只能凭残留编号追踪已经启动的笼车。" } },
+  { id: "I-7", day: 2, name: "线人派遣·镜棚假账", unlockAfter: "06", x: 1660, y: 340, gameplay: true, text: "旧镜棚里藏着被倒写的巡演账册，旋转探照灯仍按后台机械的节拍扫过地面。完成调查后，主线07才会显现。", task: { requiredCount: 2, image: "assets/events/mirror-ledger.webp", question: "镜中的走廊真假交叠，账页全部倒写；安全时间藏在探照灯齿轮的循环里。该让哪两名本日线人进去？", rule: "选择 2 人组成调查队。现场需要两种能力，也要避开人物局限；结果仅作为本次独立探索记录。", clues: ["破镜把同一条路映成三个方向。", "账页不能带走，只能在灯下抄完。", "探照灯每转三圈停顿片刻，强光会反复扫过账桌。"], solution: ["L-4", "L-6"] } },
   { id: "I-8", day: 3, name: "无标签药瓶", unlockAfter: "09", x: 650, y: 360, text: "瓶中液体没有标签。白芷确认它受热后会形成几乎无色的麻醉雾。" },
   { id: "I-9", day: 3, name: "配重井旧图", unlockAfter: "10", x: 1210, y: 920, text: "旧图上的数字早已褪色，旧弦却能从绳结位置认出主舞台下方仍在运转的配重井。" },
-  { id: "I-10", day: 3, name: "线人派遣·无声谢幕", unlockAfter: "11", x: 2070, y: 350, gameplay: true, text: "主舞台下方藏着献祭名册。药雾、老旧配重与头顶的演出，让喊话和迟疑都可能暴露行动。完成调查后，主线12才会显现。", task: { requiredCount: 2, image: "assets/events/silent-curtain.webp", question: "必须辨认混有麻醉剂的风道、稳住会自行回落的配重，并在台上演出时无声协作。哪两名本日线人能够彼此补足？", rule: "选择 2 人组成最终调查队。不要只看长处，也要确认局限不会被现场放大。", clues: ["几条风管都吹出冷风，只有一股带着近乎不可察觉的甜味。", "名册锁在悬台下，放手后配重会在数秒内复位。", "头顶正在演出，任何喊声都会传进舞台。"], solution: ["L-7", "L-8"], success: "白芷找到没有药雾的路线，旧弦稳住配重并用后台手势协调撤离。完整名册在掌声中被带走。", failure: "队伍在药雾、配重或无声协作的一环迟滞。机关复位前，他们只能放弃名册，抢救出几个名字。", impactSuccess: "后续变化：完整名册会动摇部分团员，主线12获得一批暗中援助者。", impactFailure: "后续变化：证据不足，主线12将在满场观众与沉默团员面前继续。" } }
+  { id: "I-10", day: 3, name: "线人派遣·无声谢幕", unlockAfter: "11", x: 2070, y: 350, gameplay: true, text: "主舞台下方藏着献祭名册。药雾、老旧配重与头顶的演出，让喊话和迟疑都可能暴露行动。完成调查后，主线12才会显现。", task: { requiredCount: 2, image: "assets/events/silent-curtain.webp", question: "必须辨认混有麻醉剂的风道、稳住会自行回落的配重，并在台上演出时无声协作。哪两名本日线人能够彼此补足？", rule: "选择 2 人组成最终调查队。不要只看长处，也要确认局限不会被现场放大；结果不会分叉主线剧情。", clues: ["几条风管都吹出冷风，只有一股带着近乎不可察觉的甜味。", "名册锁在悬台下，放手后配重会在数秒内复位。", "头顶正在演出，任何喊声都会传进舞台。"], solution: ["L-7", "L-8"] } }
 ];
+
+const dispatchOutcomes = {
+  "I-3": {
+    success: {
+      kicker: "完整回收 · 无人暴露",
+      title: "墙后传来的第四声回响",
+      summary: "铃独自穿过排练通道，在没有触动警报的情况下取回完整信筒。",
+      chapters: [
+        { label: "进入", title: "不看箭头", body: "铃在第一处分岔便停了下来。她闭上眼，只听幕布后一次次折返的敲击声。墙上的粉笔箭头指向左侧，她却沿着更空、更远的回响走向右边。" },
+        { label: "判断", title: "借一阵噪声前进", body: "细铃封住最后一段路。远处齿轮每隔十七秒发出一阵低鸣，铃便只在噪声覆盖铃舌时移动。她用三次轻敲确认夹层，第四声回响来自墙内。" },
+        { label: "归来", title: "信筒还带着墙灰", body: "巡逻灯扫过通道时，她已经把松动的砖推回原位。铃回到巷口，将沾着墙灰的信筒交给局长，随后准确复述了沿途每一处铃线的位置。" }
+      ],
+      record: ["回收完整密封信筒", "确认三条巡逻暗道", "线人未被敌方察觉"],
+      closing: "铃把耳朵贴在信筒上，确认里面没有机关，才轻声说：“这一次，响声没有把我留在原地。”"
+    },
+    failures: {
+      "L-1": {
+        kicker: "有限撤离 · 目标遗失",
+        title: "煤烟盖不住铃声",
+        summary: "苔生找到了信筒留下的药蜡气味，却无法从回声中辨认真正的夹墙。",
+        chapters: [
+          { label: "进入", title: "循着甜苦味", body: "苔生没有理会箭头。他在潮湿砖缝间闻到熟悉的药蜡味，判断信筒确实经过这里，于是沿着气味最浓的岔路俯身前行。" },
+          { label: "失误", title: "脚边的一声轻响", body: "气味停在两面相似的墙前。苔生选择更靠近药味的一面，却没听出另一侧的空腔。他后退时碰到贴地铃线，第一枚铃只响了半声，整条通道便同时回应。" },
+          { label: "撤离", title: "攥在手里的红线", body: "巡逻灯亮起前，苔生钻进排水口逃出。他没能带回信筒，却死死攥着一截沾有封蜡的红线——至少证明目标曾被人提前转移。" }
+        ],
+        record: ["信筒未能回收", "带回封蜡残留与红线", "线人安全撤离"],
+        closing: "苔生一直低着头。他没有为失败辩解，只问局长能不能把那截红线也装进证物袋。"
+      },
+      "L-3": {
+        kicker: "有限撤离 · 目标遗失",
+        title: "镜字停在墙的另一边",
+        summary: "纸鸢识破了假箭头，却因旧伤和铃线封锁无法抵达藏有信筒的夹墙。",
+        chapters: [
+          { label: "进入", title: "倒过来看", body: "纸鸢很快发现，墙上箭头只有映在积水里才组成完整记号。他照着镜像路线前进，并把每个转角画在袖中的纸片上。" },
+          { label: "受阻", title: "越不过的低线", body: "最后一条通道的铃线贴着地面交错拉紧。纸鸢的旧伤无法支撑连续跨越，他尝试从墙边绕行，鞋底却擦响了最外侧的铜铃。" },
+          { label: "撤离", title: "一张没有终点的地图", body: "他在巡逻抵达前翻上废弃布景架，从高处离开。信筒没能取回，但那张画满镜像岔路的纸片，为下一次搜索保留了不会再错的入口。" }
+        ],
+        record: ["信筒未能回收", "绘制排练通道镜像地图", "确认箭头为诱导标记"],
+        closing: "纸鸢把地图折成一只飞不起来的纸鸟：“路我记住了。只是这一次，腿没有跟上眼睛。”"
+      }
+    }
+  },
+  "I-7": {
+    success: {
+      kicker: "完整回收 · 账册抄录",
+      title: "灯暗下来的十七秒",
+      summary: "灰炭与墨针让机器和文字同时失去伪装，完整带回了镜棚假账。",
+      chapters: [
+        { label: "进入", title: "三条走廊只有一条会震", body: "灰炭把手掌贴在地面，从齿轮震动里找出真正通往账桌的方向。墨针背对原稿，只观察碎镜中的倒字，以免被层层反射扰乱。" },
+        { label: "配合", title: "人为制造的故障", body: "探照灯转到第三圈时，灰炭用煤楔卡住一枚磨损齿轮。灯暗了十七秒。墨针没有抬头，笔尖追着镜中的行列，把最后一个编号压进纸页。" },
+        { label: "归来", title: "错误咬合与正确账目", body: "齿轮重新咬合前，两人离开镜棚。灰炭手上多了一道烫伤，墨针的抄本却一字未缺；他们甚至把纸页重新按原样留在了桌上。" }
+      ],
+      record: ["完整抄录倒写假账", "确认笼车装卸编号", "现场未留下明显侵入痕迹"],
+      closing: "墨针把抄本递给灰炭确认。一个不识字的人和一个总在读反字的人，相互点了点头。"
+    },
+    failures: {
+      "L-4+L-5": {
+        kicker: "限时撤离 · 抄录中断",
+        title: "停住了灯，却读不懂纸",
+        summary: "灰炭和小满成功控制探照灯，却无法在短暂窗口内辨认整册倒写账目。",
+        chapters: [
+          { label: "进入", title: "用手势计算时间", body: "灰炭找到齿轮停顿，小满则站在镜廊尽头，用默剧手势为他倒数。两人配合得近乎无声，顺利抵达账桌。" },
+          { label: "受阻", title: "镜中的陌生文字", body: "账页全部倒写。灰炭不识字，小满只能逐笔临摹；她越想保证准确，十七秒就流逝得越快。灯重新亮起时，他们只抄完半行。" },
+          { label: "撤离", title: "把同伴带出光圈", body: "小满在强光里短暂僵住。灰炭放弃继续卡死齿轮，拉着她躲进机器背面。两人空手离开，但没有让任何一个人留在镜棚。" }
+        ],
+        record: ["取得半行装卸编号", "账册主体未能抄录", "两名线人安全撤离"],
+        closing: "灰炭说机器按他的想法停了下来。小满摇头，做了一个“不是你的错”的手势。"
+      },
+      "L-5+L-6": {
+        kicker: "紧急撤离 · 原件焚毁",
+        title: "最后一行消失在强光里",
+        summary: "小满与墨针解决了无声协作和倒字，却没人能延长探照灯的机械停顿。",
+        chapters: [
+          { label: "进入", title: "镜子里的手势", body: "小满站在转角，用倒影向墨针传递巡逻位置。墨针不必回头便能读懂她的动作，两人很快找到账桌与真正的账页。" },
+          { label: "失控", title: "提前转动的一圈", body: "老旧齿轮忽然跳齿，探照灯比记录中提前转回。强光让墨针右眼失焦，灯罩的热量同时点燃了摊开的纸边。" },
+          { label: "撤离", title: "先拉住一只手", body: "墨针本可以多抢下一页，却看见小满在火光前僵住。他扔下抄笔，握住她的手，用她教过的节拍把人带出镜廊。账册烧毁，只剩袖口里一串编号。" }
+        ],
+        record: ["保留一组笼车编号", "原始账册被灯火焚毁", "两名线人安全撤离"],
+        closing: "小满反复做着“对不起”。墨针把那串编号展开给她看：“纸没了，人还在。这不叫一无所获。”"
+      }
+    }
+  },
+  "I-10": {
+    success: {
+      kicker: "完整回收 · 名册封存",
+      title: "掌声掩住绞盘的声音",
+      summary: "白芷与旧弦穿过药雾和配重机关，将完整献祭名册带离主舞台。",
+      chapters: [
+        { label: "进入", title: "从冷风里选一条路", body: "白芷逐一靠近风口，从潮气中分出镇静剂近乎不可察觉的甜味。旧弦看着她的手势，封住危险风道，领她走向主绞盘下方。" },
+        { label: "协作", title: "听不见的倒数", body: "旧弦用肩背稳住会自行回落的配重，白芷在暗仓中取出名册。两人听不见彼此，也不能喊话，只凭后台手势在掌声最响时完成交接。" },
+        { label: "归来", title: "一页也没有落下", body: "幕布再次升起前，配重恢复原位。白芷把名册贴身封好，旧弦最后离开。他回望运转如常的舞台，第一次没有替它检查下一场演出。" }
+      ],
+      record: ["完整回收献祭名册", "取得持续用药的幕布样本", "未惊动台上演出"],
+      closing: "白芷数过每一页，旧弦数过每一根绳。两种完全不同的确认方式，得出了同一个答案。"
+    },
+    failures: {
+      "L-7+L-9": {
+        kicker: "紧急撤离 · 名册沉落",
+        title: "割断绳索的人",
+        summary: "白芷找到了安全风道，但鸦无法稳定老旧配重，只能在机关闭合前选择救人。",
+        chapters: [
+          { label: "进入", title: "避开甜味", body: "白芷辨出没有药雾的风道，鸦则从高处口型判断巡逻换位。两人顺利抵达暗仓，名册就在半开的配重门后。" },
+          { label: "失控", title: "配重开始回落", body: "鸦试图用绳结固定悬台，腐朽的主索却突然滑脱。门板迅速下沉，白芷仍在仓内；继续抓住名册，便来不及把她拉出来。" },
+          { label: "撤离", title: "一刀之后", body: "鸦割断承载名册的副索，用回弹的力量拖出白芷。名册随配重沉回井底，只撕下一张夹在门缝中的名单。" }
+        ],
+        record: ["抢救一页人员名单", "完整名册沉入配重井", "两名线人安全撤离"],
+        closing: "鸦盯着断绳看了很久：“我以前总说路线只值一个价。刚才那条，不一样。”"
+      },
+      "L-8+L-9": {
+        kicker: "中止调查 · 药雾侵入",
+        title: "在幕布落下以前醒来",
+        summary: "旧弦稳住了配重，鸦也找到了路线，但两人没能及时辨认混入冷风的麻醉剂。",
+        chapters: [
+          { label: "进入", title: "一条熟悉的旧路", body: "旧弦凭记忆找到主绞盘，鸦从通风口观察巡逻。他们避开所有视线，在掌声中降下通往暗仓的悬台。" },
+          { label: "异变", title: "越来越慢的手势", body: "无色药雾从侧风道灌入。旧弦先发现鸦的手势变慢，却无法判断气味来源；鸦对封闭空间的恐惧也在眩晕中迅速失控。" },
+          { label: "撤离", title: "放开名册，拉紧安全绳", body: "旧弦锁住悬台，把安全绳扣在鸦身上。他放弃近在手边的名册，靠多年前背熟的步数把两人带回通风处。" }
+        ],
+        record: ["确认名册所在暗仓", "未能取回纸质证据", "药雾暴露后安全撤离"],
+        closing: "恢复意识后，鸦发现旧弦始终攥着安全绳。老人听不清他的道谢，只确认了一遍：“人都出来了？”"
+      }
+    }
+  }
+};
 
 const state = { dayIndex: 0, mainCompleted: new Set(), sideCompleted: new Set(), infoCompleted: new Set(), taskResults: new Map(), selectedInformants: new Set(), activeTask: null, archiveInformantId: null, offsetX: 0, scale: 1, dragging: false, dragStartX: 0, dragStartOffset: 0, moved: false, pendingAction: null, toastTimer: null };
 
@@ -150,7 +273,9 @@ const archiveObservation = document.getElementById("archiveObservation");
 const archiveCaution = document.getElementById("archiveCaution");
 const archiveStageList = document.getElementById("archiveStageList");
 const dispatchBackdrop = document.getElementById("dispatchBackdrop");
+const dispatchModal = document.getElementById("dispatchModal");
 const dispatchTitle = document.getElementById("dispatchTitle");
+const dispatchSetup = document.getElementById("dispatchSetup");
 const dispatchIndex = document.getElementById("dispatchIndex");
 const dispatchImage = document.getElementById("dispatchImage");
 const dispatchQuestion = document.getElementById("dispatchQuestion");
@@ -159,11 +284,18 @@ const dispatchClues = document.getElementById("dispatchClues");
 const dispatchOptions = document.getElementById("dispatchOptions");
 const selectionHint = document.getElementById("selectionHint");
 const dispatchResult = document.getElementById("dispatchResult");
-const resultMark = document.getElementById("resultMark");
+const resultImage = document.getElementById("resultImage");
+const resultKicker = document.getElementById("resultKicker");
 const resultTitle = document.getElementById("resultTitle");
-const resultBody = document.getElementById("resultBody");
+const resultSummary = document.getElementById("resultSummary");
+const resultSeal = document.getElementById("resultSeal");
+const resultTeam = document.getElementById("resultTeam");
+const resultRecord = document.getElementById("resultRecord");
+const resultStory = document.getElementById("resultStory");
+const resultClosing = document.getElementById("resultClosing");
 const outcomeImpact = document.getElementById("outcomeImpact");
 const dispatchSubmit = document.getElementById("dispatchSubmit");
+const dispatchCancel = document.getElementById("dispatchCancel");
 const toast = document.getElementById("toast");
 const dragHint = document.getElementById("dragHint");
 
@@ -274,11 +406,7 @@ function applyDayScene(animate = false) {
   if (animate) { world.classList.remove("day-shift"); void world.offsetWidth; world.classList.add("day-shift"); }
 }
 
-function getNodeText(item) {
-  if (!item.branchFrom) return item.text;
-  const result = state.taskResults.get(item.branchFrom);
-  return result ? `${item.text}\n\n${result.success ? item.successBranch : item.failureBranch}` : item.text;
-}
+function getNodeText(item) { return item.text; }
 
 function openNode(item, kind) {
   let kicker = kind === "main" ? (item.final ? `第${item.day}日 · 收束节点` : "主线调查") : kind === "side" ? "支线调查" : item.gameplay ? "必经信息流 · 线人派遣" : "信息流 · 街区记录";
@@ -286,7 +414,7 @@ function openNode(item, kind) {
   let note = "抵达后，该节点会保留为局长当前位置；前往下一主线时才退场。";
   if (kind === "side") { action = () => visitSide(item); note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
   if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
-  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查；派遣不移动局长，结果将改变后续剧情表现。"; }
+  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查；派遣不移动局长，成败将生成不同的独立探索记录，但不改变后续主线走向。"; }
   modalKicker.textContent = kicker;
   modalTitle.textContent = `${item.id} · ${item.name}`;
   modalBody.textContent = getNodeText(item);
@@ -448,17 +576,35 @@ function toggleInformant(informantId) {
 
 function updateSelectionHint() { const required = state.activeTask.task.requiredCount; const count = state.selectedInformants.size; selectionHint.textContent = `已选择 ${count} / ${required} 人${count === required ? "，可以确认派遣" : ""}`; dispatchSubmit.disabled = count !== required; }
 
+function outcomeFor(taskId, result) {
+  const outcomeSet = dispatchOutcomes[taskId];
+  if (result.success) return outcomeSet.success;
+  const selectionKey = [...result.selected].sort().join("+");
+  return outcomeSet.failures[selectionKey];
+}
+
 function showDispatchResult(result) {
-  const task = state.activeTask.task;
+  const outcome = outcomeFor(state.activeTask.id, result);
+  const selectedPeople = result.selected.map(id => informants.find(person => person.id === id)).filter(Boolean);
+  dispatchModal.classList.add("showing-outcome");
+  dispatchModal.setAttribute("aria-labelledby", "resultTitle");
+  dispatchSetup.hidden = true;
   dispatchResult.hidden = false;
   dispatchResult.classList.toggle("failure", !result.success);
-  resultMark.textContent = result.success ? "✓" : "×";
-  resultTitle.textContent = result.success ? "情报取得" : "调查受挫";
-  resultBody.textContent = result.success ? task.success : task.failure;
-  outcomeImpact.textContent = result.success ? task.impactSuccess : task.impactFailure;
-  selectionHint.textContent = "本次调查结果已经写入后续剧情，无法重新派遣。";
-  dispatchSubmit.textContent = "已记录";
-  dispatchSubmit.disabled = true;
+  resultImage.src = state.activeTask.task.image;
+  resultImage.alt = `${state.activeTask.name.replace("线人派遣·", "")}·${result.success ? "成功" : "失败"}结果场景`;
+  resultKicker.textContent = `${state.activeTask.id} · ${outcome.kicker}`;
+  resultTitle.textContent = outcome.title;
+  resultSummary.textContent = outcome.summary;
+  resultSeal.textContent = result.success ? "调查完成" : "撤离记录";
+  resultTeam.innerHTML = selectedPeople.map(person => `<article class="outcome-person"><img src="${person.portrait}" alt="${person.name}" /><span><strong>${person.name}</strong><small>${person.trait}</small></span></article>`).join("");
+  resultRecord.innerHTML = outcome.record.map(item => `<li>${item}</li>`).join("");
+  resultStory.innerHTML = outcome.chapters.map((chapter, index) => `<article class="outcome-chapter"><span>${String(index + 1).padStart(2, "0")} · ${chapter.label}</span><h4>${chapter.title}</h4><p>${chapter.body}</p></article>`).join("");
+  resultClosing.textContent = outcome.closing;
+  outcomeImpact.textContent = "本次派遣结果不会改变后续主线走向；选择、代价与线人的临场表现将作为本次探索的独立经历留存。";
+  dispatchSubmit.hidden = true;
+  dispatchCancel.textContent = "结束记录 · 返回地图";
+  window.setTimeout(() => resultTitle.focus(), 0);
 }
 
 function openDispatch(item) {
@@ -472,17 +618,23 @@ function openDispatch(item) {
   dispatchQuestion.textContent = item.task.question;
   dispatchRule.textContent = item.task.rule;
   dispatchClues.innerHTML = item.task.clues.map(clue => `<li>${clue}</li>`).join("");
+  dispatchModal.classList.remove("showing-outcome");
+  dispatchModal.setAttribute("aria-labelledby", "dispatchTitle");
+  dispatchSetup.hidden = false;
   dispatchResult.hidden = true;
   dispatchResult.classList.remove("failure");
+  dispatchSubmit.hidden = false;
   dispatchSubmit.textContent = "确认派遣";
+  dispatchCancel.textContent = "返回地图";
   renderDispatchOptions(Boolean(result));
-  if (result) showDispatchResult(result); else updateSelectionHint();
   dispatchBackdrop.hidden = false;
-  document.getElementById("dispatchClose").focus();
+  if (result) showDispatchResult(result);
+  else { updateSelectionHint(); document.getElementById("dispatchClose").focus(); }
 }
 
 function closeDispatch() {
   dispatchBackdrop.hidden = true;
+  dispatchModal.classList.remove("showing-outcome");
   state.activeTask = null;
   state.selectedInformants.clear();
 }
@@ -499,9 +651,8 @@ function submitDispatch() {
   state.taskResults.set(taskItem.id, result);
   state.infoCompleted.add(taskItem.id);
   renderNodes();
-  renderDispatchOptions(true);
   showDispatchResult(result);
-  showToast(`${taskItem.id} ${success ? "取得关键情报" : "调查受挫"} · 后续剧情已改变`);
+  showToast(`${taskItem.id} ${success ? "调查完成" : "安全撤离"} · 独立探索记录已封存`);
 }
 
 function showToast(message) { window.clearTimeout(state.toastTimer); toast.textContent = message; toast.classList.add("show"); state.toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3600); }
@@ -517,8 +668,15 @@ function resize() { state.scale = getScale(); state.offsetX = cameraOffsetFor(cu
 
 function validateConfig() {
   infoNodes.filter(info => info.gameplay).forEach(info => {
-    const available = new Set(informants.filter(person => person.day === info.day && Number(person.joinAt) <= Number(info.unlockAfter)).map(person => person.id));
-    if (info.task.solution.length !== info.task.requiredCount || info.task.solution.some(id => !available.has(id))) throw new Error(`${info.id} 的解题线人在玩法解锁时尚未加入本日调查`);
+    const available = informants.filter(person => person.day === info.day && Number(person.joinAt) <= Number(info.unlockAfter)).map(person => person.id);
+    const availableSet = new Set(available);
+    if (info.task.solution.length !== info.task.requiredCount || info.task.solution.some(id => !availableSet.has(id))) throw new Error(`${info.id} 的解题线人在玩法解锁时尚未加入本日调查`);
+    const solutionKey = [...info.task.solution].sort().join("+");
+    const possibleKeys = info.task.requiredCount === 1
+      ? available
+      : available.flatMap((first, index) => available.slice(index + 1).map(second => [first, second].sort().join("+")));
+    const missingStories = possibleKeys.filter(key => key !== solutionKey && !dispatchOutcomes[info.id]?.failures[key]);
+    if (!dispatchOutcomes[info.id]?.success || missingStories.length) throw new Error(`${info.id} 缺少派遣结果故事：${missingStories.join("、")}`);
   });
 }
 

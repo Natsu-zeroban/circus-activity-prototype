@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260911-2">
+  <link rel="stylesheet" href="styles.css?v=20260911-3">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -138,7 +138,7 @@
     </div>
 
     <div class="modal-backdrop dispatch-backdrop" id="dispatchBackdrop" hidden>
-      <section class="dispatch-modal" role="dialog" aria-modal="true" aria-labelledby="dispatchTitle">
+      <section class="dispatch-modal" id="dispatchModal" role="dialog" aria-modal="true" aria-labelledby="dispatchTitle">
         <button class="modal-close light" id="dispatchClose" type="button" aria-label="关闭派遣玩法">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
         </button>
@@ -149,27 +149,48 @@
           </div>
           <span class="attempt-tag">仅可挑战 1 次</span>
         </div>
-        <div class="task-brief">
-          <span id="dispatchIndex">委托 I-3</span>
-          <figure class="event-visual">
-            <img id="dispatchImage" alt="" />
-            <figcaption>现场影像 · 请结合画面与记录判断</figcaption>
-          </figure>
-          <p id="dispatchQuestion"></p>
-          <strong id="dispatchRule"></strong>
-          <div class="scene-records">
-            <span>现场记录</span>
-            <ul id="dispatchClues"></ul>
+        <div class="dispatch-setup" id="dispatchSetup">
+          <div class="task-brief">
+            <span id="dispatchIndex">委托 I-3</span>
+            <figure class="event-visual">
+              <img id="dispatchImage" alt="" />
+              <figcaption>现场影像 · 请结合画面与记录判断</figcaption>
+            </figure>
+            <p id="dispatchQuestion"></p>
+            <strong id="dispatchRule"></strong>
+            <div class="scene-records">
+              <span>现场记录</span>
+              <ul id="dispatchClues"></ul>
+            </div>
           </div>
+          <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣线人"></div>
+          <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
         </div>
-        <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣线人"></div>
-        <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
-        <section class="dispatch-result" id="dispatchResult" hidden aria-live="polite">
-          <span class="result-mark" id="resultMark" aria-hidden="true"></span>
-          <div>
-            <h3 id="resultTitle"></h3>
-            <p id="resultBody"></p>
-            <p class="outcome-impact" id="outcomeImpact"></p>
+        <section class="dispatch-result outcome-screen" id="dispatchResult" hidden aria-live="polite">
+          <figure class="outcome-hero">
+            <img id="resultImage" alt="" />
+            <div class="outcome-hero-copy">
+              <span class="outcome-kicker" id="resultKicker"></span>
+              <h3 id="resultTitle" tabindex="-1"></h3>
+              <p id="resultSummary"></p>
+            </div>
+            <span class="outcome-seal" id="resultSeal"></span>
+          </figure>
+          <div class="outcome-content">
+            <aside class="outcome-team">
+              <span class="outcome-section-label">本次派遣</span>
+              <div class="outcome-portraits" id="resultTeam"></div>
+              <div class="outcome-record">
+                <span>调查记录</span>
+                <ul id="resultRecord"></ul>
+              </div>
+            </aside>
+            <div class="outcome-story" id="resultStory"></div>
+          </div>
+          <blockquote class="outcome-closing" id="resultClosing"></blockquote>
+          <div class="outcome-continuity">
+            <span>独立探索记录</span>
+            <p id="outcomeImpact">本次派遣结果不会改变后续主线走向；选择与代价将作为本次探索的独立经历留存。</p>
           </div>
         </section>
         <div class="dispatch-actions">
@@ -180,6 +201,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260911-2"></script>
+  <script src="app.js?v=20260911-3"></script>
 </body>
 </html>
