@@ -118,38 +118,41 @@ const dispatchOutcomes = {
       kicker: "完整回收 · 无人暴露",
       title: "墙后传来的第四声回响",
       summary: "铃独自穿过排练通道，在没有触动警报的情况下取回完整信筒。",
-      chapters: [
-        { label: "进入", title: "不看箭头", body: "铃在第一处分岔便停了下来。她闭上眼，只听幕布后一次次折返的敲击声。墙上的粉笔箭头指向左侧，她却沿着更空、更远的回响走向右边。" },
-        { label: "判断", title: "借一阵噪声前进", body: "细铃封住最后一段路。远处齿轮每隔十七秒发出一阵低鸣，铃便只在噪声覆盖铃舌时移动。她用三次轻敲确认夹层，第四声回响来自墙内。" },
-        { label: "归来", title: "信筒还带着墙灰", body: "巡逻灯扫过通道时，她已经把松动的砖推回原位。铃回到巷口，将沾着墙灰的信筒交给局长，随后准确复述了沿途每一处铃线的位置。" }
+      story: [
+        "铃独自走进排练通道时，墙上的三支粉笔箭头正分别指向三条岔路。水滴从砖缝落下，敲在铁皮、木板和积水里，三个方向都像有人藏在深处回话。她没有跟随任何一支箭，只把眼睛闭上，让每一次回声在脑中走完自己的路。最左边的声音被幕布吃掉，正中的声音贴着地面滚回来，只有右侧的回响越过了两面墙——那里才有藏得住信筒的夹层。",
+        "最后一段窄路被细线缝得像一张网，每根线上都挂着只有指甲大小的铜铃。铃刚抬起脚，远处忽然传来一声尖锐的试音。她的肩膀猛地绷紧，钟表铺被砸毁那晚的碎裂声几乎同时回到耳边。她停在两根铃线之间，没有勉强自己忘掉恐惧，而是等着后台齿轮下一次低鸣。十七秒后，机器的轰响盖住铃舌可能发出的轻颤，她随那阵噪声跨出一步；再等十七秒，又跨出一步。",
+        "夹墙前没有锁，也没有记号。铃用指节依次敲过四块砖：前三声都从眼前弹回，第四声却在墙腹里多走了一段。她推开松动的砖，取出仍带着药蜡气味的黄铜信筒。巡逻灯从幕布另一边扫来时，她已经将砖推回原位，沿着刚才记住的节拍退了出去。",
+        "她回到巷口，没有先说成功，只把每一处岔路、每一根铃线和那道巡逻灯的间隔完整复述了一遍，最后才把沾着墙灰的信筒放进局长手里。直到确认没有人跟上来，她紧攥的手指才一点点松开。"
       ],
-      record: ["回收完整密封信筒", "确认三条巡逻暗道", "线人未被敌方察觉"],
+      cg: "assets/events/outcomes/i3-success-l2.webp",
       closing: "铃把耳朵贴在信筒上，确认里面没有机关，才轻声说：“这一次，响声没有把我留在原地。”"
     },
     failures: {
       "L-1": {
         kicker: "有限撤离 · 目标遗失",
         title: "煤烟盖不住铃声",
-        summary: "苔生找到了信筒留下的药蜡气味，却无法从回声中辨认真正的夹墙。",
-        chapters: [
-          { label: "进入", title: "循着甜苦味", body: "苔生没有理会箭头。他在潮湿砖缝间闻到熟悉的药蜡味，判断信筒确实经过这里，于是沿着气味最浓的岔路俯身前行。" },
-          { label: "失误", title: "脚边的一声轻响", body: "气味停在两面相似的墙前。苔生选择更靠近药味的一面，却没听出另一侧的空腔。他后退时碰到贴地铃线，第一枚铃只响了半声，整条通道便同时回应。" },
-          { label: "撤离", title: "攥在手里的红线", body: "巡逻灯亮起前，苔生钻进排水口逃出。他没能带回信筒，却死死攥着一截沾有封蜡的红线——至少证明目标曾被人提前转移。" }
+        summary: "苔生循着封蜡留下的药味找到了目标，却在真假夹墙前惊动了整条铃线。",
+        story: [
+          "苔生蹲在第一处分岔，把三面墙上的潮气分别抹在指尖。煤烟、霉布和劣质颜料混成一股呛人的味道，其中却藏着一点诊所药蜡特有的甜苦。他沿气味最清楚的右墙往里走，甚至在砖缝里找到一小块新鲜蜡屑——信筒的确从这里经过，他的判断没有错。",
+          "药味最终停在两面几乎相同的夹墙前。有人故意把封蜡擦在假墙上，又让通风口把气味送向另一边。苔生能确认目标就在附近，却无法像铃那样听出哪面墙后是空的。他贴近砖缝寻找第二处蜡痕，浓烈的舞台香粉突然从暗孔喷出，眩晕让他下意识后退了半步。鞋跟擦过贴地细线，第一只铜铃只响了半声，整条通道便像被唤醒一样接连作响。",
+          "巡逻灯在幕布后亮起。苔生伸手时已经碰到信筒冰冷的金属边缘，但靴声也正从两端逼近。他最终松开信筒，扯下一截缠在墙角的红线，钻进来时留意过的排水口。污水漫过肩膀，铃声仍从身后一路追来。",
+          "他回到局长面前时一直攥着拳。掌心摊开，里面不是目标，只有一截沾着药蜡的红线和被勒出的血痕。那点残留足以证明信筒曾被转移，却不足以弥补它还留在墙后的事实。"
         ],
-        record: ["信筒未能回收", "带回封蜡残留与红线", "线人安全撤离"],
-        closing: "苔生一直低着头。他没有为失败辩解，只问局长能不能把那截红线也装进证物袋。"
+        cg: "assets/events/outcomes/i3-failure-l1.webp",
+        closing: "苔生没有为失败辩解，只问局长：“这截红线，也算证物吗？”"
       },
       "L-3": {
         kicker: "有限撤离 · 目标遗失",
         title: "镜字停在墙的另一边",
-        summary: "纸鸢识破了假箭头，却因旧伤和铃线封锁无法抵达藏有信筒的夹墙。",
-        chapters: [
-          { label: "进入", title: "倒过来看", body: "纸鸢很快发现，墙上箭头只有映在积水里才组成完整记号。他照着镜像路线前进，并把每个转角画在袖中的纸片上。" },
-          { label: "受阻", title: "越不过的低线", body: "最后一条通道的铃线贴着地面交错拉紧。纸鸢的旧伤无法支撑连续跨越，他尝试从墙边绕行，鞋底却擦响了最外侧的铜铃。" },
-          { label: "撤离", title: "一张没有终点的地图", body: "他在巡逻抵达前翻上废弃布景架，从高处离开。信筒没能取回，但那张画满镜像岔路的纸片，为下一次搜索保留了不会再错的入口。" }
+        summary: "纸鸢识破了假箭头，却因旧伤无法越过封死窄路的铃线。",
+        story: [
+          "纸鸢在第一支箭头前只看了一眼，便低头去看脚边的积水。倒影里的箭头没有彼此冲突，反而首尾相接，组成了旧剧院提词人使用的镜写记号。他一边前进，一边把每个转角倒着画在纸上；那些用来误导普通闯入者的标记，对他而言恰好是一张现成的地图。",
+          "地图把他带到信筒所在的夹墙前，也把真正的困难完整摆在眼前。十几根细铃线从脚踝一路交错到膝盖，没有足够宽的落脚点，只能连续跨越。纸鸢试着把重量压向右腿，受过伤的左膝却在第二次抬起时猛地一软。他抓住墙上的旧布景架，锈蚀的木条随即发出一声裂响，鞋尖也擦动了最外侧的铜铃。",
+          "巡逻灯从远处转来，黄铜信筒就在三步之外。纸鸢把刚画好的路线咬在齿间，借布景架爬上废弃的灯桥。如果继续向前，他也许还能碰到信筒，却一定来不及带着它离开。他没有用一条伤腿赌掉整张地图，而是在灯光封住出口前翻过高墙。",
+          "纸上的路线没有最后三步，却完整标出了所有假箭头与巡逻入口。纸鸢把它折成一只纸鸟，折到一半又停住——缺少终点的地图飞不起来，但至少下一次，不会再有人把时间浪费在错误的方向。"
         ],
-        record: ["信筒未能回收", "绘制排练通道镜像地图", "确认箭头为诱导标记"],
-        closing: "纸鸢把地图折成一只飞不起来的纸鸟：“路我记住了。只是这一次，腿没有跟上眼睛。”"
+        cg: "assets/events/outcomes/i3-failure-l3.webp",
+        closing: "纸鸢按住仍在发抖的左膝：“路我记住了。只是这一次，腿没有跟上眼睛。”"
       }
     }
   },
@@ -158,12 +161,13 @@ const dispatchOutcomes = {
       kicker: "完整回收 · 账册抄录",
       title: "灯暗下来的十七秒",
       summary: "灰炭与墨针让机器和文字同时失去伪装，完整带回了镜棚假账。",
-      chapters: [
-        { label: "进入", title: "三条走廊只有一条会震", body: "灰炭把手掌贴在地面，从齿轮震动里找出真正通往账桌的方向。墨针背对原稿，只观察碎镜中的倒字，以免被层层反射扰乱。" },
-        { label: "配合", title: "人为制造的故障", body: "探照灯转到第三圈时，灰炭用煤楔卡住一枚磨损齿轮。灯暗了十七秒。墨针没有抬头，笔尖追着镜中的行列，把最后一个编号压进纸页。" },
-        { label: "归来", title: "错误咬合与正确账目", body: "齿轮重新咬合前，两人离开镜棚。灰炭手上多了一道烫伤，墨针的抄本却一字未缺；他们甚至把纸页重新按原样留在了桌上。" }
+      story: [
+        "镜棚里每一面镜子都映出一条走廊，入口因此从一个变成了十几个。灰炭没有去分辨影像，而是跪下来，把沾着煤灰的手掌贴在地板上。真正连着探照灯机座的那条路，每隔三圈便会传来一次极轻的跳齿。墨针跟在他身后，始终只看脚边一块破镜里的倒影；在别人眼中颠倒的账页，于他反而是唯一没有撒谎的东西。",
+        "两人抵达账桌时，探照灯刚刚扫过第二圈。墨针铺开纸，笔尖追着镜中的行列飞快移动。第三圈将尽，齿轮却没有按记录停下——磨损的轮齿正试图强行咬合。灰炭听见机壳里那声不对劲的摩擦，立刻把扳手插进齿隙，用整个身体压住回弹。金属的热度隔着手套烫进掌心，探照灯终于熄灭了十七秒。",
+        "黑暗里，墨针没有询问，也没有回头。他听见扳手被一点点顶弯的声音，便知道灰炭还能为他争取多久。最后一串装卸编号落到纸上时，他用指节敲了一下桌沿；灰炭松手，两人同时离开。灯光重新劈开镜棚，只照见恢复原状的账册和一枚留在齿轮里的煤楔。",
+        "巷口的微光下，灰炭的掌心起了一片水泡。墨针把抄本放在他看不懂的数字旁，逐个念出笼车编号。一个只相信机器留下的磨痕，一个只相信文字藏住的错版，终于从两种证据里听见了同一个答案。"
       ],
-      record: ["完整抄录倒写假账", "确认笼车装卸编号", "现场未留下明显侵入痕迹"],
+      cg: "assets/events/outcomes/i7-success-l4-l6.webp",
       closing: "墨针把抄本递给灰炭确认。一个不识字的人和一个总在读反字的人，相互点了点头。"
     },
     failures: {
@@ -171,24 +175,26 @@ const dispatchOutcomes = {
         kicker: "限时撤离 · 抄录中断",
         title: "停住了灯，却读不懂纸",
         summary: "灰炭和小满成功控制探照灯，却无法在短暂窗口内辨认整册倒写账目。",
-        chapters: [
-          { label: "进入", title: "用手势计算时间", body: "灰炭找到齿轮停顿，小满则站在镜廊尽头，用默剧手势为他倒数。两人配合得近乎无声，顺利抵达账桌。" },
-          { label: "受阻", title: "镜中的陌生文字", body: "账页全部倒写。灰炭不识字，小满只能逐笔临摹；她越想保证准确，十七秒就流逝得越快。灯重新亮起时，他们只抄完半行。" },
-          { label: "撤离", title: "把同伴带出光圈", body: "小满在强光里短暂僵住。灰炭放弃继续卡死齿轮，拉着她躲进机器背面。两人空手离开，但没有让任何一个人留在镜棚。" }
+        story: [
+          "灰炭从地板的震动里找到真正的走廊，小满则站在镜廊尽头，用默剧班的手势替他报出探照灯转过的圈数。一个负责听机器，一个负责让消息穿过所有倒影，他们没有说一句话便抵达了账桌。",
+          "难题直到墨黑的账页摊开才显露出来。所有数字和名字都被倒着书写，灰炭不识字，小满也只能把它们当作陌生图形逐笔临摹。她越想画准，手势里的倒数就越逼近最后一拍。灰炭听得懂齿轮何时会停，却无法告诉她哪一行才是需要带走的证据。",
+          "探照灯亮起时，小满只抄完半行。过热的灯罩把桌边烤出一簇火苗，她的手停在纸上，像又回到默剧帐篷被烧毁的那一晚。灰炭原本还能再卡一次齿轮，但他没有走向机器，而是冲进光圈握住小满的手腕，用她刚教过的“撤退”手势在她掌心重重划了两遍。",
+          "他们躲进机座背后，等光束转开才离开。那半行号码不足以揭开整本假账，却指向了一辆从未登记的笼车。证据残缺，任务没有完成；但两个人都从那道重新亮起的光里走了出来。"
         ],
-        record: ["取得半行装卸编号", "账册主体未能抄录", "两名线人安全撤离"],
+        cg: "assets/events/outcomes/i7-failure-l4-l5.webp",
         closing: "灰炭说机器按他的想法停了下来。小满摇头，做了一个“不是你的错”的手势。"
       },
       "L-5+L-6": {
         kicker: "紧急撤离 · 原件焚毁",
         title: "最后一行消失在强光里",
         summary: "小满与墨针解决了无声协作和倒字，却没人能延长探照灯的机械停顿。",
-        chapters: [
-          { label: "进入", title: "镜子里的手势", body: "小满站在转角，用倒影向墨针传递巡逻位置。墨针不必回头便能读懂她的动作，两人很快找到账桌与真正的账页。" },
-          { label: "失控", title: "提前转动的一圈", body: "老旧齿轮忽然跳齿，探照灯比记录中提前转回。强光让墨针右眼失焦，灯罩的热量同时点燃了摊开的纸边。" },
-          { label: "撤离", title: "先拉住一只手", body: "墨针本可以多抢下一页，却看见小满在火光前僵住。他扔下抄笔，握住她的手，用她教过的节拍把人带出镜廊。账册烧毁，只剩袖口里一串编号。" }
+        story: [
+          "小满站在镜廊的转角，让自己的手势在十几块镜面之间接力。墨针不必回头，只看碎镜里那双不断变换的手，便绕开了巡逻视线。到了账桌前，他甚至无需翻转纸页，倒写的名字在他眼里和印刷铺的铅字一样自然。",
+          "探照灯本应在第三圈停下，老旧齿轮却突然跳过一个缺口，光束提前劈回桌面。强光刺进墨针受过伤的右眼，纸上的字瞬间化成一片白斑；紧接着，灯罩的热量点燃了账页边缘。小满看见火苗沿纸张爬起，原本清晰的撤退手势骤然停在半空。",
+          "墨针的左眼还看得见。只要再俯身一次，他就能从火里抢出另一页；但镜中所有小满都僵在同一个姿势里。他扔下抄笔，走进光束，用沾满油墨的手握住她的手，照她教过的节拍一下一下收拢手指。那不是催促，而是默剧班表示“跟着我”的旧暗号。",
+          "两人离开时，整本假账正在镜子里烧成无数份。墨针的袖口只来得及藏下一串编号，那是他们从这场选择里保住的全部证据。"
         ],
-        record: ["保留一组笼车编号", "原始账册被灯火焚毁", "两名线人安全撤离"],
+        cg: "assets/events/outcomes/i7-failure-l5-l6.webp",
         closing: "小满反复做着“对不起”。墨针把那串编号展开给她看：“纸没了，人还在。这不叫一无所获。”"
       }
     }
@@ -198,12 +204,13 @@ const dispatchOutcomes = {
       kicker: "完整回收 · 名册封存",
       title: "掌声掩住绞盘的声音",
       summary: "白芷与旧弦穿过药雾和配重机关，将完整献祭名册带离主舞台。",
-      chapters: [
-        { label: "进入", title: "从冷风里选一条路", body: "白芷逐一靠近风口，从潮气中分出镇静剂近乎不可察觉的甜味。旧弦看着她的手势，封住危险风道，领她走向主绞盘下方。" },
-        { label: "协作", title: "听不见的倒数", body: "旧弦用肩背稳住会自行回落的配重，白芷在暗仓中取出名册。两人听不见彼此，也不能喊话，只凭后台手势在掌声最响时完成交接。" },
-        { label: "归来", title: "一页也没有落下", body: "幕布再次升起前，配重恢复原位。白芷把名册贴身封好，旧弦最后离开。他回望运转如常的舞台，第一次没有替它检查下一场演出。" }
+      story: [
+        "主舞台上方正在进行终场彩排，掌声和笑声一次次压进地下机关室。白芷依次靠近三道风口，从铁锈、潮气与舞台香粉里分出一丝近乎不可察觉的甜味。她向旧弦比出“药雾”的手势，又指向最左侧的风道。旧弦听不清头顶的动静，却认得这套自己教给无数后台工人的动作；他封住危险风管，带她走向主绞盘。",
+        "名册锁在悬台下方，任何人一旦松手，成吨配重都会在数秒内把暗仓重新吞没。旧弦摸过钢索的震动，知道它比旧图上多挂了两块铅砣。他没有强行扳动手柄，而是把安全绳绕过肩背，用自己的重量替悬台补上缺失的平衡。白芷沿绳滑入暗仓，药雾就在她头顶另一根管道里流动。",
+        "幕布即将升起，齿轮开始把旧弦一点点拖向配重井。两人不能喊话，他也听不见倒数。白芷抱紧名册，在台上掌声最响的一刻拉动绳结；旧弦看见信号，松开副锁，让她随悬台最后一次回弹跃出暗仓。钢索擦过他的旧伤，血落在木板上，名册却一页不少。",
+        "离开前，旧弦回头看了一眼仍在自行运转的主绞盘。十二年来，他每次经过这里都会下意识检查下一场演出是否顺利。只有这一次，他把一枚铁楔砸进齿轮，让整套机器彻底停下，然后跟着白芷走向出口。"
       ],
-      record: ["完整回收献祭名册", "取得持续用药的幕布样本", "未惊动台上演出"],
+      cg: "assets/events/outcomes/i10-success-l7-l8.webp",
       closing: "白芷数过每一页，旧弦数过每一根绳。两种完全不同的确认方式，得出了同一个答案。"
     },
     failures: {
@@ -211,24 +218,26 @@ const dispatchOutcomes = {
         kicker: "紧急撤离 · 名册沉落",
         title: "割断绳索的人",
         summary: "白芷找到了安全风道，但鸦无法稳定老旧配重，只能在机关闭合前选择救人。",
-        chapters: [
-          { label: "进入", title: "避开甜味", body: "白芷辨出没有药雾的风道，鸦则从高处口型判断巡逻换位。两人顺利抵达暗仓，名册就在半开的配重门后。" },
-          { label: "失控", title: "配重开始回落", body: "鸦试图用绳结固定悬台，腐朽的主索却突然滑脱。门板迅速下沉，白芷仍在仓内；继续抓住名册，便来不及把她拉出来。" },
-          { label: "撤离", title: "一刀之后", body: "鸦割断承载名册的副索，用回弹的力量拖出白芷。名册随配重沉回井底，只撕下一张夹在门缝中的名单。" }
+        story: [
+          "白芷从冷风里辨出没有麻醉剂的通道，鸦则趴在高处的检修缝后，读出两名巡逻者交谈时的口型。他们避开药雾与视线，顺利抵达配重井。半开的暗仓门后，献祭名册用细链锁在悬台中央，只要把悬台再升高半尺，白芷便能将它完整取出。",
+          "鸦照着旧图打结，却不知道那根主索内部已经锈空。白芷刚踏进暗仓，绳索便从滑轮上猛地脱落，配重带着门板向下砸去。鸦扑过去抓住副索，掌心立刻被勒出血。他能继续拽住名册，也能借副索回弹把白芷拖出门缝，却不可能同时做到两件事。",
+          "过去的鸦会先问哪样东西更值钱。这一次，他甚至没有回头看名册。他拔刀割断承载书箱的绳索，骤然释放的力量把白芷从暗仓里拽了出来。厚重名册翻开着坠入井底，纸页像一群白鸟在黑暗中散开；白芷只来得及从门缝扯下一张名单。",
+          "回到地面后，鸦反复擦拭那把割过绳子的刀。那一页纸证明暗仓里确有名单，却无法替代沉下去的全部名字。他知道自己让最重要的证据从手边消失，也知道如果再来一次，自己仍会先割断同一根绳。"
         ],
-        record: ["抢救一页人员名单", "完整名册沉入配重井", "两名线人安全撤离"],
+        cg: "assets/events/outcomes/i10-failure-l7-l9.webp",
         closing: "鸦盯着断绳看了很久：“我以前总说路线只值一个价。刚才那条，不一样。”"
       },
       "L-8+L-9": {
         kicker: "中止调查 · 药雾侵入",
         title: "在幕布落下以前醒来",
         summary: "旧弦稳住了配重，鸦也找到了路线，但两人没能及时辨认混入冷风的麻醉剂。",
-        chapters: [
-          { label: "进入", title: "一条熟悉的旧路", body: "旧弦凭记忆找到主绞盘，鸦从通风口观察巡逻。他们避开所有视线，在掌声中降下通往暗仓的悬台。" },
-          { label: "异变", title: "越来越慢的手势", body: "无色药雾从侧风道灌入。旧弦先发现鸦的手势变慢，却无法判断气味来源；鸦对封闭空间的恐惧也在眩晕中迅速失控。" },
-          { label: "撤离", title: "放开名册，拉紧安全绳", body: "旧弦锁住悬台，把安全绳扣在鸦身上。他放弃近在手边的名册，靠多年前背熟的步数把两人带回通风处。" }
+        story: [
+          "旧弦凭记忆找到主绞盘，鸦从通风口读出巡逻者的口型。一个知道每根绳会通向哪里，一个知道什么时候不会有人回头，他们在掌声里降下悬台，连守在舞台侧幕的人都没有察觉。名册就在暗仓深处，距离他们只剩一条狭窄风道。",
+          "无色药雾从侧管悄悄灌入。旧弦闻不出其中的甜味，只看见鸦传来的手势越来越慢。狭窄风道本就像一口横放的棺材，眩晕又放大了鸦对封闭空间的恐惧；他开始分不清身后的出口和面前的暗仓，手指死死扣住铁网，连呼吸都被卡在喉咙里。",
+          "旧弦看不见毒雾，也听不见鸦急促的喘息，却认出了那双手不再是在传递情报，而是在求救。他锁死悬台，把安全绳扣在鸦腰间，放弃了伸手就能碰到的名册。药雾让视野逐渐发黑，他便闭上眼，按照十二年前每天检修时背熟的步数向后爬：七步到弯管，十一步到梯井，再拉三次绳。",
+          "通风口外，鸦恢复意识时，旧弦还保持着拉绳的姿势。名册没有带出来，他们只确认了暗仓的位置；那块沾着药雾的布，成了这次行动唯一能够封存的证物。"
         ],
-        record: ["确认名册所在暗仓", "未能取回纸质证据", "药雾暴露后安全撤离"],
+        cg: "assets/events/outcomes/i10-failure-l8-l9.webp",
         closing: "恢复意识后，鸦发现旧弦始终攥着安全绳。老人听不清他的道谢，只确认了一遍：“人都出来了？”"
       }
     }
@@ -284,6 +293,7 @@ const dispatchClues = document.getElementById("dispatchClues");
 const dispatchOptions = document.getElementById("dispatchOptions");
 const selectionHint = document.getElementById("selectionHint");
 const dispatchResult = document.getElementById("dispatchResult");
+const resultPromptImage = document.getElementById("resultPromptImage");
 const resultImage = document.getElementById("resultImage");
 const resultKicker = document.getElementById("resultKicker");
 const resultTitle = document.getElementById("resultTitle");
@@ -293,12 +303,8 @@ const resultQuestion = document.getElementById("resultQuestion");
 const resultClues = document.getElementById("resultClues");
 const resultTeam = document.getElementById("resultTeam");
 const resultChoice = document.getElementById("resultChoice");
-const resultRecord = document.getElementById("resultRecord");
 const resultStory = document.getElementById("resultStory");
 const resultClosing = document.getElementById("resultClosing");
-const resultVisualStatus = document.getElementById("resultVisualStatus");
-const resultVisualTitle = document.getElementById("resultVisualTitle");
-const resultImageTeam = document.getElementById("resultImageTeam");
 const outcomeImpact = document.getElementById("outcomeImpact");
 const dispatchSubmit = document.getElementById("dispatchSubmit");
 const dispatchCancel = document.getElementById("dispatchCancel");
@@ -597,8 +603,10 @@ function showDispatchResult(result) {
   dispatchSetup.hidden = true;
   dispatchResult.hidden = false;
   dispatchResult.classList.toggle("failure", !result.success);
-  resultImage.src = state.activeTask.task.image;
-  resultImage.alt = `${state.activeTask.name.replace("线人派遣·", "")}·${result.success ? "成功" : "失败"}结果场景`;
+  resultPromptImage.src = state.activeTask.task.image;
+  resultPromptImage.alt = `${state.activeTask.name.replace("线人派遣·", "")}行动前的现场`;
+  resultImage.src = outcome.cg;
+  resultImage.alt = `${outcome.title}，${result.success ? "线人解决难题" : "线人为代价做出取舍"}的事件结局CG`;
   resultKicker.textContent = `${state.activeTask.id} · ${outcome.kicker}`;
   resultTitle.textContent = outcome.title;
   resultSummary.textContent = outcome.summary;
@@ -607,15 +615,11 @@ function showDispatchResult(result) {
   resultClues.innerHTML = state.activeTask.task.clues.map(clue => `<span>${clue}</span>`).join("");
   resultTeam.innerHTML = selectedPeople.map(person => `<article class="outcome-person"><img src="${person.portrait}" alt="${person.name}" /><div><strong>${person.name}</strong><small>${person.trait}</small><p>${person.observation}</p><em>行动局限：${person.caution}</em></div></article>`).join("");
   const selectedNames = selectedPeople.map(person => person.name).join("与");
-  const abilitySummary = selectedPeople.map(person => `${person.name}擅长${person.trait}`).join("，");
-  resultChoice.textContent = `你最终将任务交给${selectedNames}。${abilitySummary}；题干中的机关将直接检验这项判断。`;
-  resultStory.innerHTML = outcome.chapters.map(chapter => `<section class="outcome-chapter"><span>${chapter.label}</span><h4>${chapter.title}</h4><p>${chapter.body}</p></section>`).join("");
+  const abilitySummary = selectedPeople.map(person => `${person.name}熟悉${person.trait}`).join("，");
+  resultChoice.textContent = `局长最终把这次行动交给${selectedNames}。${abilitySummary}，但现场不会只考验擅长之处。`;
+  resultStory.innerHTML = outcome.story.map(paragraph => `<p>${paragraph}</p>`).join("");
   resultClosing.textContent = outcome.closing;
-  resultVisualStatus.textContent = result.success ? "成功解决" : "未能解决";
-  resultVisualTitle.textContent = outcome.title;
-  resultRecord.textContent = outcome.record.join(" · ");
-  resultImageTeam.innerHTML = selectedPeople.map(person => `<img src="${person.portrait}" alt="" />`).join("");
-  outcomeImpact.textContent = "本次派遣结果不会改变后续主线走向；选择、代价与线人的临场表现将作为本次探索的独立经历留存。";
+  outcomeImpact.textContent = "这段经历不会改变后续主线的既定去向，但这次选择带回了什么、失去了什么，以及线人在危险中成为了怎样的人，都会作为独立的探索故事留存。";
   dispatchSubmit.hidden = true;
   dispatchCancel.textContent = "结束记录 · 返回地图";
   window.setTimeout(() => resultTitle.focus(), 0);

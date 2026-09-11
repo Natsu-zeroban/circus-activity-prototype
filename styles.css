@@ -573,14 +573,19 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 .outcome-kicker { display: block; margin-bottom: 10px; color: #8fd4bd; font-size: 12px; font-weight: 700; letter-spacing: .18em; }
 .dispatch-result.failure .outcome-kicker { color: #df9388; }
 .outcome-heading h3 { margin: 0 0 10px; color: #fff2d5; font: 700 34px/1.2 Georgia, "Microsoft YaHei", serif; letter-spacing: .05em; }
+.outcome-heading h3:focus { outline: none; }
 .outcome-heading p { margin: 0; max-width: 660px; color: #cfc6b7; font-size: 15px; line-height: 1.72; }
 .outcome-seal { position: absolute; right: 0; top: 3px; min-width: 98px; padding: 8px 10px; color: #bfe7d8; border: 1px solid rgba(130,205,181,.68); background: rgba(21,70,59,.54); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-align: center; transform: rotate(2deg); }
 .dispatch-result.failure .outcome-seal { color: #efb0a8; border-color: rgba(219,116,106,.68); background: rgba(91,32,34,.58); transform: rotate(-2deg); }
 .outcome-section-label { display: block; color: #d8b86f; font-size: 10px; font-weight: 700; letter-spacing: .2em; }
-.outcome-recap { margin: 24px 0 0; padding: 20px 24px; border-left: 3px solid #7daeb3; background: linear-gradient(90deg, rgba(52,78,82,.24), rgba(24,29,33,.16)); }
-.outcome-recap > p { margin: 10px 0 13px; color: #f0e3cc; font-size: 16px; line-height: 1.78; }
+.outcome-recap { margin: 24px 0 0; }
+.outcome-prompt-visual { position: relative; margin: 0 0 20px; overflow: hidden; border: 1px solid rgba(125,174,179,.42); background: #0b1013; aspect-ratio: 3 / 2; }
+.outcome-prompt-visual::after { content: "行动前的现场"; position: absolute; left: 18px; bottom: 14px; padding: 6px 9px; color: rgba(241,229,207,.9); border: 1px solid rgba(224,205,168,.24); background: rgba(7,10,12,.72); font-size: 10px; letter-spacing: .16em; }
+.outcome-prompt-visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.outcome-recap > p { margin: 0; padding: 0 22px; color: #f0e3cc; font: 600 17px/1.82 Georgia, "Microsoft YaHei", serif; }
 .outcome-recap-clues { display: flex; flex-wrap: wrap; gap: 8px 18px; }
-.outcome-recap-clues span { position: relative; padding-left: 12px; color: #abb9b8; font-size: 11px; line-height: 1.55; }
+.outcome-recap-clues { margin: 14px 22px 0; padding: 14px 16px; border-left: 2px solid rgba(113,174,180,.66); background: linear-gradient(90deg, rgba(52,78,82,.2), rgba(24,29,33,.08)); }
+.outcome-recap-clues span { position: relative; padding-left: 12px; color: #b7c3c1; font-size: 12px; line-height: 1.65; }
 .outcome-recap-clues span::before { content: ""; position: absolute; left: 0; top: .62em; width: 4px; height: 4px; border-radius: 50%; background: #71aeb4; }
 .outcome-choice { margin: 30px auto 0; max-width: 760px; }
 .outcome-portraits { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 12px; }
@@ -593,34 +598,18 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 .outcome-person p { margin: 8px 0 4px; color: #c7c0b4; font-size: 12px; line-height: 1.55; }
 .outcome-person em { color: #b98f84; font-size: 10px; font-style: normal; }
 .outcome-choice > p { margin: 14px 0 0; color: #d5cbb9; font-size: 14px; line-height: 1.75; }
-.outcome-story { max-width: 720px; margin: 10px auto 0; }
-.outcome-chapter { position: relative; padding: 30px 8px 30px 72px; border-bottom: 1px solid rgba(203,181,139,.16); }
-.outcome-chapter::before { content: ""; position: absolute; left: 30px; top: 0; bottom: 0; width: 1px; background: linear-gradient(transparent, rgba(113,177,168,.5) 18%, rgba(113,177,168,.5) 82%, transparent); }
-.dispatch-result.failure .outcome-chapter::before { background: linear-gradient(transparent, rgba(185,97,89,.5) 18%, rgba(185,97,89,.5) 82%, transparent); }
-.outcome-chapter > span { color: #82c8bb; font-size: 10px; font-weight: 700; letter-spacing: .2em; }
-.dispatch-result.failure .outcome-chapter > span { color: #d4877e; }
-.outcome-chapter h4 { margin: 9px 0 12px; color: #f1dfc2; font: 700 21px/1.35 Georgia, "Microsoft YaHei", serif; letter-spacing: .04em; }
-.outcome-chapter p { margin: 0; color: #d0c8bb; font-size: 15px; line-height: 1.9; }
-.outcome-closing { max-width: 720px; margin: 22px auto 28px; padding: 16px 22px; color: #ead8b9; background: rgba(151,111,59,.1); border-left: 3px solid #cba45d; font: italic 15px/1.8 Georgia, "Microsoft YaHei", serif; }
+.outcome-story { max-width: 720px; margin: 42px auto 0; }
+.outcome-story p { margin: 0; color: #d8cfc0; font: 15px/2 Georgia, "Microsoft YaHei", serif; text-align: justify; }
+.outcome-story p + p { margin-top: 22px; }
+.outcome-story p:first-child::first-letter { float: left; margin: 7px 8px 0 0; color: #d6b66d; font: 700 43px/.82 Georgia, serif; }
+.dispatch-result.failure .outcome-story p:first-child::first-letter { color: #cc8177; }
+.outcome-closing { max-width: 720px; margin: 24px auto 32px; padding: 18px 24px; color: #ead8b9; background: rgba(151,111,59,.1); border-left: 3px solid #cba45d; font: italic 15px/1.8 Georgia, "Microsoft YaHei", serif; }
 .dispatch-result.failure .outcome-closing { background: rgba(135,60,57,.12); border-left-color: #b8655e; }
-.outcome-final-visual { position: relative; height: 360px; margin: 18px 0 0; overflow: hidden; border: 1px solid rgba(132,194,183,.48); background: #0b1013; }
+.outcome-final-visual { position: relative; margin: 0; overflow: hidden; border: 1px solid rgba(132,194,183,.48); background: #0b1013; aspect-ratio: 3 / 2; box-shadow: 0 24px 60px rgba(0,0,0,.34); }
 .dispatch-result.failure .outcome-final-visual { border-color: rgba(199,103,94,.55); }
-.outcome-final-visual > img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(.86) contrast(1.06) brightness(.76); }
-.dispatch-result.failure .outcome-final-visual > img { filter: grayscale(.34) sepia(.2) saturate(.72) contrast(1.16) brightness(.58); }
-.outcome-final-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(5,8,10,.95), transparent 64%), linear-gradient(90deg, rgba(5,9,11,.72), transparent 58%); }
-.dispatch-result.failure .outcome-final-shade { background: linear-gradient(0deg, rgba(18,6,8,.96), transparent 66%), linear-gradient(90deg, rgba(26,7,10,.72), transparent 58%); }
-.outcome-final-copy { position: absolute; z-index: 2; left: 28px; right: 220px; bottom: 30px; }
-.outcome-final-copy span { color: #85d0bd; font-size: 11px; font-weight: 700; letter-spacing: .18em; }
-.dispatch-result.failure .outcome-final-copy span { color: #e38f85; }
-.outcome-final-copy strong { display: block; margin-top: 7px; color: #fff0d3; font: 700 25px/1.25 Georgia, "Microsoft YaHei", serif; }
-.outcome-final-copy p { margin: 8px 0 0; color: #c9c2b6; font-size: 12px; line-height: 1.6; }
-.outcome-final-people { position: absolute; z-index: 2; right: 24px; bottom: 34px; display: flex; flex-direction: row-reverse; }
-.outcome-final-people img { width: 82px; height: 108px; margin-left: -15px; object-fit: cover; object-position: center 20%; border: 2px solid #99cfc5; box-shadow: 0 8px 20px rgba(0,0,0,.62); }
-.dispatch-result.failure .outcome-final-people img { border-color: #c77c73; filter: saturate(.65); }
-.outcome-final-visual figcaption { position: absolute; z-index: 2; right: 12px; top: 10px; color: rgba(231,220,201,.72); font-size: 10px; letter-spacing: .08em; }
-.outcome-continuity { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; margin-top: 14px; padding: 10px 13px; border: 1px solid rgba(107,148,154,.28); background: rgba(35,61,65,.18); }
-.outcome-continuity span { color: #9bc9cf; font-size: 10px; font-weight: 700; letter-spacing: .16em; white-space: nowrap; }
-.outcome-continuity p { margin: 0; color: #aebdbd; font-size: 11px; line-height: 1.55; }
+.outcome-final-visual > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.outcome-continuity { max-width: 720px; margin: 32px auto 0; padding-top: 14px; border-top: 1px solid rgba(107,148,154,.28); }
+.outcome-continuity p { margin: 0; color: #94a5a5; font-size: 11px; line-height: 1.7; }
 .dispatch-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 22px; }
 .dispatch-modal.showing-outcome .dispatch-actions { margin-top: 18px; }
 .dispatch-modal.showing-outcome .dispatch-actions .secondary-button { min-width: 184px; color: #1d2525; background: #d1b878; border-color: #f0d596; font-weight: 700; }
@@ -672,16 +661,11 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
   .outcome-heading { padding-right: 0; padding-top: 40px; }
   .outcome-heading h3 { font-size: 27px; }
   .outcome-seal { left: 0; right: auto; top: 0; }
-  .outcome-recap { padding: 18px; }
+  .outcome-recap > p { padding: 0 4px; }
+  .outcome-recap-clues { margin-left: 4px; margin-right: 4px; }
   .outcome-portraits { grid-template-columns: 1fr; }
-  .outcome-chapter { padding: 26px 4px 26px 42px; }
-  .outcome-chapter::before { left: 18px; }
-  .outcome-final-visual { height: 300px; }
-  .outcome-final-copy { left: 18px; right: 18px; bottom: 20px; }
-  .outcome-final-copy strong { font-size: 21px; }
-  .outcome-final-people { right: 16px; top: 42px; bottom: auto; }
-  .outcome-final-people img { width: 58px; height: 76px; }
-  .outcome-continuity { grid-template-columns: 1fr; gap: 5px; }
+  .outcome-story { margin-top: 32px; }
+  .outcome-story p { text-align: left; }
   .roster-panel { grid-template-columns: 72px minmax(260px, .75fr) minmax(420px, 1.25fr); gap: 12px; padding: 92px 18px 20px 14px; overflow-x: auto; }
   .archive-header { left: 128px; right: 22px; }
   .archive-roster-button { width: 58px; height: 58px; }

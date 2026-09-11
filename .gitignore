@@ -13,3 +13,4 @@ prototype-outcome-success-end.png
 prototype-outcome-failure.png
 tools/
 assets/generated/
+assets/events/outcomes/*/
