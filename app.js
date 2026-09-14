@@ -14,11 +14,11 @@ const mainNodes = [
   { id: "02", day: 1, name: "失踪者名单", type: "story", x: 1120, y: 650, via: { x: 780, y: 590 }, text: "名单上的人互不相识，却都收到过没有署名的门票。三个熟悉街区暗路的线人愿意协助调查。" },
   { id: "03", day: 1, name: "破棚下的笑声", type: "story", x: 1900, y: 570, via: { x: 1510, y: 530 }, text: "破棚里的居民用木箱搭起小舞台，笑声压过巡逻队的靴声。" },
   { id: "04", day: 1, final: true, name: "第一夜散场", type: "story", x: 2700, y: 660, via: { x: 2310, y: 700 }, text: "当日线索全部归档，临时线人从不同巷口离开。局长追随一辆无灯篷车，进入马戏团的幕后区域。" },
-  { id: "05", day: 2, name: "褪色的门票", type: "story", x: 450, y: 620, via: { x: 300, y: 630 }, text: "第二日，街区像换景般改变。后台的旧票根写着每位团员曾经献出的东西，但其中几行被人故意倒印。" },
+  { id: "05", day: 2, name: "褪色的门票", type: "story", x: 450, bX: 300, y: 620, via: { x: 300, y: 630 }, text: "第二日，街区像换景般改变。后台的旧票根写着每位团员曾经献出的东西，但其中几行被人故意倒印。" },
   { id: "06", day: 2, name: "献出之物", type: "story", x: 1120, y: 700, via: { x: 790, y: 735 }, text: "绳索、镜面和配重构成新的街道。三名熟悉后台规则的线人先后回应了局长的联络。" },
   { id: "07", day: 2, name: "幕布之后", type: "story", x: 1900, y: 580, via: { x: 1510, y: 640 }, text: "台前的笑声穿过幕布，演员们却拒绝说出团长真正的名字。" },
   { id: "08", day: 2, final: true, name: "第二夜换幕", type: "battle", x: 2700, y: 690, via: { x: 2310, y: 730 }, text: "当日支线与情报已经闭合。笼车突围后，所有后台线人切断联络；红幕后的主帐篷在第三日开启。" },
-  { id: "09", day: 3, name: "笑声之下", type: "story", x: 400, y: 650, via: { x: 270, y: 640 }, text: "第三日的街区不再伪装成现实：红幕、面具与聚光灯覆盖了一切，笑声像命令一样从高处落下。" },
+  { id: "09", day: 3, name: "笑声之下", type: "story", x: 400, bX: 300, y: 650, via: { x: 270, y: 640 }, text: "第三日的街区不再伪装成现实：红幕、面具与聚光灯覆盖了一切，笑声像命令一样从高处落下。" },
   { id: "10", day: 3, name: "墙缝暗号", type: "story", x: 1000, y: 620, via: { x: 700, y: 580 }, text: "地下反抗组织把路线藏进布景接缝。新的线人只在终场前现身一次，他们知道主舞台下方还有一层机关室。" },
   { id: "11", day: 3, name: "无声证词", type: "story", x: 1650, y: 650, via: { x: 1320, y: 690 }, text: "一段没有声音的证词指向舞台下的献祭名册。要靠近那里，必须同时应对药雾、配重与监听。" },
   { id: "12", day: 3, name: "团长的邀请", type: "story", x: 2300, y: 620, via: { x: 1980, y: 580 }, text: "团长邀请局长成为最后一位贵宾。红幕后的真相，正等待一个愿意笑着走进去的人。" },
@@ -343,8 +343,10 @@ const projectX = (x, dayId = currentDay().id) => x + (isContinuousVersion() ? (d
 const projectPoint = (point, fallbackDay = currentDay().id) => {
   if (point._projected) return point;
   const dayId = point.day || fallbackDay;
-  const projected = { ...point, x: projectX(point.x, dayId), _projected: true };
-  if (point.via) projected.via = { ...point.via, x: projectX(point.via.x, dayId) };
+  const localX = isContinuousVersion() && Number.isFinite(point.bX) ? point.bX : point.x;
+  const bShift = localX - point.x;
+  const projected = { ...point, x: projectX(localX, dayId), _projected: true };
+  if (point.via) projected.via = { ...point.via, x: projectX(point.via.x + bShift, dayId) };
   return projected;
 };
 const currentAnchor = () => {
@@ -374,6 +376,11 @@ function clampOffset(value) {
 function applyWorldTransform(animate = false) { world.style.transition = animate ? "transform 1.25s cubic-bezier(.2,.72,.18,1)" : "none"; world.style.transform = `translate3d(${state.offsetX}px, 0, 0) scale(${state.scale})`; }
 function cameraOffsetFor(x) { return clampOffset(viewport.clientWidth * CAMERA_ANCHOR_RATIO - x * state.scale); }
 function focusPoint(x, animate = true) { state.offsetX = cameraOffsetFor(x); applyWorldTransform(animate); }
+function focusTransitionPair(fromX, toX, animate = true) {
+  const midpoint = (fromX + toX) / 2;
+  state.offsetX = clampOffset(viewport.clientWidth * 0.475 - midpoint * state.scale);
+  applyWorldTransform(animate);
+}
 function routeMarkup(a, b, className) {
   if (!b.via) return `<line class="${className}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" />`;
   return `<path class="${className}" d="M ${a.x} ${a.y} Q ${b.via.x} ${b.via.y} ${b.x} ${b.y}" />`;
@@ -536,9 +543,9 @@ function advanceMain(item) {
       applyDayScene(true);
       if (isContinuousVersion()) {
         const next = nextMainNode();
-        const fromX = projectX(item.x, item.day);
-        const toX = next ? projectX(next.x, next.day) : fromX;
-        focusPoint((fromX + toX) / 2, true);
+        const fromX = projectPoint(item).x;
+        const toX = next ? projectPoint(next).x : fromX;
+        focusTransitionPair(fromX, toX, true);
       } else {
         state.offsetX = cameraOffsetFor(currentDay().start.x);
         applyWorldTransform(false);
