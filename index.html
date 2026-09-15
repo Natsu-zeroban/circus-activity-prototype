@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260911-6">
+  <link rel="stylesheet" href="styles.css?v=20260915-1">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -75,26 +75,23 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V7a2 2 0 0 1 4 0v3-5a2 2 0 0 1 4 0v5-3a2 2 0 0 1 4 0v7c0 5-3 8-8 8h-1c-3 0-5-1-7-4l-2-3a2 2 0 0 1 3-2z"/></svg>
         拖动地图查看已探索区域
       </div>
+
+      <aside class="node-preview" id="nodePreview" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalBody" hidden>
+        <button class="node-preview-close" id="modalClose" type="button" aria-label="收起节点信息">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+        <div class="node-preview-kicker" id="modalKicker">主线调查</div>
+        <h2 id="modalTitle">节点名称</h2>
+        <p class="node-preview-body" id="modalBody">节点介绍</p>
+        <p class="node-preview-note" id="modalNote"></p>
+        <div class="node-preview-actions">
+          <button class="secondary-button" id="cancelButton" type="button">收起</button>
+          <button class="primary-button" id="confirmButton" type="button">前往</button>
+        </div>
+      </aside>
     </section>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-    <div class="modal-backdrop" id="modalBackdrop" hidden>
-      <section class="story-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody">
-        <button class="modal-close" id="modalClose" type="button" aria-label="关闭弹窗">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
-        </button>
-        <div class="modal-kicker" id="modalKicker">主线调查</div>
-        <h2 id="modalTitle">节点名称</h2>
-        <div class="modal-rule"><span></span></div>
-        <p id="modalBody">节点介绍</p>
-        <p class="modal-note" id="modalNote"></p>
-        <div class="modal-actions">
-          <button class="secondary-button" id="cancelButton" type="button">返回</button>
-          <button class="primary-button" id="confirmButton" type="button">前往</button>
-        </div>
-      </section>
-    </div>
 
     <div class="panel-backdrop" id="rosterBackdrop" hidden>
       <section class="roster-panel archive-screen" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
@@ -208,6 +205,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260914-1"></script>
+  <script src="app.js?v=20260915-1"></script>
 </body>
 </html>

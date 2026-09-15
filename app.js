@@ -280,7 +280,7 @@ const progressLabel = document.getElementById("progressLabel");
 const informantCount = document.getElementById("informantCount");
 const gateTitle = document.getElementById("gateTitle");
 const gateText = document.getElementById("gateText");
-const modalBackdrop = document.getElementById("modalBackdrop");
+const nodePreview = document.getElementById("nodePreview");
 const modalKicker = document.getElementById("modalKicker");
 const modalTitle = document.getElementById("modalTitle");
 const modalBody = document.getElementById("modalBody");
@@ -423,7 +423,7 @@ function makeNode(item, kind, status = "available") {
   if (kind === "info") core.innerHTML = '<span class="node-glyph" aria-hidden="true"></span>';
   else core.textContent = item.id;
   button.appendChild(core);
-  if (!isCurrent) button.addEventListener("click", event => { event.stopPropagation(); if (!state.moved) openNode(item, kind); });
+  if (!isCurrent) button.addEventListener("click", event => { event.stopPropagation(); if (!state.moved) openNode(item, kind, button); });
   return button;
 }
 
@@ -501,26 +501,44 @@ function applyDayScene(animate = false) {
 
 function getNodeText(item) { return item.text; }
 
-function openNode(item, kind) {
+function positionNodePreview(anchorButton) {
+  const viewportRect = viewport.getBoundingClientRect();
+  const anchorRect = anchorButton.getBoundingClientRect();
+  const previewRect = nodePreview.getBoundingClientRect();
+  const gap = 16;
+  const safeTop = 104;
+  const safeEdge = 20;
+  let left = anchorRect.right - viewportRect.left + gap;
+  if (left + previewRect.width > viewportRect.width - safeEdge) left = anchorRect.left - viewportRect.left - previewRect.width - gap;
+  left = Math.max(safeEdge, Math.min(left, viewportRect.width - previewRect.width - safeEdge));
+  let top = anchorRect.top - viewportRect.top + anchorRect.height / 2 - previewRect.height / 2;
+  top = Math.max(safeTop, Math.min(top, viewportRect.height - previewRect.height - safeEdge));
+  nodePreview.style.left = `${left}px`;
+  nodePreview.style.top = `${top}px`;
+}
+
+function openNode(item, kind, anchorButton) {
   let kicker = kind === "main" ? (item.final ? `第${item.day}日 · 收束节点` : "主线调查") : kind === "side" ? "支线调查" : item.gameplay ? "必经信息流 · 线人派遣" : "信息流 · 街区记录";
   let action = () => advanceMain(item);
   let note = isContinuousVersion()
     ? "抵达后，该主线节点会作为历史路线永久保留；局长继续前往下一主线。"
     : "抵达后，该节点会保留为局长当前位置；前往下一主线时才退场。";
-  if (kind === "side") { action = () => visitSide(item); note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
-  if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
-  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查；派遣不移动局长，成败将生成不同的独立探索记录，但不改变后续主线走向。"; }
+  let actionLabel = "前往";
+  if (kind === "side") { action = () => visitSide(item); actionLabel = "查看"; note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
+  if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); actionLabel = "查看"; note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
+  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); actionLabel = "开始调查"; note = "该信息流是主线必经调查；派遣不移动局长，成败将生成不同的独立探索记录，但不改变后续主线走向。"; }
   modalKicker.textContent = kicker;
   modalTitle.textContent = `${item.id} · ${item.name}`;
   modalBody.textContent = getNodeText(item);
   modalNote.textContent = note;
-  confirmButton.textContent = "前往";
+  confirmButton.textContent = actionLabel;
   state.pendingAction = action;
-  modalBackdrop.hidden = false;
+  nodePreview.hidden = false;
+  positionNodePreview(anchorButton);
   confirmButton.focus();
 }
 
-function closeModal() { modalBackdrop.hidden = true; state.pendingAction = null; }
+function closeModal() { nodePreview.hidden = true; state.pendingAction = null; }
 function moveTokenTo(point, camera = true, fallbackDay = currentDay().id) {
   const target = projectPoint(point, point.day || fallbackDay);
   playerToken.classList.add("moving");
@@ -779,7 +797,7 @@ function resetPrototype() {
   showToast(`${state.mainVersion}版调查、线人档案与派遣结果已重置`);
 }
 
-function resize() { state.scale = getScale(); state.offsetX = cameraOffsetFor(currentAnchor().x); applyWorldTransform(false); }
+function resize() { closeModal(); state.scale = getScale(); state.offsetX = cameraOffsetFor(currentAnchor().x); applyWorldTransform(false); }
 
 function saveCurrentVersion() {
   versionProgress[state.mainVersion] = {
@@ -829,7 +847,7 @@ function validateConfig() {
 }
 
 viewport.addEventListener("pointerdown", event => {
-  if (event.button !== 0 || event.target.closest("button, .legend-card, .validation-note")) return;
+  if (event.button !== 0 || event.target.closest("button, .legend-card, .validation-note, .node-preview")) return;
   state.dragging = true; state.moved = false; state.dragStartX = event.clientX; state.dragStartOffset = state.offsetX; viewport.classList.add("dragging"); viewport.setPointerCapture(event.pointerId);
 });
 viewport.addEventListener("pointermove", event => {
@@ -853,10 +871,12 @@ document.getElementById("resetButton").addEventListener("click", resetPrototype)
 document.getElementById("backButton").addEventListener("click", resetPrototype);
 versionButtons.forEach(button => button.addEventListener("click", () => switchMainVersion(button.dataset.mainVersion)));
 dispatchSubmit.addEventListener("click", submitDispatch);
-modalBackdrop.addEventListener("click", event => { if (event.target === modalBackdrop) closeModal(); });
+document.addEventListener("pointerdown", event => {
+  if (!nodePreview.hidden && !event.target.closest(".node-preview, .map-node")) closeModal();
+}, true);
 rosterBackdrop.addEventListener("click", event => { if (event.target === rosterBackdrop) closeRoster(); });
 dispatchBackdrop.addEventListener("click", event => { if (event.target === dispatchBackdrop) closeDispatch(); });
-window.addEventListener("keydown", event => { if (event.key !== "Escape") return; if (!dispatchBackdrop.hidden) closeDispatch(); else if (!rosterBackdrop.hidden) closeRoster(); else if (!modalBackdrop.hidden) closeModal(); });
+window.addEventListener("keydown", event => { if (event.key !== "Escape") return; if (!dispatchBackdrop.hidden) closeDispatch(); else if (!rosterBackdrop.hidden) closeRoster(); else if (!nodePreview.hidden) closeModal(); });
 window.addEventListener("resize", resize);
 
 validateConfig();
