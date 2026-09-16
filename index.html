@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260915-1">
+  <link rel="stylesheet" href="styles.css?v=20260916-2">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -94,7 +94,7 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <div class="panel-backdrop" id="rosterBackdrop" hidden>
-      <section class="roster-panel archive-screen" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
+      <section class="roster-panel archive-screen mode-informant" id="archiveScreen" role="dialog" aria-modal="true" aria-labelledby="rosterTitle">
         <button class="archive-close" id="rosterClose" type="button" aria-label="返回活动地图">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
           <span>返回地图</span>
@@ -106,8 +106,8 @@
           </div>
           <p class="roster-summary" id="rosterSummary">阶段记录随调查进展逐项解锁。</p>
         </header>
-        <nav class="archive-roster" id="rosterList" aria-label="切换线人"></nav>
-        <section class="archive-figure" id="archiveFigure" aria-label="线人形象展示">
+        <nav class="archive-roster informant-archive-view" id="rosterList" aria-label="切换线人"></nav>
+        <section class="archive-figure informant-archive-view" id="archiveFigure" aria-label="线人形象展示">
           <div class="archive-art-haze" aria-hidden="true"></div>
           <img class="archive-portrait" id="archivePortrait" alt="" />
           <div class="archive-identity-strip">
@@ -116,7 +116,7 @@
             <small id="archiveStatus">等待接触</small>
           </div>
         </section>
-        <section class="archive-record" aria-live="polite">
+        <section class="archive-record informant-archive-view" aria-live="polite">
           <header class="archive-person-header">
             <div>
               <span class="archive-kicker">INFORMANT RECORD</span>
@@ -135,6 +135,31 @@
           </div>
           <div class="archive-stage-grid" id="archiveStageList"></div>
         </section>
+
+        <nav class="dispatch-archive-list dispatch-archive-view" id="dispatchArchiveList" aria-label="切换派遣事件"></nav>
+        <section class="dispatch-archive-figure dispatch-archive-view" id="dispatchArchiveFigure" aria-label="派遣结局画面">
+          <div class="dispatch-archive-haze" id="dispatchArchiveHaze" aria-hidden="true"></div>
+          <img class="dispatch-archive-cg" id="dispatchArchiveCg" alt="" />
+          <div class="dispatch-archive-caption">
+            <span id="dispatchArchiveCode">I-?</span>
+            <strong id="dispatchArchiveCaption">尚无派遣记录</strong>
+            <small id="dispatchArchiveTeam">等待完成派遣事件</small>
+          </div>
+        </section>
+        <section class="dispatch-archive-record dispatch-archive-view" aria-live="polite">
+          <header class="dispatch-archive-header">
+            <span class="archive-kicker">DISPATCH RECORD</span>
+            <h3 id="dispatchArchiveTitle">派遣记录尚未建立</h3>
+            <p id="dispatchArchiveMeta">完成必经信息流中的派遣事件后，结局将在此收录。</p>
+          </header>
+          <div class="archive-ending-tabs" id="archiveEndingTabs" aria-label="切换派遣结局"></div>
+          <article class="archive-ending-record" id="archiveEndingRecord"></article>
+        </section>
+
+        <nav class="archive-tabs" aria-label="切换档案类型">
+          <button class="archive-tab selected" id="informantArchiveTab" type="button" aria-selected="true">线人档案</button>
+          <button class="archive-tab" id="dispatchArchiveTab" type="button" aria-selected="false">派遣档案 <span id="dispatchArchiveCount">0 / 6</span></button>
+        </nav>
       </section>
     </div>
 
@@ -205,6 +230,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260915-1"></script>
+  <script src="app.js?v=20260916-2"></script>
 </body>
 </html>

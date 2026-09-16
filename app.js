@@ -246,6 +246,9 @@ const dispatchOutcomes = {
   }
 };
 
+// 派遣档案是跨周目的收藏记录：重置本周目流程不会清空已经见过的结局。
+const collectedDispatchOutcomes = new Map();
+
 function createProgressState() {
   return { dayIndex: 0, mainCompleted: new Set(), sideCompleted: new Set(), infoCompleted: new Set(), taskResults: new Map(), archiveInformantId: null };
 }
@@ -254,6 +257,9 @@ const versionProgress = { A: createProgressState(), B: createProgressState() };
 const state = {
   mainVersion: "A",
   ...versionProgress.A,
+  archiveMode: "informant",
+  archiveDispatchId: null,
+  archiveEndingType: null,
   selectedInformants: new Set(),
   activeTask: null,
   offsetX: 0,
@@ -287,6 +293,8 @@ const modalBody = document.getElementById("modalBody");
 const modalNote = document.getElementById("modalNote");
 const confirmButton = document.getElementById("confirmButton");
 const rosterBackdrop = document.getElementById("rosterBackdrop");
+const archiveScreen = document.getElementById("archiveScreen");
+const rosterTitle = document.getElementById("rosterTitle");
 const rosterList = document.getElementById("rosterList");
 const rosterSummary = document.getElementById("rosterSummary");
 const archiveFigure = document.getElementById("archiveFigure");
@@ -301,6 +309,20 @@ const archiveTrait = document.getElementById("archiveTrait");
 const archiveObservation = document.getElementById("archiveObservation");
 const archiveCaution = document.getElementById("archiveCaution");
 const archiveStageList = document.getElementById("archiveStageList");
+const informantArchiveTab = document.getElementById("informantArchiveTab");
+const dispatchArchiveTab = document.getElementById("dispatchArchiveTab");
+const dispatchArchiveCount = document.getElementById("dispatchArchiveCount");
+const dispatchArchiveList = document.getElementById("dispatchArchiveList");
+const dispatchArchiveFigure = document.getElementById("dispatchArchiveFigure");
+const dispatchArchiveHaze = document.getElementById("dispatchArchiveHaze");
+const dispatchArchiveCg = document.getElementById("dispatchArchiveCg");
+const dispatchArchiveCode = document.getElementById("dispatchArchiveCode");
+const dispatchArchiveCaption = document.getElementById("dispatchArchiveCaption");
+const dispatchArchiveTeam = document.getElementById("dispatchArchiveTeam");
+const dispatchArchiveTitle = document.getElementById("dispatchArchiveTitle");
+const dispatchArchiveMeta = document.getElementById("dispatchArchiveMeta");
+const archiveEndingTabs = document.getElementById("archiveEndingTabs");
+const archiveEndingRecord = document.getElementById("archiveEndingRecord");
 const dispatchBackdrop = document.getElementById("dispatchBackdrop");
 const dispatchModal = document.getElementById("dispatchModal");
 const dispatchTitle = document.getElementById("dispatchTitle");
@@ -358,6 +380,13 @@ const isContentCompleted = id => state.mainCompleted.has(id) || state.sideComple
 const isStageUnlocked = stage => isContentCompleted(stage.unlockAt);
 const unlockedStageCount = informant => (archiveStages[informant.id] || []).filter(isStageUnlocked).length;
 const currentInformants = () => informants.filter(informant => informant.day === currentDay().id && hasJoined(informant));
+const dispatchEvents = () => infoNodes.filter(info => info.gameplay);
+const dispatchArchiveEntry = taskId => collectedDispatchOutcomes.get(taskId) || { success: null, failure: null };
+const dispatchEndingCount = taskId => {
+  const entry = dispatchArchiveEntry(taskId);
+  return Number(Boolean(entry.success)) + Number(Boolean(entry.failure));
+};
+const isDispatchArchiveAvailable = item => state.mainCompleted.has(item.unlockAfter) || collectedDispatchOutcomes.has(item.id);
 const activeSideNodes = () => sideNodes.filter(node => node.day === currentDay().id && state.mainCompleted.has(node.unlockAfter) && !state.sideCompleted.has(node.id));
 const activeInfoNodes = () => infoNodes.filter(node => node.day === currentDay().id && state.mainCompleted.has(node.unlockAfter) && !state.infoCompleted.has(node.id));
 const dayTasksComplete = (day = currentDay()) => day.sideIds.every(id => state.sideCompleted.has(id)) && day.infoIds.every(id => state.infoCompleted.has(id));
@@ -654,7 +683,7 @@ function renderRoster() {
   archivePortrait.alt = `${selected.name}的半身立绘`;
   archiveCode.textContent = selected.id;
   archiveName.textContent = selected.name;
-  archiveStatus.textContent = activeNow ? `第${selected.day}日 · 当前可联络` : `第${selected.day}日 · 已离队 / 档案留存`;
+  archiveStatus.textContent = activeNow ? "当前状态 · 已加入" : "当前状态 · 已离队";
   archivePersonName.textContent = selected.name;
   archiveMeta.textContent = `${selected.age}岁 · 来自${selected.origin}`;
   archiveProgress.textContent = `${unlocked} / ${stages.length}`;
@@ -672,7 +701,139 @@ function renderRoster() {
   }).join("");
 }
 
-function openRoster() { renderRoster(); rosterBackdrop.hidden = false; document.getElementById("rosterClose").focus(); }
+function recordDispatchOutcome(taskId, result) {
+  const entry = { ...dispatchArchiveEntry(taskId) };
+  const type = result.success ? "success" : "failure";
+  entry[type] = { success: result.success, selected: [...result.selected] };
+  collectedDispatchOutcomes.set(taskId, entry);
+  state.archiveDispatchId = taskId;
+  state.archiveEndingType = type;
+}
+
+function dispatchOutcomeLabel(type) { return type === "success" ? "好结局" : "坏结局"; }
+
+function renderDispatchArchive() {
+  const events = dispatchEvents();
+  const totalUnlocked = events.reduce((total, item) => total + dispatchEndingCount(item.id), 0);
+  const recordedEvents = events.filter(item => dispatchEndingCount(item.id) > 0).length;
+  dispatchArchiveCount.textContent = `${totalUnlocked} / ${events.length * 2}`;
+  rosterSummary.textContent = `派遣事件 ${recordedEvents} / ${events.length} · 结局记录 ${totalUnlocked} / ${events.length * 2}；重置进度后，已收录结局仍会保留。`;
+
+  let selectedEvent = events.find(item => item.id === state.archiveDispatchId && isDispatchArchiveAvailable(item));
+  if (!selectedEvent) {
+    selectedEvent = [...events].reverse().find(item => dispatchEndingCount(item.id) > 0)
+      || events.find(isDispatchArchiveAvailable)
+      || null;
+    state.archiveDispatchId = selectedEvent?.id || null;
+  }
+
+  dispatchArchiveList.innerHTML = "";
+  events.forEach(item => {
+    const available = isDispatchArchiveAvailable(item);
+    const endingCount = dispatchEndingCount(item.id);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `dispatch-archive-event${item.id === selectedEvent?.id ? " selected" : ""}${available ? "" : " locked"}`;
+    button.disabled = !available;
+    button.setAttribute("aria-pressed", String(item.id === selectedEvent?.id));
+    button.setAttribute("aria-label", available ? `查看${item.name.replace("线人派遣·", "")}派遣档案，已解锁${endingCount}个结局` : `${item.id}派遣档案尚未解锁`);
+    button.innerHTML = `<img src="${item.task.image}" alt="" /><span class="dispatch-event-copy"><strong>${item.name.replace("线人派遣·", "")}</strong><small>${available ? `结局 ${endingCount} / 2` : "未解锁"}</small></span>${available ? "" : '<span class="archive-lock-icon" aria-hidden="true"></span>'}`;
+    if (available) button.addEventListener("click", () => {
+      state.archiveDispatchId = item.id;
+      state.archiveEndingType = null;
+      renderDispatchArchive();
+    });
+    dispatchArchiveList.appendChild(button);
+  });
+
+  if (!selectedEvent) {
+    dispatchArchiveFigure.classList.add("locked");
+    dispatchArchiveHaze.style.removeProperty("background-image");
+    dispatchArchiveCg.removeAttribute("src");
+    dispatchArchiveCg.alt = "";
+    dispatchArchiveCode.textContent = "I-?";
+    dispatchArchiveCaption.textContent = "派遣档案尚未建立";
+    dispatchArchiveTeam.textContent = "推进主线后解锁派遣事件";
+    dispatchArchiveTitle.textContent = "派遣记录尚未建立";
+    dispatchArchiveMeta.textContent = "完成必经信息流中的派遣事件后，实际达成的结局将在此收录。";
+    archiveEndingTabs.innerHTML = `<button class="archive-ending-tab success" type="button" disabled><strong>好结局</strong><span>未解锁</span><i class="archive-lock-icon" aria-hidden="true"></i></button><button class="archive-ending-tab failure" type="button" disabled><strong>坏结局</strong><span>未解锁</span><i class="archive-lock-icon" aria-hidden="true"></i></button>`;
+    archiveEndingRecord.className = "archive-ending-record";
+    archiveEndingRecord.innerHTML = `<div class="archive-ending-empty"><span class="archive-lock-icon" aria-hidden="true"></span><h4>没有可查阅的派遣结局</h4><p>每项派遣在单个周目中只能挑战一次。完成派遣后，实际达成的一个结局会收录在这里。</p></div>`;
+    return;
+  }
+
+  const entry = dispatchArchiveEntry(selectedEvent.id);
+  const runResult = state.taskResults.get(selectedEvent.id);
+  const preferredType = runResult ? (runResult.success ? "success" : "failure") : null;
+  const unlockedTypes = ["success", "failure"].filter(type => entry[type]);
+  if (!state.archiveEndingType || !entry[state.archiveEndingType]) {
+    state.archiveEndingType = preferredType && entry[preferredType] ? preferredType : unlockedTypes[0] || null;
+  }
+
+  archiveEndingTabs.innerHTML = ["success", "failure"].map(type => {
+    const unlocked = Boolean(entry[type]);
+    const selected = state.archiveEndingType === type;
+    return `<button class="archive-ending-tab ${type}${selected ? " selected" : ""}" type="button" data-ending-type="${type}" ${unlocked ? "" : "disabled"} aria-selected="${selected}"><strong>${dispatchOutcomeLabel(type)}</strong><span>${unlocked ? "已解锁" : "未解锁"}</span>${unlocked ? "" : '<i class="archive-lock-icon" aria-hidden="true"></i>'}</button>`;
+  }).join("");
+  archiveEndingTabs.querySelectorAll("button:not(:disabled)").forEach(button => button.addEventListener("click", () => {
+    state.archiveEndingType = button.dataset.endingType;
+    renderDispatchArchive();
+  }));
+
+  dispatchArchiveTitle.textContent = selectedEvent.name.replace("线人派遣·", "");
+  dispatchArchiveMeta.textContent = dispatchEndingCount(selectedEvent.id)
+    ? `同一派遣共收录两个结局；当前已解锁 ${dispatchEndingCount(selectedEvent.id)} / 2。`
+    : "本周目尚未完成该派遣；实际达成的结局将优先解锁。";
+  dispatchArchiveCode.textContent = selectedEvent.id;
+
+  if (!state.archiveEndingType) {
+    dispatchArchiveFigure.classList.add("locked");
+    dispatchArchiveHaze.style.backgroundImage = `url("${selectedEvent.task.image}")`;
+    dispatchArchiveCg.src = selectedEvent.task.image;
+    dispatchArchiveCg.alt = `${selectedEvent.name.replace("线人派遣·", "")}的行动现场`;
+    dispatchArchiveCaption.textContent = "结局尚未记录";
+    dispatchArchiveTeam.textContent = "完成本周目派遣后解锁一个结局";
+    archiveEndingRecord.className = "archive-ending-record";
+    archiveEndingRecord.innerHTML = `<div class="archive-ending-empty"><span class="archive-lock-icon" aria-hidden="true"></span><h4>两个结局均未解锁</h4><p>完成本周目中的派遣后，将根据实际选择收录好结局或坏结局；另一结局会继续保持锁定。</p></div>`;
+    return;
+  }
+
+  const archivedResult = entry[state.archiveEndingType];
+  const outcome = outcomeFor(selectedEvent.id, archivedResult);
+  const selectedPeople = archivedResult.selected.map(id => informants.find(person => person.id === id)).filter(Boolean);
+  const selectedNames = selectedPeople.map(person => person.name).join("、");
+  dispatchArchiveFigure.classList.remove("locked");
+  dispatchArchiveHaze.style.backgroundImage = `url("${outcome.cg}")`;
+  dispatchArchiveCg.src = outcome.cg;
+  dispatchArchiveCg.alt = `${outcome.title}的派遣结局CG`;
+  dispatchArchiveCaption.textContent = outcome.title;
+  dispatchArchiveTeam.textContent = `参与线人 · ${selectedNames}`;
+  archiveEndingRecord.className = `archive-ending-record ${state.archiveEndingType}`;
+  archiveEndingRecord.innerHTML = `<span class="archive-ending-kicker">${dispatchOutcomeLabel(state.archiveEndingType)} · ${outcome.kicker}</span><h4>${outcome.title}</h4><p class="archive-ending-summary">${outcome.summary}</p><div class="archive-ending-team">参与线人 · ${selectedNames}</div><div class="archive-ending-story">${outcome.story.map(paragraph => `<p>${paragraph}</p>`).join("")}</div><blockquote>${outcome.closing}</blockquote><footer><strong>本周目结局已记录</strong><span>重置游戏进度后，可重新挑战并解锁另一结局；已收录内容不会丢失。</span></footer>`;
+}
+
+function renderArchiveScreen() {
+  const showingDispatch = state.archiveMode === "dispatch";
+  const totalDispatchEndings = dispatchEvents().reduce((total, item) => total + dispatchEndingCount(item.id), 0);
+  dispatchArchiveCount.textContent = `${totalDispatchEndings} / ${dispatchEvents().length * 2}`;
+  archiveScreen.classList.toggle("mode-dispatch", showingDispatch);
+  archiveScreen.classList.toggle("mode-informant", !showingDispatch);
+  informantArchiveTab.classList.toggle("selected", !showingDispatch);
+  dispatchArchiveTab.classList.toggle("selected", showingDispatch);
+  informantArchiveTab.setAttribute("aria-selected", String(!showingDispatch));
+  dispatchArchiveTab.setAttribute("aria-selected", String(showingDispatch));
+  rosterTitle.textContent = showingDispatch ? "派遣档案" : "线人档案";
+  if (showingDispatch) renderDispatchArchive();
+  else renderRoster();
+}
+
+function switchArchiveMode(mode) {
+  if (!rosterBackdrop.hidden && state.archiveMode === mode) return;
+  state.archiveMode = mode;
+  renderArchiveScreen();
+}
+
+function openRoster() { state.archiveMode = "informant"; renderArchiveScreen(); rosterBackdrop.hidden = false; document.getElementById("rosterClose").focus(); }
 function closeRoster() { rosterBackdrop.hidden = true; }
 
 function renderDispatchOptions(readOnly = false) {
@@ -781,6 +942,7 @@ function submitDispatch() {
   const success = selected.length === solution.length && selected.every((id, index) => id === solution[index]);
   const result = { success, selected };
   state.taskResults.set(taskItem.id, result);
+  recordDispatchOutcome(taskItem.id, result);
   state.infoCompleted.add(taskItem.id);
   renderNodes();
   showDispatchResult(result);
@@ -794,7 +956,7 @@ function resetPrototype() {
   state.mainCompleted.clear(); state.sideCompleted.clear(); state.infoCompleted.clear(); state.taskResults.clear(); state.selectedInformants.clear();
   state.archiveInformantId = null;
   closeModal(); closeRoster(); closeDispatch(); applyDayScene(false); renderNodes(); moveTokenTo(currentDay().start, true);
-  showToast(`${state.mainVersion}版调查、线人档案与派遣结果已重置`);
+  showToast(`${state.mainVersion}版本周目进度已重置 · 已收录的派遣结局保留`);
 }
 
 function resize() { closeModal(); state.scale = getScale(); state.offsetX = cameraOffsetFor(currentAnchor().x); applyWorldTransform(false); }
@@ -864,6 +1026,8 @@ document.getElementById("cancelButton").addEventListener("click", closeModal);
 document.getElementById("modalClose").addEventListener("click", closeModal);
 document.getElementById("informantButton").addEventListener("click", openRoster);
 document.getElementById("rosterClose").addEventListener("click", closeRoster);
+informantArchiveTab.addEventListener("click", () => switchArchiveMode("informant"));
+dispatchArchiveTab.addEventListener("click", () => switchArchiveMode("dispatch"));
 document.getElementById("dispatchClose").addEventListener("click", closeDispatch);
 document.getElementById("dispatchCancel").addEventListener("click", closeDispatch);
 document.getElementById("focusButton").addEventListener("click", () => moveTokenTo(currentAnchor(), true));
