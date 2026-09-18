@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260916-2">
+  <link rel="stylesheet" href="styles.css?v=20260918-2">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -131,6 +131,7 @@
           <div class="archive-trait-row">
             <span class="trait-pill" id="archiveTrait">特质未知</span>
             <p id="archiveObservation">继续推进调查以建立身份。</p>
+            <p class="archive-profile" id="archiveProfile"></p>
             <p id="archiveCaution"></p>
           </div>
           <div class="archive-stage-grid" id="archiveStageList"></div>
@@ -180,47 +181,60 @@
             <span id="dispatchIndex">委托 I-3</span>
             <figure class="event-visual">
               <img id="dispatchImage" alt="" />
-              <figcaption>现场影像 · 请结合画面与记录判断</figcaption>
+              <figcaption>行动现场</figcaption>
             </figure>
             <p id="dispatchQuestion"></p>
             <strong id="dispatchRule"></strong>
             <div class="scene-records">
-              <span>现场记录</span>
+              <span>现场提示</span>
               <ul id="dispatchClues"></ul>
             </div>
           </div>
-          <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣线人"></div>
-          <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
+          <aside class="dispatch-choice-panel">
+            <div class="dispatch-options" id="dispatchOptions" aria-label="选择派遣线人"></div>
+            <p class="selection-hint" id="selectionHint" aria-live="polite"></p>
+            <section class="dispatch-brief-result" id="dispatchBriefResult" hidden aria-live="polite">
+              <span class="brief-result-kicker" id="briefResultKicker"></span>
+              <h3 id="briefResultTitle"></h3>
+              <p id="briefResultText"></p>
+              <div class="brief-result-team" id="briefResultTeam"></div>
+              <p class="brief-result-note">结果已记录。进入行动记录后，以交替立绘形式查看线人在现场的经历。</p>
+            </section>
+          </aside>
         </div>
-        <section class="dispatch-result outcome-screen" id="dispatchResult" hidden aria-live="polite">
-          <header class="outcome-heading">
-            <div>
-              <span class="outcome-kicker" id="resultKicker"></span>
-              <h3 id="resultTitle" tabindex="-1"></h3>
-              <p id="resultSummary"></p>
+        <section class="dispatch-result adv-screen" id="dispatchResult" hidden aria-live="polite">
+          <div class="adv-scene" id="advScene">
+            <div class="adv-scene-shade" aria-hidden="true"></div>
+            <div class="adv-progress" id="advProgress">行动记录 1 / 1</div>
+            <div class="adv-portrait adv-left" id="advLeft">
+              <img id="advLeftImage" alt="" />
+              <span class="adv-silhouette" id="advLeftFallback" aria-hidden="true"></span>
+              <strong id="advLeftName"></strong>
             </div>
-            <span class="outcome-seal" id="resultSeal"></span>
-          </header>
-          <section class="outcome-recap">
-            <figure class="outcome-prompt-visual">
-              <img id="resultPromptImage" alt="" />
-            </figure>
-            <p id="resultQuestion"></p>
-            <div class="outcome-recap-clues" id="resultClues"></div>
-          </section>
-          <section class="outcome-choice">
-            <span class="outcome-section-label">你的选择</span>
-            <div class="outcome-portraits" id="resultTeam"></div>
-            <p id="resultChoice"></p>
-          </section>
-          <div class="outcome-story" id="resultStory"></div>
-          <div class="outcome-continuity">
-            <p id="outcomeImpact">本次派遣结果不会改变后续主线走向；选择与代价将作为本次探索的独立经历留存。</p>
+            <div class="adv-portrait adv-right" id="advRight">
+              <img id="advRightImage" alt="" />
+              <span class="adv-silhouette" id="advRightFallback" aria-hidden="true"></span>
+              <strong id="advRightName"></strong>
+            </div>
+            <div class="adv-dialogue-box">
+              <span class="adv-speaker" id="advSpeaker"></span>
+              <p id="advText"></p>
+              <div class="adv-dialogue-actions">
+                <button class="adv-skip" id="advSkip" type="button">跳过记录</button>
+                <button class="adv-next" id="advNext" type="button">继续</button>
+              </div>
+            </div>
           </div>
-          <blockquote class="outcome-closing" id="resultClosing"></blockquote>
-          <figure class="outcome-final-visual">
-            <img id="resultImage" alt="" />
-          </figure>
+        </section>
+        <section class="dispatch-seal" id="dispatchSeal" hidden aria-live="assertive">
+          <img class="dispatch-seal-cg" id="dispatchSealImage" alt="" />
+          <div class="dispatch-seal-scrim" aria-hidden="true"></div>
+          <div class="dispatch-seal-card">
+            <span id="dispatchSealStatus"></span>
+            <h3 id="dispatchSealTitle" tabindex="-1"></h3>
+            <p id="dispatchSealSummary"></p>
+            <button class="primary-button" id="dispatchSealClose" type="button">确认并返回地图</button>
+          </div>
         </section>
         <div class="dispatch-actions">
           <button class="secondary-button" id="dispatchCancel" type="button">返回地图</button>
@@ -230,6 +244,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260916-2"></script>
+  <script src="app.js?v=20260918-2"></script>
 </body>
 </html>

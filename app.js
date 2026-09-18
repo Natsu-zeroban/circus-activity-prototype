@@ -44,6 +44,24 @@ const informants = [
   { id: "L-9", day: 3, name: "鸦", joinAt: "11", archiveAt: "S-3", age: 17, origin: "主帐篷屋脊", portrait: "assets/informants/ya.webp", trait: "唇读望风", observation: "能从远处读懂口型，并快速记下巡逻路线。", caution: "惧怕封闭空间，进入狭窄风道会失去镇定。", profile: "他曾替两个阵营同时望风，直到发现治安局和马戏团使用的是同一份失踪者名单。" }
 ];
 
+const dispatchTags = {
+  "L-1": ["辨味识药", "忌浓香"],
+  "L-2": ["听声辨墙", "怕尖响"],
+  "L-3": ["镜写速记", "膝伤"],
+  "L-4": ["机械判断", "不识字"],
+  "L-5": ["后台手势", "怕明火"],
+  "L-6": ["倒字辨认", "怕强光"],
+  "L-7": ["药雾辨识", "粉尘受限"],
+  "L-8": ["配重操作", "听力受损"],
+  "L-9": ["唇读望风", "怕密闭"]
+};
+
+const dispatchNpcCharacters = {
+  "I-3": { id: "NPC-I3", name: "巡逻者", style: "patrol" },
+  "I-7": { id: "NPC-I7", name: "镜棚守卫", style: "guard" },
+  "I-10": { id: "NPC-I10", name: "后台值守者", style: "stagehand" }
+};
+
 const archiveStages = {
   "L-1": [
     { title: "在煤灰里长大的孩子", unlockAt: "01", unlockLabel: "完成主线 01", content: "苔生没有正式的姓氏。洗衣巷的人轮流照看他，他便替每一家跑腿。锅炉房终年潮湿，砖缝里却总长着青苔，邻居因此给了他这个名字。" },
@@ -104,14 +122,14 @@ const archiveStages = {
 const infoNodes = [
   { id: "I-1", day: 1, name: "破损药签", unlockAfter: "01", x: 730, y: 370, text: "被雨水泡开的药签仍残留甜苦味。苔生认出它来自只向地下诊所供货的批次。" },
   { id: "I-2", day: 1, name: "失准的报时", unlockAfter: "02", x: 1240, y: 900, text: "街区所有钟都慢了四分钟，只有铃坚持按真正的时间报时；那正好对应巡逻换岗。" },
-  { id: "I-3", day: 1, name: "线人派遣·听墙人", unlockAfter: "02", x: 1660, y: 350, gameplay: true, text: "废弃排练通道里布满铃线，反抗组织将信筒藏在一面空心墙后。完成调查后，主线03才会显现。", task: { requiredCount: 1, image: "assets/events/listening-wall.webp", question: "三条岔路都挂着会惊动巡逻的细铃。纸条只写着：“别信画出的箭头，幕布后回来的声音才是真的。”谁最可能独自找出藏信筒的空心墙？", rule: "从本日线人中选择 1 人。提交后无法重试；结果不会改变主线走向，但会留下不同的独立探索记录。", clues: ["岔路没有照明，墙上的箭头被反复改画。", "轻敲砖面时，深处传回两种不同回声。", "铃线贴地相连，靠摸索乱走很容易触发警报。"], solution: ["L-2"] } },
+  { id: "I-3", day: 1, name: "线人派遣·听墙人", unlockAfter: "02", x: 1660, y: 350, gameplay: true, text: "废弃排练通道里布满铃线，反抗组织将信筒藏在一面空心墙后。完成调查后，主线03才会显现。", task: { requiredCount: 1, image: "assets/events/listening-wall.webp", question: "派一名线人进入废弃通道，找出藏信筒的空心墙。", rule: "选择 1 人。每次只能提交一次，成败都会继续主线。", clues: ["需要辨别墙后回声，并避开会暴露行踪的铃线。"], solution: ["L-2"] } },
   { id: "I-4", day: 2, name: "失灵的齿轮", unlockAfter: "05", x: 720, y: 370, text: "探照灯的传动齿轮每转三圈就会卡住一次。灰炭摸过外壳，记下了它真正的停顿周期。" },
   { id: "I-5", day: 2, name: "后台手势表", unlockAfter: "06", x: 1280, y: 900, text: "一张默剧班的手势表被缝在幕布内侧。小满补全了其中代表撤退与静止的动作。" },
   { id: "I-6", day: 2, name: "倒印传单", unlockAfter: "07", x: 2440, y: 960, text: "传单并非印反，而是专门留给镜中阅读的人。字缝里夹着下一场巡演的装卸编号。" },
-  { id: "I-7", day: 2, name: "线人派遣·镜棚假账", unlockAfter: "06", x: 1660, y: 340, gameplay: true, text: "旧镜棚里藏着被倒写的巡演账册，旋转探照灯仍按后台机械的节拍扫过地面。完成调查后，主线07才会显现。", task: { requiredCount: 2, image: "assets/events/mirror-ledger.webp", question: "镜中的走廊真假交叠，账页全部倒写；安全时间藏在探照灯齿轮的循环里。该让哪两名本日线人进去？", rule: "选择 2 人组成调查队。现场需要两种能力，也要避开人物局限；结果仅作为本次独立探索记录。", clues: ["破镜把同一条路映成三个方向。", "账页不能带走，只能在灯下抄完。", "探照灯每转三圈停顿片刻，强光会反复扫过账桌。"], solution: ["L-4", "L-6"] } },
+  { id: "I-7", day: 2, name: "线人派遣·镜棚假账", unlockAfter: "06", x: 1660, y: 340, gameplay: true, text: "旧镜棚里藏着被倒写的巡演账册，旋转探照灯仍按后台机械的节拍扫过地面。完成调查后，主线07才会显现。", task: { requiredCount: 2, image: "assets/events/mirror-ledger.webp", question: "派两名线人进入镜棚，在探照灯停顿时读完倒写账册。", rule: "选择 2 人。每次只能提交一次，成败都会继续主线。", clues: ["一人需要判断机械停顿，另一人需要辨认倒写文字。"], solution: ["L-4", "L-6"] } },
   { id: "I-8", day: 3, name: "无标签药瓶", unlockAfter: "09", x: 650, y: 360, text: "瓶中液体没有标签。白芷确认它受热后会形成几乎无色的麻醉雾。" },
   { id: "I-9", day: 3, name: "配重井旧图", unlockAfter: "10", x: 1210, y: 920, text: "旧图上的数字早已褪色，旧弦却能从绳结位置认出主舞台下方仍在运转的配重井。" },
-  { id: "I-10", day: 3, name: "线人派遣·无声谢幕", unlockAfter: "11", x: 2070, y: 350, gameplay: true, text: "主舞台下方藏着献祭名册。药雾、老旧配重与头顶的演出，让喊话和迟疑都可能暴露行动。完成调查后，主线12才会显现。", task: { requiredCount: 2, image: "assets/events/silent-curtain.webp", question: "必须辨认混有麻醉剂的风道、稳住会自行回落的配重，并在台上演出时无声协作。哪两名本日线人能够彼此补足？", rule: "选择 2 人组成最终调查队。不要只看长处，也要确认局限不会被现场放大；结果不会分叉主线剧情。", clues: ["几条风管都吹出冷风，只有一股带着近乎不可察觉的甜味。", "名册锁在悬台下，放手后配重会在数秒内复位。", "头顶正在演出，任何喊声都会传进舞台。"], solution: ["L-7", "L-8"] } }
+  { id: "I-10", day: 3, name: "线人派遣·无声谢幕", unlockAfter: "11", x: 2070, y: 350, gameplay: true, text: "主舞台下方藏着献祭名册。药雾、老旧配重与头顶的演出，让喊话和迟疑都可能暴露行动。完成调查后，主线12才会显现。", task: { requiredCount: 2, image: "assets/events/silent-curtain.webp", question: "派两名线人进入舞台下方，穿过药雾并稳住配重，取出献祭名册。", rule: "选择 2 人。每次只能提交一次，成败都会继续主线。", clues: ["需要同时识别药雾、处理配重，并在演出声中完成无声协作。"], solution: ["L-7", "L-8"] } }
 ];
 
 const dispatchOutcomes = {
@@ -246,6 +264,113 @@ const dispatchOutcomes = {
   }
 };
 
+const dispatchScripts = {
+  "I-3": {
+    brief: {
+      title: "巡逻者堵住了出口",
+      text: "线人刚接近藏信筒的夹墙，一名循着铃声赶来的巡逻者掀开幕布，要求来人立刻说明身份。"
+    },
+    success: [
+      { speakerId: "L-2", side: "left", text: "别开灯！后面的铃线松了，我是钟表铺叫来查响声的。" },
+      { speakerId: "NPC-I3", side: "right", text: "钟表铺的人？这条通道已经封了，谁让你进来的？" },
+      { speakerId: "L-2", side: "left", text: "正因为封了才没人报修。你听，十七秒一次，坏的是里面那只齿轮。" },
+      { speakerId: "NPC-I3", side: "right", text: "……确实又响了。你的工具呢？" },
+      { speakerId: "L-2", side: "left", text: "耳朵就是。你守住这里，我出去找人拆线，别让第二个人进来。" },
+      { speakerId: "NPC-I3", side: "right", text: "快走。今晚我没见过你。" }
+    ],
+    failures: {
+      "L-1": [
+        { speakerId: "L-1", side: "left", text: "别碰那面墙，我闻到药蜡了，里面有人藏过东西。" },
+        { speakerId: "NPC-I3", side: "right", text: "找东西会把整条铃线都扯响？把手里的红线交出来。" },
+        { speakerId: "L-1", side: "left", text: "铃是香粉喷出来以后才响的。有人故意把味道引到假墙上。" },
+        { speakerId: "NPC-I3", side: "right", text: "少耍花样。转过身，跟我去值房。" },
+        { speakerId: "L-1", side: "left", text: "那你最好先看看右边的排水口——真正闯进来的人刚从那里跑了。" },
+        { speakerId: "NPC-I3", side: "right", text: "站住！" },
+        { speakerId: "L-1", side: "left", text: "信筒没拿到，但这截药蜡红线我会带走。" }
+      ],
+      "L-3": [
+        { speakerId: "L-3", side: "left", text: "墙上的箭头画反了。我只是来替剧院抄一份旧路线。" },
+        { speakerId: "NPC-I3", side: "right", text: "旧路线？你脚边可全是警铃。" },
+        { speakerId: "L-3", side: "left", text: "所以我没碰它们。倒影已经告诉我，信筒就在你身后的夹墙里。" },
+        { speakerId: "NPC-I3", side: "right", text: "知道得太多了。把纸交出来。" },
+        { speakerId: "L-3", side: "left", text: "纸上只有假箭头。真正的路，我记在脑子里。" },
+        { speakerId: "NPC-I3", side: "right", text: "你的腿受伤了，跑不了多远。" },
+        { speakerId: "L-3", side: "left", text: "跑不到信筒那里，但足够从灯桥离开。" }
+      ]
+    }
+  },
+  "I-7": {
+    brief: {
+      title: "探照灯提前转了回来",
+      text: "账册刚刚摊开，探照灯便跳过原定停顿。镜棚守卫听见齿轮异响，正沿着镜廊向账桌走来。"
+    },
+    success: [
+      { speakerId: "L-4", side: "left", text: "灯还有十七秒才会再亮。我压住齿轮，你继续抄。" },
+      { speakerId: "L-6", side: "left", text: "最后两行。听见我敲桌沿，就立刻松手。" },
+      { speakerId: "NPC-I7", side: "right", text: "谁在机座后面？出来！" },
+      { speakerId: "L-4", side: "left", text: "齿轮卡死了！再压一次，灯会直接烧坏。" },
+      { speakerId: "L-6", side: "left", text: "抄完了。现在松手，跟着镜子里的我走。" },
+      { speakerId: "NPC-I7", side: "right", text: "站住！把那张纸留下！" },
+      { speakerId: "L-6", side: "left", text: "你看到的那张是倒影。真抄本已经不在这条走廊了。" }
+    ],
+    failures: {
+      "L-4+L-5": [
+        { speakerId: "L-4", side: "left", text: "灯停住了，快把账上的装卸编号记下来。" },
+        { speakerId: "L-5", side: "left", text: "这些字全是反的……我只能照着形状画。" },
+        { speakerId: "NPC-I7", side: "right", text: "机座怎么停了？谁在账桌边？" },
+        { speakerId: "L-4", side: "left", text: "别看火，照我手心的动作。这个手势是撤退，对吗？" },
+        { speakerId: "L-5", side: "left", text: "对。账只抄了半行，但我还能走。" },
+        { speakerId: "NPC-I7", side: "right", text: "探照灯马上重启，你们没有出口。" },
+        { speakerId: "L-4", side: "left", text: "机器会撒谎，人不会。她说能走，我们就走。" }
+      ],
+      "L-5+L-6": [
+        { speakerId: "L-5", side: "left", text: "第三圈还没结束，灯为什么转回来了？" },
+        { speakerId: "L-6", side: "left", text: "齿轮跳拍了。把撤退手势再做一遍，我右眼看不清。" },
+        { speakerId: "NPC-I7", side: "right", text: "账页着火了！你们两个别动！" },
+        { speakerId: "L-5", side: "left", text: "火……我动不了。" },
+        { speakerId: "L-6", side: "left", text: "看我的左手。这是你教我的——跟着我。" },
+        { speakerId: "NPC-I7", side: "right", text: "再往前一步，我就封死镜廊。" },
+        { speakerId: "L-6", side: "left", text: "那就封吧。编号已经藏进袖口，人也会一起出去。" }
+      ]
+    }
+  },
+  "I-10": {
+    brief: {
+      title: "后台值守者进入了机关室",
+      text: "主舞台比预定时间更早升幕。一名值守者沿着绞盘声进入地下，正好挡在暗仓与出口之间。"
+    },
+    success: [
+      { speakerId: "L-7", side: "left", text: "左侧风管有麻醉剂。封住它，名册在下面的暗仓。" },
+      { speakerId: "L-8", side: "left", text: "我听不清上面的倒数。你看见幕布升起，就拉两次绳。" },
+      { speakerId: "NPC-I10", side: "right", text: "谁动了主绞盘？机关室里的人立刻出来！" },
+      { speakerId: "L-7", side: "left", text: "幕布升了。第一次信号——我已经拿到名册。" },
+      { speakerId: "L-8", side: "left", text: "第二次收到。松副锁，跟着悬台回弹。" },
+      { speakerId: "NPC-I10", side: "right", text: "停下！再松一根绳，整个舞台都会停摆！" },
+      { speakerId: "L-8", side: "left", text: "那就让它停。这个舞台早就不该继续转了。" }
+    ],
+    failures: {
+      "L-7+L-9": [
+        { speakerId: "L-7", side: "left", text: "风道安全。再升高半尺，我就能取下名册。" },
+        { speakerId: "L-9", side: "left", text: "主索断了！我只能拉住你或者拉住书箱。" },
+        { speakerId: "NPC-I10", side: "right", text: "下面有人！锁死悬台，别让他们出来！" },
+        { speakerId: "L-7", side: "left", text: "别管名册，先稳住自己。" },
+        { speakerId: "L-9", side: "left", text: "不。我割的是书箱那根绳——抓紧我！" },
+        { speakerId: "NPC-I10", side: "right", text: "名册掉进井里了，你们什么也带不走。" },
+        { speakerId: "L-9", side: "left", text: "至少我带她出去。下一次，我还会割同一根。" }
+      ],
+      "L-8+L-9": [
+        { speakerId: "L-8", side: "left", text: "主绞盘已经稳住。沿风道再走十一格，就是暗仓。" },
+        { speakerId: "L-9", side: "left", text: "等等……这里太窄了，我看不清出口。" },
+        { speakerId: "NPC-I10", side: "right", text: "药雾阀已经打开。里面的人撑不了多久。" },
+        { speakerId: "L-8", side: "left", text: "我听不见你的呼吸，但我看见你的手在发抖。扣上安全绳。" },
+        { speakerId: "L-9", side: "left", text: "名册就在前面，别为了我停下。" },
+        { speakerId: "NPC-I10", side: "right", text: "再往后退，暗仓就会重新封闭。" },
+        { speakerId: "L-8", side: "left", text: "名册可以再找。人必须先醒着出去。" }
+      ]
+    }
+  }
+};
+
 // 派遣档案是跨周目的收藏记录：重置本周目流程不会清空已经见过的结局。
 const collectedDispatchOutcomes = new Map();
 
@@ -262,6 +387,12 @@ const state = {
   archiveEndingType: null,
   selectedInformants: new Set(),
   activeTask: null,
+  dispatchPhase: "idle",
+  dispatchResultData: null,
+  dispatchScript: null,
+  dispatchDialogue: [],
+  dispatchDialogueIndex: 0,
+  dispatchCast: null,
   offsetX: 0,
   scale: 1,
   dragging: false,
@@ -307,6 +438,7 @@ const archiveMeta = document.getElementById("archiveMeta");
 const archiveProgress = document.getElementById("archiveProgress");
 const archiveTrait = document.getElementById("archiveTrait");
 const archiveObservation = document.getElementById("archiveObservation");
+const archiveProfile = document.getElementById("archiveProfile");
 const archiveCaution = document.getElementById("archiveCaution");
 const archiveStageList = document.getElementById("archiveStageList");
 const informantArchiveTab = document.getElementById("informantArchiveTab");
@@ -334,20 +466,32 @@ const dispatchRule = document.getElementById("dispatchRule");
 const dispatchClues = document.getElementById("dispatchClues");
 const dispatchOptions = document.getElementById("dispatchOptions");
 const selectionHint = document.getElementById("selectionHint");
+const dispatchBriefResult = document.getElementById("dispatchBriefResult");
+const briefResultKicker = document.getElementById("briefResultKicker");
+const briefResultTitle = document.getElementById("briefResultTitle");
+const briefResultText = document.getElementById("briefResultText");
+const briefResultTeam = document.getElementById("briefResultTeam");
 const dispatchResult = document.getElementById("dispatchResult");
-const resultPromptImage = document.getElementById("resultPromptImage");
-const resultImage = document.getElementById("resultImage");
-const resultKicker = document.getElementById("resultKicker");
-const resultTitle = document.getElementById("resultTitle");
-const resultSummary = document.getElementById("resultSummary");
-const resultSeal = document.getElementById("resultSeal");
-const resultQuestion = document.getElementById("resultQuestion");
-const resultClues = document.getElementById("resultClues");
-const resultTeam = document.getElementById("resultTeam");
-const resultChoice = document.getElementById("resultChoice");
-const resultStory = document.getElementById("resultStory");
-const resultClosing = document.getElementById("resultClosing");
-const outcomeImpact = document.getElementById("outcomeImpact");
+const advScene = document.getElementById("advScene");
+const advProgress = document.getElementById("advProgress");
+const advLeft = document.getElementById("advLeft");
+const advRight = document.getElementById("advRight");
+const advLeftImage = document.getElementById("advLeftImage");
+const advRightImage = document.getElementById("advRightImage");
+const advLeftFallback = document.getElementById("advLeftFallback");
+const advRightFallback = document.getElementById("advRightFallback");
+const advLeftName = document.getElementById("advLeftName");
+const advRightName = document.getElementById("advRightName");
+const advSpeaker = document.getElementById("advSpeaker");
+const advText = document.getElementById("advText");
+const advNext = document.getElementById("advNext");
+const advSkip = document.getElementById("advSkip");
+const dispatchSeal = document.getElementById("dispatchSeal");
+const dispatchSealImage = document.getElementById("dispatchSealImage");
+const dispatchSealStatus = document.getElementById("dispatchSealStatus");
+const dispatchSealTitle = document.getElementById("dispatchSealTitle");
+const dispatchSealSummary = document.getElementById("dispatchSealSummary");
+const dispatchSealClose = document.getElementById("dispatchSealClose");
 const dispatchSubmit = document.getElementById("dispatchSubmit");
 const dispatchCancel = document.getElementById("dispatchCancel");
 const toast = document.getElementById("toast");
@@ -668,6 +812,7 @@ function renderRoster() {
     archiveProgress.textContent = "0 / 4";
     archiveTrait.textContent = "特质未知";
     archiveObservation.textContent = "调查尚未取得足以建立身份的信息。";
+    archiveProfile.textContent = "";
     archiveCaution.textContent = "";
     archiveStageList.innerHTML = `<article class="archive-stage locked archive-empty-stage"><span class="stage-number">--</span><span class="stage-status">RECORD SEALED</span><h4>档案尚未建立</h4><p>推进主线后，接触到的线人会在此留下分阶段记录。</p></article>`;
     return;
@@ -689,7 +834,8 @@ function renderRoster() {
   archiveProgress.textContent = `${unlocked} / ${stages.length}`;
   archiveTrait.textContent = selected.trait;
   archiveObservation.textContent = selected.observation;
-  archiveCaution.textContent = `行动局限：${selected.caution}`;
+  archiveProfile.textContent = selected.profile;
+  archiveCaution.innerHTML = `<span class="archive-danger-label">派遣关键限制</span>${selected.caution}`;
   archiveStageList.innerHTML = stages.map((stage, index) => {
     const stageUnlocked = isStageUnlocked(stage);
     return `<article class="archive-stage ${stageUnlocked ? "unlocked" : "locked"}">
@@ -841,13 +987,15 @@ function renderDispatchOptions(readOnly = false) {
   const selected = result ? new Set(result.selected) : state.selectedInformants;
   dispatchOptions.innerHTML = "";
   currentInformants().forEach(informant => {
+    const [abilityTag, riskTag] = dispatchTags[informant.id] || [informant.trait, "查看档案"];
     const button = document.createElement("button");
     button.type = "button";
     button.className = `dispatch-option${selected.has(informant.id) ? " selected" : ""}`;
     button.dataset.informantId = informant.id;
     button.disabled = readOnly;
     button.setAttribute("aria-pressed", String(selected.has(informant.id)));
-    button.innerHTML = `<img class="option-portrait" src="${informant.portrait}" alt="" /><span class="option-copy"><span class="option-head"><strong>${informant.name}</strong><span class="option-check">✓</span></span><span class="option-origin">${informant.age}岁 · ${informant.origin}</span><span class="trait-pill">${informant.trait}</span><span class="option-observation">${informant.observation}</span><span class="option-caution">注意：${informant.caution}</span></span>`;
+    button.setAttribute("aria-label", `${informant.name}，${abilityTag}，限制${riskTag}`);
+    button.innerHTML = `<img class="option-portrait" src="${informant.portrait}" alt="" /><span class="option-copy"><span class="option-head"><strong>${informant.name}</strong><span class="option-check">✓</span></span><span class="dispatch-tag-row"><span class="dispatch-mini-tag">${abilityTag}</span><span class="dispatch-mini-tag danger">${riskTag}</span></span></span>`;
     button.addEventListener("click", () => toggleInformant(informant.id));
     dispatchOptions.appendChild(button);
   });
@@ -861,7 +1009,12 @@ function toggleInformant(informantId) {
   renderDispatchOptions(false); updateSelectionHint();
 }
 
-function updateSelectionHint() { const required = state.activeTask.task.requiredCount; const count = state.selectedInformants.size; selectionHint.textContent = `已选择 ${count} / ${required} 人${count === required ? "，可以确认派遣" : ""}`; dispatchSubmit.disabled = count !== required; }
+function updateSelectionHint() {
+  const required = state.activeTask.task.requiredCount;
+  const count = state.selectedInformants.size;
+  selectionHint.textContent = `已选择 ${count} / ${required} 人${count === required ? "，可以确认派遣" : ""}`;
+  dispatchSubmit.disabled = count !== required;
+}
 
 function outcomeFor(taskId, result) {
   const outcomeSet = dispatchOutcomes[taskId];
@@ -870,39 +1023,143 @@ function outcomeFor(taskId, result) {
   return outcomeSet.failures[selectionKey];
 }
 
-function showDispatchResult(result) {
-  const outcome = outcomeFor(state.activeTask.id, result);
-  const selectedPeople = result.selected.map(id => informants.find(person => person.id === id)).filter(Boolean);
+function selectedPeopleFor(result) {
+  return result.selected.map(id => informants.find(person => person.id === id)).filter(Boolean);
+}
+
+function showDispatchSummary(result) {
+  const selectedPeople = selectedPeopleFor(result);
+  const script = dispatchScriptFor(state.activeTask.id, result);
+  state.dispatchPhase = "summary";
+  state.dispatchResultData = result;
+  state.dispatchScript = script;
+  dispatchModal.classList.add("showing-summary");
+  dispatchModal.classList.remove("showing-outcome", "showing-seal");
+  dispatchSetup.hidden = false;
+  dispatchResult.hidden = true;
+  dispatchSeal.hidden = true;
+  dispatchOptions.hidden = true;
+  selectionHint.hidden = true;
+  dispatchBriefResult.hidden = false;
+  briefResultKicker.textContent = "行动后续";
+  briefResultTitle.textContent = script?.brief.title || "现场出现了新的状况";
+  briefResultText.textContent = script?.brief.text || "线人抵达现场后遇到了预料之外的阻碍。";
+  briefResultTeam.textContent = `已派遣 · ${selectedPeople.map(person => person.name).join("、")}`;
+  dispatchSubmit.hidden = false;
+  dispatchSubmit.disabled = false;
+  dispatchSubmit.textContent = "进入立绘对话";
+  dispatchCancel.textContent = "暂时返回地图";
+  window.setTimeout(() => dispatchSubmit.focus(), 0);
+}
+
+function dispatchSelectionKey(result) {
+  return [...result.selected].sort().join("+");
+}
+
+function dispatchScriptFor(taskId, result) {
+  const set = dispatchScripts[taskId];
+  if (!set) return null;
+  const lines = result.success ? set.success : set.failures[dispatchSelectionKey(result)];
+  return { brief: set.brief, lines: lines || [] };
+}
+
+function dispatchCharacter(characterId) {
+  if (characterId?.startsWith("L-")) return informants.find(person => person.id === characterId) || null;
+  return Object.values(dispatchNpcCharacters).find(person => person.id === characterId) || null;
+}
+
+function applyAdvCharacter(side, character) {
+  const image = side === "left" ? advLeftImage : advRightImage;
+  const fallback = side === "left" ? advLeftFallback : advRightFallback;
+  const name = side === "left" ? advLeftName : advRightName;
+  name.textContent = character?.name || "现场人物";
+  if (character?.portrait) {
+    image.src = character.portrait;
+    image.alt = `${character.name}的立绘`;
+    image.hidden = false;
+    fallback.hidden = true;
+    fallback.removeAttribute("data-style");
+  } else {
+    image.removeAttribute("src");
+    image.alt = "";
+    image.hidden = true;
+    fallback.hidden = false;
+    fallback.dataset.style = character?.style || "unknown";
+  }
+}
+
+function startDispatchAdv() {
+  const result = state.dispatchResultData;
+  if (!result) return;
+  state.dispatchPhase = "adv";
+  state.dispatchScript = state.dispatchScript || dispatchScriptFor(state.activeTask.id, result);
+  state.dispatchDialogue = state.dispatchScript?.lines || [];
+  state.dispatchDialogueIndex = 0;
+  const firstSelected = selectedPeopleFor(result)[0] || null;
+  applyAdvCharacter("left", firstSelected);
+  applyAdvCharacter("right", dispatchNpcCharacters[state.activeTask.id]);
+  advScene.style.backgroundImage = `url("${state.activeTask.task.image}")`;
+  dispatchModal.classList.remove("showing-summary", "showing-seal");
   dispatchModal.classList.add("showing-outcome");
-  dispatchModal.setAttribute("aria-labelledby", "resultTitle");
   dispatchSetup.hidden = true;
   dispatchResult.hidden = false;
-  dispatchResult.classList.toggle("failure", !result.success);
-  resultPromptImage.src = state.activeTask.task.image;
-  resultPromptImage.alt = `${state.activeTask.name.replace("线人派遣·", "")}行动前的现场`;
-  resultImage.src = outcome.cg;
-  resultImage.alt = `${outcome.title}，${result.success ? "线人解决难题" : "线人为代价做出取舍"}的事件结局CG`;
-  resultKicker.textContent = `${state.activeTask.id} · ${outcome.kicker}`;
-  resultTitle.textContent = outcome.title;
-  resultSummary.textContent = outcome.summary;
-  resultSeal.textContent = result.success ? "调查完成" : "撤离记录";
-  resultQuestion.textContent = state.activeTask.task.question;
-  resultClues.innerHTML = state.activeTask.task.clues.map(clue => `<span>${clue}</span>`).join("");
-  resultTeam.innerHTML = selectedPeople.map(person => `<article class="outcome-person"><img src="${person.portrait}" alt="${person.name}" /><div><strong>${person.name}</strong><small>${person.trait}</small><p>${person.observation}</p><em>行动局限：${person.caution}</em></div></article>`).join("");
-  const selectedNames = selectedPeople.map(person => person.name).join("与");
-  const abilitySummary = selectedPeople.map(person => `${person.name}熟悉${person.trait}`).join("，");
-  resultChoice.textContent = `局长最终把这次行动交给${selectedNames}。${abilitySummary}，但现场不会只考验擅长之处。`;
-  resultStory.innerHTML = outcome.story.map(paragraph => `<p>${paragraph}</p>`).join("");
-  resultClosing.textContent = outcome.closing;
-  outcomeImpact.textContent = "这段经历不会改变后续主线的既定去向，但这次选择带回了什么、失去了什么，以及线人在危险中成为了怎样的人，都会作为独立的探索故事留存。";
+  dispatchSeal.hidden = true;
   dispatchSubmit.hidden = true;
-  dispatchCancel.textContent = "结束记录 · 返回地图";
-  window.setTimeout(() => resultTitle.focus(), 0);
+  dispatchCancel.hidden = true;
+  renderDispatchDialogue();
+}
+
+function renderDispatchDialogue() {
+  const total = state.dispatchDialogue.length;
+  const index = Math.min(state.dispatchDialogueIndex, Math.max(0, total - 1));
+  const line = state.dispatchDialogue[index] || { speakerId: null, side: "left", text: "行动记录暂缺。" };
+  const side = line.side === "right" ? "right" : "left";
+  const speaker = dispatchCharacter(line.speakerId);
+  applyAdvCharacter(side, speaker);
+  advLeft.classList.toggle("active", side === "left");
+  advRight.classList.toggle("active", side === "right");
+  advSpeaker.textContent = speaker?.name || "现场记录";
+  advText.textContent = line.text;
+  advProgress.textContent = `立绘对话 ${index + 1} / ${Math.max(total, 1)}`;
+  advNext.textContent = index >= total - 1 ? "查看结果" : "继续";
+  window.setTimeout(() => advNext.focus(), 0);
+}
+
+function advanceDispatchDialogue() {
+  if (state.dispatchDialogueIndex >= state.dispatchDialogue.length - 1) showDispatchSeal();
+  else {
+    state.dispatchDialogueIndex += 1;
+    renderDispatchDialogue();
+  }
+}
+
+function showDispatchSeal() {
+  const result = state.dispatchResultData;
+  if (!result) return;
+  const outcome = outcomeFor(state.activeTask.id, result);
+  state.dispatchPhase = "seal";
+  dispatchModal.classList.remove("showing-summary", "showing-outcome");
+  dispatchModal.classList.add("showing-seal");
+  dispatchResult.hidden = true;
+  dispatchSeal.hidden = false;
+  dispatchSeal.classList.toggle("failure", !result.success);
+  dispatchSealImage.src = outcome.cg;
+  dispatchSealImage.alt = `${outcome.title}的派遣结局画面`;
+  dispatchSealStatus.textContent = result.success ? "派遣成功" : "派遣失败";
+  dispatchSealTitle.textContent = outcome.title;
+  dispatchSealSummary.textContent = outcome.summary;
+  window.setTimeout(() => dispatchSealTitle.focus(), 0);
 }
 
 function openDispatch(item) {
   state.activeTask = item;
   state.selectedInformants.clear();
+  state.dispatchPhase = "select";
+  state.dispatchResultData = null;
+  state.dispatchScript = null;
+  state.dispatchDialogue = [];
+  state.dispatchDialogueIndex = 0;
+  state.dispatchCast = null;
   const result = state.taskResults.get(item.id);
   dispatchTitle.textContent = item.name.replace("线人派遣·", "");
   dispatchIndex.textContent = `委托 ${item.id}`;
@@ -911,25 +1168,36 @@ function openDispatch(item) {
   dispatchQuestion.textContent = item.task.question;
   dispatchRule.textContent = item.task.rule;
   dispatchClues.innerHTML = item.task.clues.map(clue => `<li>${clue}</li>`).join("");
-  dispatchModal.classList.remove("showing-outcome");
+  dispatchModal.classList.remove("showing-summary", "showing-outcome", "showing-seal");
   dispatchModal.setAttribute("aria-labelledby", "dispatchTitle");
   dispatchSetup.hidden = false;
   dispatchResult.hidden = true;
-  dispatchResult.classList.remove("failure");
+  dispatchSeal.hidden = true;
+  dispatchOptions.hidden = false;
+  selectionHint.hidden = false;
+  dispatchBriefResult.hidden = true;
   dispatchSubmit.hidden = false;
   dispatchSubmit.textContent = "确认派遣";
+  dispatchCancel.hidden = false;
   dispatchCancel.textContent = "返回地图";
   renderDispatchOptions(Boolean(result));
   dispatchBackdrop.hidden = false;
-  if (result) showDispatchResult(result);
+  if (result) showDispatchSummary(result);
   else { updateSelectionHint(); document.getElementById("dispatchClose").focus(); }
 }
 
 function closeDispatch() {
   dispatchBackdrop.hidden = true;
-  dispatchModal.classList.remove("showing-outcome");
+  dispatchModal.classList.remove("showing-summary", "showing-outcome", "showing-seal");
   state.activeTask = null;
   state.selectedInformants.clear();
+  state.dispatchPhase = "idle";
+  state.dispatchResultData = null;
+  state.dispatchScript = null;
+  state.dispatchDialogue = [];
+  state.dispatchDialogueIndex = 0;
+  state.dispatchCast = null;
+  dispatchCancel.hidden = false;
 }
 
 function submitDispatch() {
@@ -945,8 +1213,8 @@ function submitDispatch() {
   recordDispatchOutcome(taskItem.id, result);
   state.infoCompleted.add(taskItem.id);
   renderNodes();
-  showDispatchResult(result);
-  showToast(`${taskItem.id} ${success ? "调查完成" : "安全撤离"} · 独立探索记录已封存`);
+  showDispatchSummary(result);
+  showToast(`${taskItem.id} ${success ? "派遣成功" : "派遣失败"} · 结果已记录`);
 }
 
 function showToast(message) { window.clearTimeout(state.toastTimer); toast.textContent = message; toast.classList.add("show"); state.toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3600); }
@@ -1005,6 +1273,11 @@ function validateConfig() {
       : available.flatMap((first, index) => available.slice(index + 1).map(second => [first, second].sort().join("+")));
     const missingStories = possibleKeys.filter(key => key !== solutionKey && !dispatchOutcomes[info.id]?.failures[key]);
     if (!dispatchOutcomes[info.id]?.success || missingStories.length) throw new Error(`${info.id} 缺少派遣结果故事：${missingStories.join("、")}`);
+    const scripts = dispatchScripts[info.id];
+    const missingDialogue = possibleKeys.filter(key => key === solutionKey ? !scripts?.success?.length : !scripts?.failures?.[key]?.length);
+    if (!scripts?.brief?.title || !scripts?.brief?.text || missingDialogue.length) throw new Error(`${info.id} 缺少派遣简要后续或角色对话：${missingDialogue.join("、")}`);
+    const invalidDialogue = [scripts.success, ...Object.values(scripts.failures || {})].flat().some(line => !line?.speakerId || !line?.side || !line?.text);
+    if (invalidDialogue) throw new Error(`${info.id} 存在未标明说话人、立绘位置或文本的派遣对话`);
   });
 }
 
@@ -1034,7 +1307,13 @@ document.getElementById("focusButton").addEventListener("click", () => moveToken
 document.getElementById("resetButton").addEventListener("click", resetPrototype);
 document.getElementById("backButton").addEventListener("click", resetPrototype);
 versionButtons.forEach(button => button.addEventListener("click", () => switchMainVersion(button.dataset.mainVersion)));
-dispatchSubmit.addEventListener("click", submitDispatch);
+dispatchSubmit.addEventListener("click", () => {
+  if (state.dispatchPhase === "summary") startDispatchAdv();
+  else submitDispatch();
+});
+advNext.addEventListener("click", advanceDispatchDialogue);
+advSkip.addEventListener("click", showDispatchSeal);
+dispatchSealClose.addEventListener("click", closeDispatch);
 document.addEventListener("pointerdown", event => {
   if (!nodePreview.hidden && !event.target.closest(".node-preview, .map-node")) closeModal();
 }, true);
