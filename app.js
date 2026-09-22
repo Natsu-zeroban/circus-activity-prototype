@@ -493,7 +493,6 @@ const dispatchSealTitle = document.getElementById("dispatchSealTitle");
 const dispatchSealSummary = document.getElementById("dispatchSealSummary");
 const dispatchSealClose = document.getElementById("dispatchSealClose");
 const dispatchSubmit = document.getElementById("dispatchSubmit");
-const dispatchCancel = document.getElementById("dispatchCancel");
 const toast = document.getElementById("toast");
 const dragHint = document.getElementById("dragHint");
 const versionButtons = [...document.querySelectorAll("[data-main-version]")];
@@ -675,6 +674,8 @@ function applyDayScene(animate = false) {
 function getNodeText(item) { return item.text; }
 
 function positionNodePreview(anchorButton) {
+  viewport.scrollLeft = 0;
+  viewport.scrollTop = 0;
   const viewportRect = viewport.getBoundingClientRect();
   const anchorRect = anchorButton.getBoundingClientRect();
   const previewRect = nodePreview.getBoundingClientRect();
@@ -696,19 +697,18 @@ function openNode(item, kind, anchorButton) {
   let note = isContinuousVersion()
     ? "抵达后，该主线节点会作为历史路线永久保留；局长继续前往下一主线。"
     : "抵达后，该节点会保留为局长当前位置；前往下一主线时才退场。";
-  let actionLabel = "前往";
-  if (kind === "side") { action = () => visitSide(item); actionLabel = "查看"; note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
-  if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); actionLabel = "查看"; note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
-  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); actionLabel = "开始调查"; note = "该信息流是主线必经调查；派遣不移动局长，成败将生成不同的独立探索记录，但不改变后续主线走向。"; }
+  if (kind === "side") { action = () => visitSide(item); note = "支线完成后退场，不改变局长所在位置与当前镜头。"; }
+  if (kind === "info" && !item.gameplay) { action = () => visitInfo(item); note = "信息归档后退场，不改变局长所在位置与当前镜头。"; }
+  if (kind === "info" && item.gameplay) { action = () => beginDispatch(item); note = "该信息流是主线必经调查；派遣不移动局长，成败将生成不同的独立探索记录，但不改变后续主线走向。"; }
   modalKicker.textContent = kicker;
   modalTitle.textContent = `${item.id} · ${item.name}`;
   modalBody.textContent = getNodeText(item);
   modalNote.textContent = note;
-  confirmButton.textContent = actionLabel;
+  confirmButton.textContent = "前往";
   state.pendingAction = action;
   nodePreview.hidden = false;
   positionNodePreview(anchorButton);
-  confirmButton.focus();
+  confirmButton.focus({ preventScroll: true });
 }
 
 function closeModal() { nodePreview.hidden = true; state.pendingAction = null; }
@@ -1048,7 +1048,6 @@ function showDispatchSummary(result) {
   dispatchSubmit.hidden = false;
   dispatchSubmit.disabled = false;
   dispatchSubmit.textContent = "进入立绘对话";
-  dispatchCancel.textContent = "暂时返回地图";
   window.setTimeout(() => dispatchSubmit.focus(), 0);
 }
 
@@ -1105,7 +1104,6 @@ function startDispatchAdv() {
   dispatchResult.hidden = false;
   dispatchSeal.hidden = true;
   dispatchSubmit.hidden = true;
-  dispatchCancel.hidden = true;
   renderDispatchDialogue();
 }
 
@@ -1178,8 +1176,6 @@ function openDispatch(item) {
   dispatchBriefResult.hidden = true;
   dispatchSubmit.hidden = false;
   dispatchSubmit.textContent = "确认派遣";
-  dispatchCancel.hidden = false;
-  dispatchCancel.textContent = "返回地图";
   renderDispatchOptions(Boolean(result));
   dispatchBackdrop.hidden = false;
   if (result) showDispatchSummary(result);
@@ -1197,7 +1193,6 @@ function closeDispatch() {
   state.dispatchDialogue = [];
   state.dispatchDialogueIndex = 0;
   state.dispatchCast = null;
-  dispatchCancel.hidden = false;
 }
 
 function submitDispatch() {
@@ -1295,14 +1290,12 @@ function endDrag(event) { if (!state.dragging) return; state.dragging = false; v
 viewport.addEventListener("pointerup", endDrag);
 viewport.addEventListener("pointercancel", endDrag);
 document.getElementById("confirmButton").addEventListener("click", () => state.pendingAction?.());
-document.getElementById("cancelButton").addEventListener("click", closeModal);
 document.getElementById("modalClose").addEventListener("click", closeModal);
 document.getElementById("informantButton").addEventListener("click", openRoster);
 document.getElementById("rosterClose").addEventListener("click", closeRoster);
 informantArchiveTab.addEventListener("click", () => switchArchiveMode("informant"));
 dispatchArchiveTab.addEventListener("click", () => switchArchiveMode("dispatch"));
 document.getElementById("dispatchClose").addEventListener("click", closeDispatch);
-document.getElementById("dispatchCancel").addEventListener("click", closeDispatch);
 document.getElementById("focusButton").addEventListener("click", () => moveTokenTo(currentAnchor(), true));
 document.getElementById("resetButton").addEventListener("click", resetPrototype);
 document.getElementById("backButton").addEventListener("click", resetPrototype);

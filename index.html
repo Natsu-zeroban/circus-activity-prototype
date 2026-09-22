@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>马戏团原型</title>
-  <link rel="stylesheet" href="styles.css?v=20260918-2">
+  <link rel="stylesheet" href="styles.css?v=20260921-1">
 </head>
 <body>
   <main class="app-shell" aria-label="版本活动地图形式验证原型">
@@ -77,7 +77,7 @@
       </div>
 
       <aside class="node-preview" id="nodePreview" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalBody" hidden>
-        <button class="node-preview-close" id="modalClose" type="button" aria-label="收起节点信息">
+        <button class="node-preview-close" id="modalClose" type="button" aria-label="关闭节点信息">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
         </button>
         <div class="node-preview-kicker" id="modalKicker">主线调查</div>
@@ -85,7 +85,6 @@
         <p class="node-preview-body" id="modalBody">节点介绍</p>
         <p class="node-preview-note" id="modalNote"></p>
         <div class="node-preview-actions">
-          <button class="secondary-button" id="cancelButton" type="button">收起</button>
           <button class="primary-button" id="confirmButton" type="button">前往</button>
         </div>
       </aside>
@@ -237,13 +236,12 @@
           </div>
         </section>
         <div class="dispatch-actions">
-          <button class="secondary-button" id="dispatchCancel" type="button">返回地图</button>
           <button class="primary-button" id="dispatchSubmit" type="button" disabled>确认派遣</button>
         </div>
       </section>
     </div>
   </main>
 
-  <script src="app.js?v=20260918-2"></script>
+  <script src="app.js?v=20260921-3"></script>
 </body>
 </html>

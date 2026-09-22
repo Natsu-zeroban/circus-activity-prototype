@@ -944,7 +944,7 @@ h1 { margin: 0; font: 700 28px/1.1 Georgia, "Microsoft YaHei", serif; letter-spa
 }
 
 
-/* 2026-09-18 线人派遣流程改造：简单标签 -> 简要结果 -> ADV -> 成败标题 */
+/* 2026-09-18 线人派遣流程改造：简单标签 -> 简要结果 -> 立绘对话 -> 成败标题 */
 .archive-trait-row { grid-template-columns: auto 1fr; }
 .archive-profile { grid-column: 2; color: #ddd0bc !important; padding: 10px 12px; border-left: 2px solid rgba(126,190,199,.54); background: rgba(57,100,106,.12); }
 .archive-trait-row #archiveCaution { grid-column: 2; color: #f0a09b; padding: 9px 12px; border-left: 3px solid #bc5654; background: rgba(122,42,45,.22); }
